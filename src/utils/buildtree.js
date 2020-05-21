@@ -24,6 +24,11 @@ export const buildTreeData = (items, id = null, link = "parent_id") =>
       if (typeof item.file !== "undefined" && item.file) {
         var fileExt = item.name.split(".").pop();
         data.icon = fileExt === "php" ? "fab fa-php" : "far fa-file";
+        data.file = item.file;
+
+        if (typeof item.value !== "undefined") {
+          data.value = item.value();
+        }
       }
 
       return data;

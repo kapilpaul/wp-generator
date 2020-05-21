@@ -31,13 +31,18 @@
                   <v-jstree
                     :data="$store.state.fileArchitecture"
                     v-if="$store.state.general.pluginName !== ''"
+                    @item-click="itemClick"
                   ></v-jstree>
                 </div>
+
                 <div class="col-md-9">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
-                  vel dolore necessitatibus nulla. Minus labore totam, molestiae
-                  tempora expedita sequi veniam aut libero ut, inventore quae
-                  natus deleniti aliquid ratione?
+                  <button
+                    class="btn btn-outline-primary float-right mb-2 btn-sm"
+                  >
+                    Copy to clipboard
+                  </button>
+
+                  <code-highlight>{{ activeCode }}</code-highlight>
                 </div>
               </div>
             </div>
@@ -49,10 +54,28 @@
 </template>
 
 <script>
+import "../prism";
 import VJstree from "vue-jstree";
+import CodeHighlight from "vue-code-highlight/src/CodeHighlight";
 export default {
   components: {
     VJstree,
+    CodeHighlight,
+  },
+  mounted() {},
+  computed: {
+    activeCode() {
+      return this.$store.getters.activeFileCodes;
+    },
+  },
+  methods: {
+    itemClick(node) {
+      if (typeof node.model.file !== "undefined" && node.model.file) {
+        if (typeof node.model.value !== "undefined" && node.model.value) {
+          this.$store.dispatch("setActiveFileCodes", node.model.value);
+        }
+      }
+    },
   },
 };
 </script>
@@ -63,5 +86,18 @@ export default {
   .modal-xl {
     max-width: 1350px;
   }
+}
+</style>
+
+<style>
+pre[class*="language-"] {
+  width: 100%;
+  height: 70vh;
+  border-radius: 4px;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-size: 13px;
 }
 </style>

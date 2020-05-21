@@ -164,7 +164,7 @@ const store = {
         name: "index.php",
         parent_id: "root",
         value: () => {
-          return textPhpCode(store.state.general.pluginName);
+          return `<?php //silence is golden`;
         },
       },
       {
@@ -173,6 +173,9 @@ const store = {
         file: true,
         name: "plugin.php",
         parent_id: "root",
+        value: () => {
+          return textPhpCode(store.state.general.pluginName);
+        },
       },
       {
         id: "root_readme_md",
@@ -193,11 +196,13 @@ const store = {
       pluginName: "",
       baseNamespace: "",
     },
+    activeFileCodes: "",
   },
   getters: {
     filesTree: (state) => state.filesTree,
     pluginName: (state) => state.general.pluginName,
     baseNamespace: (state) => state.general.baseNamespace,
+    activeFileCodes: (state) => state.activeFileCodes,
   },
   mutations: {
     setPluginName(state, payload) {
@@ -217,6 +222,9 @@ const store = {
     setFileArchitecture(state, payload) {
       state.fileArchitecture = payload;
     },
+    setActiveFileCodes(state, payload) {
+      state.activeFileCodes = payload;
+    },
   },
   actions: {
     setPluginName({ commit, dispatch }, payload) {
@@ -225,6 +233,9 @@ const store = {
     },
     setBaseNamespace({ commit }, payload) {
       commit("setBaseNamespace", payload);
+    },
+    setActiveFileCodes({ commit }, payload) {
+      commit("setActiveFileCodes", payload);
     },
     setFileArchitecture({ state, commit }, payload) {
       if (payload) {
