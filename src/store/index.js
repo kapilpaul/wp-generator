@@ -208,6 +208,10 @@ const store = {
       mainClassName: "",
       constantPrefix: "",
     },
+    assets: {
+      css: [],
+      js: [],
+    },
     activeFileCodes: "",
   },
   getters: {
@@ -216,6 +220,7 @@ const store = {
     pluginName: (state) => state.general.pluginName,
     baseNamespace: (state) => state.general.baseNamespace,
     activeFileCodes: (state) => state.activeFileCodes,
+    assets: (state) => state.assets,
   },
   mutations: {
     setPluginName(state, payload) {
@@ -241,6 +246,21 @@ const store = {
     setActiveFileCodes(state, payload) {
       state.activeFileCodes = payload;
     },
+    addNewAssets(state, payload) {
+      if (payload.type === "css") {
+        state.assets.css.push({
+          handle: "",
+          style: "",
+        });
+      }
+
+      if (payload.type === "js") {
+        state.assets.js.push({
+          handle: "",
+          script: "",
+        });
+      }
+    },
   },
   actions: {
     setPluginName({ commit, dispatch }, payload) {
@@ -249,6 +269,10 @@ const store = {
     },
     setGeneralData({ commit, dispatch }, payload) {
       commit("setGeneralData", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    addNewAssets({ commit, dispatch }, payload) {
+      commit("addNewAssets", payload);
       dispatch("setFileArchitecture", true);
     },
     setActiveFileCodes({ commit }, payload) {

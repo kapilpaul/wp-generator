@@ -39,7 +39,11 @@
         <text-input label="License URI" objkey="licenseURI" />
 
         <!-- textdomain -->
-        <text-input label="Text Domain" objkey="textDomain" />
+        <text-input
+          label="Text Domain"
+          objkey="textDomain"
+          convert-case="slug"
+        />
 
         <!-- Domain Path -->
         <text-input label="Domain Path" objkey="domainPath" />
