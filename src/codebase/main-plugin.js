@@ -1,19 +1,22 @@
-export const textPhpCode = (pluginName) => {
-  let data = `<?php
+export const mainPluginCode = (data) => {
+  let code = `<?php
 /*
-Plugin Name: ${pluginName}
-Plugin URI: https://kapilpaul.me/projects/wordpress/nagad-payment
-Description: Nagad payment gateway for woocommerce.
-Version: 1.0.0
-Author: Kapil Paul
-Author URI: https://kapilpaul.me/
-License: GPL2
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: dc-nagad
+Plugin Name: ${data.pluginName}
+Plugin URI: ${data.pluginURI}
+Description: ${data.description}
+Version: ${data.version}
+Author: ${data.author}
+Author URI: ${data.authorURI}
+License: ${data.license}
+License URI: ${data.licenseURI}
+Text Domain: ${data.textDomain}
+Domain Path: ${data.domainPath}
 */
 
 /**
- * Copyright (c) 2020 Kapil Paul (email: kapilpaul007@gmail.com). All rights reserved.
+ * Copyright (c) ${new Date().getFullYear()} ${data.author} (email: ${
+    data.authorEmail
+  }). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -43,27 +46,22 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-    require_once __DIR__ . '/vendor/autoload.php';
-}
-
-//checking woocommerce is active or not
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-    return;
-}
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * DCoders_Nagad class
+ * ${data.mainClassName} class
  *
- * @class DCoders_Nagad The class that holds the entire DCoders_Nagad plugin
+ * @class ${data.mainClassName} The class that holds the entire ${
+    data.mainClassName
+  } plugin
  */
-final class DCoders_Nagad {
+final class ${data.mainClassName} {
     /**
      * Plugin version
      *
      * @var string
      */
-    const version = '1.0.0';
+    const version = '${data.version}';
 
     /**
      * Holds various class instances
@@ -73,7 +71,7 @@ final class DCoders_Nagad {
     private $container = [];
 
     /**
-     * Constructor for the DCoders_Nagad class
+     * Constructor for the ${data.mainClassName} class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -88,18 +86,18 @@ final class DCoders_Nagad {
     }
 
     /**
-     * Initializes the DCoders_Nagad() class
+     * Initializes the ${data.mainClassName}() class
      *
-     * Checks for an existing DCoders_Nagad() instance
+     * Checks for an existing ${data.mainClassName}() instance
      * and if it doesn't find one, creates it.
      *
-     * @return DCoders_Nagad|bool
+     * @return ${data.mainClassName}|bool
      */
     public static function init() {
         static $instance = false;
 
         if ( ! $instance ) {
-            $instance = new DCoders_Nagad();
+            $instance = new ${data.mainClassName}();
         }
 
         return $instance;
@@ -137,12 +135,20 @@ final class DCoders_Nagad {
      * @return void
      */
     public function define_constants() {
-        define( 'DC_NAGAD_VERSION', self::version );
-        define( 'DC_NAGAD_FILE', __FILE__ );
-        define( 'DC_NAGAD_PATH', dirname( DC_NAGAD_FILE ) );
-        define( 'DC_NAGAD_INCLUDES', DC_NAGAD_PATH . '/includes' );
-        define( 'DC_NAGAD_URL', plugins_url( '', DC_NAGAD_FILE ) );
-        define( 'DC_NAGAD_ASSETS', DC_NAGAD_URL . '/assets' );
+        define( '${data.constantPrefix}_VERSION', self::version );
+        define( '${data.constantPrefix}_FILE', __FILE__ );
+        define( '${data.constantPrefix}_PATH', dirname( ${
+    data.constantPrefix
+  }_FILE ) );
+        define( '${data.constantPrefix}_INCLUDES', ${
+    data.constantPrefix
+  }_PATH . '/includes' );
+        define( '${data.constantPrefix}_URL', plugins_url( '', ${
+    data.constantPrefix
+  }_FILE ) );
+        define( '${data.constantPrefix}_ASSETS', ${
+    data.constantPrefix
+  }_URL . '/assets' );
     }
 
     /**
@@ -153,18 +159,16 @@ final class DCoders_Nagad {
     public function init_plugin() {
         $this->includes();
         $this->init_hooks();
-        $this->init_filters();
     }
 
     /**
+     * Placeholder for activation function
      *
-     *
-     * @return void
+     * Nothing being called here yet.
      */
     public function activate() {
-        $installer = new DCoders\\Nagad\\Installer();
+        $installer = new ${data.baseNamespace}\\Installer();
         $installer->run();
-        flush_rewrite_rules();
     }
 
     /**
@@ -173,16 +177,7 @@ final class DCoders_Nagad {
      * Nothing being called here yet.
      */
     public function deactivate() {
-        flush_rewrite_rules();
-    }
 
-    /**
-     * init filters here
-     *
-     * @return void
-     */
-    public function init_filters() {
-        add_filter( 'woocommerce_payment_gateways', [ $this, 'register_gateway' ] );
     }
 
     /**
@@ -192,11 +187,17 @@ final class DCoders_Nagad {
      */
     public function includes() {
         if ( $this->is_request( 'admin' ) ) {
-            $this->container['admin'] = new DCoders\\Nagad\\Admin();
+            $this->container['admin'] = new ${data.baseNamespace}\\Admin();
         }
 
         if ( $this->is_request( 'frontend' ) ) {
-            $this->container['frontend'] = new DCoders\\Nagad\\Frontend();
+            $this->container['frontend'] = new ${
+              data.baseNamespace
+            }\\Frontend();
+        }
+
+        if ( $this->is_request( 'ajax' ) ) {
+            // require_once ${data.constantPrefix}_INCLUDES . '/class-ajax.php';
         }
     }
 
@@ -210,16 +211,6 @@ final class DCoders_Nagad {
 
         // Localize our plugin
         add_action( 'init', [ $this, 'localization_setup' ] );
-
-        add_action( 'init', [ $this, 'custom_add_rewrite_rule' ] );
-    }
-
-    /**
-     * @return void
-     */
-    public function custom_add_rewrite_rule() {
-        add_rewrite_rule( '^dc-nagad/payment/action/?', 'index.php?dc_nagad_action=dc-payment-action', 'top' );
-        flush_rewrite_rules();
     }
 
     /**
@@ -229,24 +220,11 @@ final class DCoders_Nagad {
      */
     public function init_classes() {
         if ( $this->is_request( 'ajax' ) ) {
-            $this->container['ajax'] = new DCoders\\Nagad\\Frontend\\Ajax();
+            // $this->container['ajax'] =  new ${data.baseNamespace}\\Ajax();
         }
 
-        $this->container['assets']         = new DCoders\\Nagad\\Assets();
-        $this->container['dc_nagad_pages'] = new DCoders\\Nagad\\PageHandler();
-    }
-
-    /**
-     * Register WooCommerce Payment Gateway
-     *
-     * @param array $gateways
-     *
-     * @return array
-     */
-    public function register_gateway( $gateways ) {
-        $gateways[] = new DCoders\\Nagad\\Woocommerce\\Nagad_Gateway();
-
-        return $gateways;
+        $this->container['api']    = new ${data.baseNamespace}\\Api();
+        $this->container['assets'] = new ${data.baseNamespace}\\Assets();
     }
 
     /**
@@ -255,7 +233,9 @@ final class DCoders_Nagad {
      * @uses load_plugin_textdomain()
      */
     public function localization_setup() {
-        load_plugin_textdomain( 'dc-nagad', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+        load_plugin_textdomain( '${
+          data.textDomain
+        }', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     /**
@@ -283,22 +263,23 @@ final class DCoders_Nagad {
                 return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
         }
     }
-} // DCoders_Nagad
+
+} // ${data.mainClassName}
 
 /**
  * Initialize the main plugin
  *
- * @return \DCoders_Nagad|bool
+ * @return \\${data.mainClassName}|bool
  */
-function dcoders_nagad() {
-    return DCoders_Nagad::init();
+function ${data.mainClassName.toLowerCase()}() {
+    return ${data.mainClassName}::init();
 }
 
 /**
  *  kick-off the plugin
  */
-dcoders_nagad();
+${data.mainClassName.toLowerCase()}();
 `;
 
-  return data;
+  return code;
 };

@@ -1,56 +1,69 @@
 <template>
   <div>
-    <div class="card">
-      <div class="card-header">
-        General
-      </div>
-
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="name">Plugin Name</label>
-              <input
-                type="text"
-                name="name"
-                autocomplete="off"
-                v-model="pluginName"
-              />
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="name">Base Namespace</label>
-              <input
-                type="text"
-                name="name"
-                v-model="baseNamespace"
-                autocomplete="off"
-              />
-            </div>
+    <card sectionName="General">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="name">Plugin Name</label>
+            <input
+              type="text"
+              name="name"
+              autocomplete="off"
+              v-model="pluginName"
+            />
           </div>
         </div>
+
+        <!-- Plugin URI -->
+        <text-input label="Plugin URI" objkey="pluginURI" />
+
+        <!-- Description -->
+        <text-input label="Description" objkey="description" :col="12" />
+
+        <!-- Version -->
+        <text-input label="Version" objkey="version" />
+
+        <!-- Author -->
+        <text-input label="Author" objkey="author" />
+
+        <!-- Author URI -->
+        <text-input label="Author URI" objkey="authorURI" />
+
+        <!-- Author Email -->
+        <text-input label="Author Email" objkey="authorEmail" />
+
+        <!-- License -->
+        <text-input label="License" objkey="license" />
+
+        <!-- license URI -->
+        <text-input label="License URI" objkey="licenseURI" />
+
+        <!-- textdomain -->
+        <text-input label="Text Domain" objkey="textDomain" />
+
+        <!-- Domain Path -->
+        <text-input label="Domain Path" objkey="domainPath" />
       </div>
-    </div>
+    </card>
   </div>
 </template>
 
 <script>
+import textInput from "../textInput";
+import card from "../card";
 export default {
   name: "General",
   computed: {
-    baseNamespace: {
-      get() {},
-      set(val) {
-        this.$store.dispatch("setBaseNamespace", val);
-      },
-    },
     pluginName: {
       get() {},
       set(val) {
         this.$store.dispatch("setPluginName", val);
       },
     },
+  },
+  components: {
+    textInput,
+    card,
   },
 };
 </script>

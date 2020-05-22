@@ -15,7 +15,6 @@
 <script>
 import "./prism";
 import FormInputs from "./FormInputs/index";
-import { textPhpCode } from "./text";
 import { mapGetters } from "vuex";
 
 export default {

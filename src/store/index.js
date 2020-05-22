@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { slug } from "../utils/helpers";
 import { buildTreeData } from "../utils/buildtree";
-import { textPhpCode } from "../components/text";
+import { CodeBase } from "../codebase/index";
 
 Vue.use(Vuex);
 
@@ -164,7 +164,7 @@ const store = {
         name: "index.php",
         parent_id: "root",
         value: () => {
-          return `<?php //silence is golden`;
+          return `<?php\n//silence is golden`;
         },
       },
       {
@@ -174,7 +174,7 @@ const store = {
         name: "plugin.php",
         parent_id: "root",
         value: () => {
-          return textPhpCode(store.state.general.pluginName);
+          return CodeBase.mainPluginCode(store.state.general);
         },
       },
       {
@@ -195,11 +195,24 @@ const store = {
     general: {
       pluginName: "",
       baseNamespace: "",
+      pluginURI: "",
+      description: "",
+      version: "",
+      author: "",
+      authorURI: "",
+      authorEmail: "",
+      license: "",
+      licenseURI: "",
+      textDomain: "",
+      domainPath: "",
+      mainClassName: "",
+      constantPrefix: "",
     },
     activeFileCodes: "",
   },
   getters: {
     filesTree: (state) => state.filesTree,
+    general: (state) => state.general,
     pluginName: (state) => state.general.pluginName,
     baseNamespace: (state) => state.general.baseNamespace,
     activeFileCodes: (state) => state.activeFileCodes,
@@ -219,6 +232,9 @@ const store = {
     setBaseNamespace(state, payload) {
       state.general.baseNamespace = payload.replace(/\s/g, "_");
     },
+    setGeneralData(state, payload) {
+      state.general[payload.key] = payload.value;
+    },
     setFileArchitecture(state, payload) {
       state.fileArchitecture = payload;
     },
@@ -231,8 +247,9 @@ const store = {
       commit("setPluginName", slug(payload));
       dispatch("setFileArchitecture", true);
     },
-    setBaseNamespace({ commit }, payload) {
-      commit("setBaseNamespace", payload);
+    setGeneralData({ commit, dispatch }, payload) {
+      commit("setGeneralData", payload);
+      dispatch("setFileArchitecture", true);
     },
     setActiveFileCodes({ commit }, payload) {
       commit("setActiveFileCodes", payload);
