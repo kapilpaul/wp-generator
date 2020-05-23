@@ -1,8 +1,8 @@
 <template>
   <div>
-    <card sectionName="CSS Files">
-      <div v-for="(item, index) in assets.css" :key="index">
-        <script-input :index="index"></script-input>
+    <card sectionName="JS Files">
+      <div v-for="(item, index) in assets.js" :key="index">
+        <script-input :index="index" type="js" :col="3"></script-input>
       </div>
 
       <button
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     addnew() {
-      this.$store.dispatch("addNewAssets", { type: "css" });
+      this.$store.dispatch("addNewAssets", { type: "js" });
     },
   },
 };

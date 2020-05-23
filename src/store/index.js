@@ -128,6 +128,9 @@ const store = {
         file: true,
         name: "Assets.php",
         parent_id: "root_includes",
+        value: () => {
+          return CodeBase.assetsCode(store.state.general, store.state.assets);
+        },
       },
       {
         id: "includes_file",
@@ -258,8 +261,17 @@ const store = {
         state.assets.js.push({
           handle: "",
           script: "",
+          dependency: "",
+          in_footer: false,
         });
       }
+    },
+    setAssetsData(state, payload) {
+      Vue.set(
+        state.assets[payload.type][payload.index],
+        payload.key,
+        payload.value
+      );
     },
   },
   actions: {
@@ -273,6 +285,10 @@ const store = {
     },
     addNewAssets({ commit, dispatch }, payload) {
       commit("addNewAssets", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    setAssetsData({ commit, dispatch }, payload) {
+      commit("setAssetsData", payload);
       dispatch("setFileArchitecture", true);
     },
     setActiveFileCodes({ commit }, payload) {
