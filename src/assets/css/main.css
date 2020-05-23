@@ -1727,6 +1727,11 @@ p:last-child {
   line-height: 2.5rem;
 }
 
+.form-wpgen label {
+  font-size: 12px;
+  line-height: 15px;
+}
+
 .form-wpgen input[type="email"],
 .form-wpgen input[type="password"],
 .form-wpgen input[type="text"],
@@ -1735,7 +1740,7 @@ p:last-child {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.5rem;
   -webkit-border-radius: 0.1875rem;
@@ -1763,6 +1768,7 @@ p:last-child {
 .form-wpgen select,
 .form-wpgen .select-wrapper {
   height: 2.5rem;
+  height: 34px;
 }
 
 .form-wpgen .select-wrapper {
@@ -1975,7 +1981,7 @@ p:last-child {
 }
 
 .form-wpgen .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 5px;
   position: relative;
 }
 
@@ -2675,4 +2681,8 @@ table td {
 .page-style-guide .anchor {
   margin-top: -6rem;
   padding-top: 6rem;
+}
+
+button:focus {
+  outline: 0px auto -webkit-focus-ring-color !important;
 }

@@ -1,3 +1,24 @@
+const dependencyMaker = (dependency) => {
+  let deps = "";
+
+  if (dependency !== "") {
+    deps =
+      " " +
+      `'${dependency
+        .split(",")
+        .map((i) => i.trim())
+        .join("', '")}'` +
+      " ";
+  }
+
+  return deps;
+};
+
+/**
+ * build JS scripts array for PHP
+ * @param {*} constantPrefix
+ * @param {*} jsFiles
+ */
 const buildJsScripts = (constantPrefix, jsFiles) => {
   var scripts = "";
 
@@ -6,23 +27,13 @@ const buildJsScripts = (constantPrefix, jsFiles) => {
       return item.handle !== "" && item.script !== "";
     })
     .map((item) => {
-      let deps = "";
-
-      if (item.dependency !== "") {
-        deps =
-          " " +
-          `'${item.dependency
-            .split(",")
-            .map((i) => i.trim())
-            .join("', '")}'` +
-          " ";
-      }
+      let deps = dependencyMaker(item.dependency);
 
       scripts += `
             '${item.handle}' => [
-                'src'       => $pluginJSAssetsPath . '${item.script}',
-                'deps'      => [${deps}],
+                'src'       => $plugin_js_assets_path . '${item.script}',
                 'version'   => filemtime( ${constantPrefix}_PATH . '/assets/js/${item.script}' ),
+                 'deps'      => [${deps}],
                 'in_footer' => ${item.in_footer},
             ],`;
     });
@@ -30,7 +41,33 @@ const buildJsScripts = (constantPrefix, jsFiles) => {
   return scripts.trim();
 };
 
+/**
+ * build CSS styles array for PHP
+ * @param {*} constantPrefix
+ * @param {*} cssFiles
+ */
+const buildCssScripts = (constantPrefix, cssFiles) => {
+  var styles = "";
+
+  cssFiles
+    .filter((item) => {
+      return item.handle !== "" && item.style !== "";
+    })
+    .map((item) => {
+      let deps = dependencyMaker(item.dependency);
+
+      styles += `
+            '${item.handle}' => [
+                'src'       => $plugin_css_assets_path . '${item.style}',
+                'deps'      => [${deps}],
+            ],`;
+    });
+
+  return styles.trim();
+};
+
 export const assetsCode = (data, assets) => {
+  let registerStyles = buildCssScripts(data.constantPrefix, assets.css);
   let registerScripts = buildJsScripts(data.constantPrefix, assets.js);
 
   let code = `<?php
@@ -100,7 +137,7 @@ class Assets {
      * @return array
      */
     public function get_scripts() {
-        $pluginJSAssetsPath = ${data.constantPrefix}_ASSETS . '/js/';
+        $plugin_js_assets_path = ${data.constantPrefix}_ASSETS . '/js/';
 
         $scripts = [
             ${registerScripts}
@@ -115,20 +152,14 @@ class Assets {
      * @return array
      */
     public function get_styles() {
-        $pluginJSAssetsPath = ${data.constantPrefix}_ASSETS . '/css/';
+        $plugin_css_assets_path = ${data.constantPrefix}_ASSETS . '/css/';
 
         $styles = [
-            'dc-nagad-frontend' => [
-                'src' => $pluginJSAssetsPath . '/frontend.css',
-            ],
-            'dc-nagad-admin'    => [
-                'src' => $pluginJSAssetsPath . '/admin.css',
-            ],
+            ${registerStyles}
         ];
 
         return $styles;
     }
-
 }
 `;
 

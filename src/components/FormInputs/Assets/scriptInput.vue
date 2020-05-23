@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="col-md-4" v-if="type === 'js'">
+    <div class="col-md-4">
       <div class="form-group">
         <label for="name">Dependency</label>
         <input type="text" v-model="dependency" autocomplete="off" />

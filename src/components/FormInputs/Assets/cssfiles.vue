@@ -2,7 +2,7 @@
   <div>
     <card sectionName="CSS Files">
       <div v-for="(item, index) in assets.css" :key="index">
-        <script-input :index="index"></script-input>
+        <script-input :index="index" :col="4"></script-input>
       </div>
 
       <button

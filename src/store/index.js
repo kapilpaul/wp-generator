@@ -254,6 +254,7 @@ const store = {
         state.assets.css.push({
           handle: "",
           style: "",
+          dependency: "",
         });
       }
 
