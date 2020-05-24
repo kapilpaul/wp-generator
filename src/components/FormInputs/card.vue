@@ -1,10 +1,16 @@
 <template>
   <div class="card">
-    <div class="card-header">
+    <div
+      class="card-header"
+      data-toggle="collapse"
+      :data-target="'#' + divid"
+      aria-expanded="false"
+      :aria-controls="'#' + divid"
+    >
       {{ sectionName }}
     </div>
 
-    <div class="card-body">
+    <div class="card-body collapse" :id="divid">
       <slot></slot>
     </div>
   </div>
@@ -17,6 +23,14 @@ export default {
       type: String,
       default: "",
     },
+  },
+  data() {
+    return {
+      divid: "",
+    };
+  },
+  mounted() {
+    this.divid = this.$root.strRandom();
   },
 };
 </script>

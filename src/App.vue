@@ -18,7 +18,6 @@ export default {
 
 <style>
 @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css";
-@import "./assets/css/main.css";
 
 #app {
   width: 100%;

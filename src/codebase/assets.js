@@ -1,3 +1,7 @@
+/**
+ * dependency maker from comma separated
+ * @param {*} dependency
+ */
 const dependencyMaker = (dependency) => {
   let deps = "";
 
@@ -66,6 +70,11 @@ const buildCssScripts = (constantPrefix, cssFiles) => {
   return styles.trim();
 };
 
+/**
+ * assets code for assets.php file
+ * @param {*} data
+ * @param {*} assets
+ */
 export const assetsCode = (data, assets) => {
   let registerStyles = buildCssScripts(data.constantPrefix, assets.css);
   let registerScripts = buildJsScripts(data.constantPrefix, assets.js);

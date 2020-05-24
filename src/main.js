@@ -7,6 +7,7 @@ import { slug } from "./utils/helpers";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+require("./assets/css/main.css");
 require("./assets/js/main.js");
 
 Vue.config.productionTip = false;
@@ -20,6 +21,19 @@ new Vue({
         class_name === "" ? "page preload" : "page " + class_name + " preload";
       let body = document.querySelector("body");
       body.className += " " + addClasses;
+    },
+    strRandom(length = 10) {
+      var result = "";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
     },
   },
   filters: {

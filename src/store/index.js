@@ -145,6 +145,9 @@ const store = {
         file: true,
         name: "Installer.php",
         parent_id: "root_includes",
+        value: () => {
+          return CodeBase.installerCode(store.state.general);
+        },
       },
       {
         id: "root_language",
@@ -159,6 +162,9 @@ const store = {
         file: true,
         name: "composer.json",
         parent_id: "root",
+        value: () => {
+          return CodeBase.composerCode(store.state.general);
+        },
       },
       {
         id: "root_index",
@@ -196,7 +202,7 @@ const store = {
       },
     ],
     general: {
-      pluginName: "",
+      pluginName: "wpgen",
       baseNamespace: "",
       pluginURI: "",
       description: "",
@@ -216,6 +222,7 @@ const store = {
       js: [],
     },
     activeFileCodes: "",
+    tables: [],
   },
   getters: {
     filesTree: (state) => state.filesTree,
@@ -224,6 +231,7 @@ const store = {
     baseNamespace: (state) => state.general.baseNamespace,
     activeFileCodes: (state) => state.activeFileCodes,
     assets: (state) => state.assets,
+    tables: (state) => state.tables,
   },
   mutations: {
     setPluginName(state, payload) {
@@ -274,6 +282,38 @@ const store = {
         payload.value
       );
     },
+    addNewTable(state, payload) {
+      state.tables.push({
+        name: "",
+        fields: [],
+      });
+    },
+    addNewTableField(state, payload) {
+      state.tables[payload.index].fields.push({
+        name: "",
+        type: "",
+        length: 11,
+        nullable: true,
+        primary_key: false,
+        default: "",
+      });
+    },
+    setTableData(state, payload) {
+      Vue.set(state.tables[payload.index], payload.key, payload.value);
+    },
+    setTableFieldData(state, payload) {
+      Vue.set(
+        state.tables[payload.index].fields[payload.fieldIndex],
+        payload.key,
+        payload.value
+      );
+    },
+    deleteTableField(state, payload) {
+      Vue.delete(state.tables[payload.index].fields, [payload.fieldIndex]);
+    },
+    deleteTable(state, payload) {
+      Vue.delete(state.tables, [payload.index]);
+    },
   },
   actions: {
     setPluginName({ commit, dispatch }, payload) {
@@ -300,6 +340,30 @@ const store = {
         let tree = buildTreeData(state.filesTree);
         commit("setFileArchitecture", tree);
       }
+    },
+    addNewTable({ commit, dispatch }, payload) {
+      commit("addNewTable", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    addNewTableField({ commit, dispatch }, payload) {
+      commit("addNewTableField", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    setTableData({ commit, dispatch }, payload) {
+      commit("setTableData", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    setTableFieldData({ commit, dispatch }, payload) {
+      commit("setTableFieldData", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    deleteTableField({ commit, dispatch }, payload) {
+      commit("deleteTableField", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    deleteTable({ commit, dispatch }, payload) {
+      commit("deleteTable", payload);
+      dispatch("setFileArchitecture", true);
     },
   },
   modules: {},
