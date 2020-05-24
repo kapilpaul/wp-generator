@@ -146,7 +146,10 @@ const store = {
         name: "Installer.php",
         parent_id: "root_includes",
         value: () => {
-          return CodeBase.installerCode(store.state.general);
+          return CodeBase.installerCode(
+            store.state.general,
+            store.state.tables
+          );
         },
       },
       {
@@ -293,7 +296,7 @@ const store = {
         name: "",
         type: "",
         length: 11,
-        nullable: true,
+        nullable: false,
         primary_key: false,
         default: "",
       });

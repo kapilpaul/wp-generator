@@ -14,7 +14,7 @@ export const CodeBase = {
   composerCode: (data) => {
     return composerCode(validateFields(data));
   },
-  installerCode: (data) => {
-    return installerCode(validateFields(data));
+  installerCode: (data, tables) => {
+    return installerCode(validateFields(data), tables);
   },
 };
