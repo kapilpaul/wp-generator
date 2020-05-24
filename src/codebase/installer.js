@@ -62,6 +62,10 @@ const makeTableQuery = (name, fields) => {
       innerField += `,\n`;
     });
 
+  if (primary_key !== "") {
+    innerField += `                      PRIMARY KEY (\`${primary_key}\`)`;
+  }
+
   schema += `${innerField.trim()}\n                    ) $charset_collate";
 
         dbDelta($schema);

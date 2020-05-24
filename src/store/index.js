@@ -284,6 +284,25 @@ const store = {
         payload.key,
         payload.value
       );
+
+      //adding data to filesTree
+      if (payload.key === "style" || payload.key === "script") {
+        let fileExt = payload.value.split(".").pop();
+
+        if (fileExt === payload.type) {
+          state.filesTree.push({
+            id: `assets_${payload.type}_file`,
+            type: payload.type,
+            file: true,
+            name: payload.value,
+            parent_id: "assets_" + payload.type,
+            value: () => {
+              return `/* wp2gen */\n/* write or paste your code here */
+              `;
+            },
+          });
+        }
+      }
     },
     addNewTable(state, payload) {
       state.tables.push({
