@@ -153,6 +153,19 @@ const store = {
         },
       },
       {
+        id: "includes_file",
+        type: "php",
+        file: true,
+        name: "functions.php",
+        parent_id: "root_includes",
+        value: () => {
+          return CodeBase.functionsCode(
+            store.state.general,
+            store.state.tables
+          );
+        },
+      },
+      {
         id: "root_language",
         type: "lang-dir",
         directory: true,

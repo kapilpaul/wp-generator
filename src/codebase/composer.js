@@ -17,7 +17,10 @@ export const composerCode = (data) => {
     "autoload": {
         "psr-4": {
             "${baseNamespace}\\\\": "includes/"
-        }
+        },
+        "files": [
+            "includes/functions.php"
+        ]
     }
 }
 `;
