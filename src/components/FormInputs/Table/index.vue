@@ -2,7 +2,7 @@
   <div>
     <card sectionName="Table">
       <div v-for="(item, index) in tables" :key="index" class="mb-20">
-        <settings :index="index" />
+        <table-input :index="index" />
       </div>
 
       <button
@@ -19,14 +19,14 @@
 <script>
 import textInput from "../textInput";
 import card from "../card";
-import Settings from "./settings";
+import TableInput from "./table-input";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     textInput,
     card,
-    Settings,
+    TableInput,
   },
   computed: {
     ...mapGetters(["tables"]),

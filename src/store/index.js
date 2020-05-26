@@ -321,6 +321,7 @@ const store = {
     addNewTable(state, payload) {
       state.tables.push({
         name: "",
+        settings: {},
         fields: [],
       });
     },
@@ -349,6 +350,25 @@ const store = {
     },
     deleteTable(state, payload) {
       Vue.delete(state.tables, [payload.index]);
+    },
+    addNewFileInFileTree(state, payload) {
+      if (typeof payload.replace !== undefined && payload.replace) {
+        state.filesTree.find((obj, index) => {
+          if (obj.parent_id === payload.id) {
+            Vue.delete(state.filesTree, index);
+          }
+        });
+
+        state.filesTree.find((obj, index) => {
+          if (obj.id === payload.id) {
+            Vue.delete(state.filesTree, index);
+          }
+        });
+      }
+
+      if (typeof payload.name !== "undefined") {
+        state.filesTree.push(payload);
+      }
     },
   },
   actions: {
@@ -400,6 +420,10 @@ const store = {
     deleteTable({ commit, dispatch }, payload) {
       commit("deleteTable", payload);
       // dispatch("setFileArchitecture", true);
+    },
+    addNewFileInFileTree({ commit, dispatch }, payload) {
+      commit("addNewFileInFileTree", payload);
+      dispatch("setFileArchitecture", true);
     },
   },
   modules: {},

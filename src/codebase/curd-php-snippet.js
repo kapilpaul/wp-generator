@@ -1,6 +1,9 @@
+import { validateTableSetting } from "./fields";
 var plugin_name = "";
 var textDomain = "";
 var functionPrefix = "";
+var singularName = "";
+var pluralName = "";
 
 /**
  * make crud data from tables
@@ -13,6 +16,13 @@ const makeCrudFromTables = (tablesData) => {
       return item.name && item.fields.length > 0;
     })
     .map((item) => {
+      if (typeof item.settings !== "undefined" && item.settings.adminPanel) {
+        let settings = validateTableSetting(item.settings);
+
+        singularName = settings.singularName;
+        pluralName = settings.pluralName;
+      }
+
       code += crudSnippets(item.name, item.fields);
     });
 
@@ -71,13 +81,13 @@ const crudSnippets = (tableName, tableFields) => {
  */
 const insertOrUpdateCode = (tableName, defaults, defaultValidation) => {
   let code = `/**
- * Insert a new ${tableName} item
+ * Insert a new ${singularName}
  *
  * @param  array  $args
  *
  * @return int|WP_Error
  */
-function ${functionPrefix}_insert_${tableName}_item( $args = [] ) {
+function ${functionPrefix}_insert_${singularName}( $args = [] ) {
     global $wpdb;
 
     $defaults = [
@@ -101,7 +111,7 @@ function ${functionPrefix}_insert_${tableName}_item( $args = [] ) {
             [ '%d' ]
         );
 
-        wd_ac_address_purge_cache( $id );
+        ${functionPrefix}_${singularName}_purge_cache( $id );
 
         return $updated;
 
@@ -119,7 +129,7 @@ function ${functionPrefix}_insert_${tableName}_item( $args = [] ) {
             return new \\WP_Error( 'failed-to-insert', __( 'Failed to insert data', '${textDomain}' ) );
         }
 
-        ${plugin_name}_${tableName}_purge_cache();
+        ${functionPrefix}_${singularName}_purge_cache();
 
         return $wpdb->insert_id;
     }
@@ -136,13 +146,13 @@ function ${functionPrefix}_insert_${tableName}_item( $args = [] ) {
  */
 const fetchData = (tableName) => {
   let code = `/**
- * Fetch ${tableName} items
+ * Fetch ${pluralName}
  *
  * @param  array  $args
  *
  * @return array
  */
-function ${functionPrefix}_get_${tableName}_items( $args = [] ) {
+function ${functionPrefix}_get_${pluralName}( $args = [] ) {
     global $wpdb;
 
     $defaults = [
@@ -154,7 +164,7 @@ function ${functionPrefix}_get_${tableName}_items( $args = [] ) {
 
     $args = wp_parse_args( $args, $defaults );
 
-    $last_changed = wp_cache_get_last_changed( '${tableName}' );
+    $last_changed = wp_cache_get_last_changed( '${singularName}' );
     $key          = md5( serialize( array_diff_assoc( $args, $defaults ) ) );
     $cache_key    = "all:$key:$last_changed";
 
@@ -187,11 +197,11 @@ function ${functionPrefix}_get_${tableName}_items( $args = [] ) {
  */
 const countData = (tableName) => {
   let code = `/**
- * Get the count of total ${tableName} items
+ * Get the count of total ${pluralName}
  *
  * @return int
  */
-function ${functionPrefix}_${tableName}_count() {
+function ${functionPrefix}_${singularName}_count() {
     global $wpdb;
 
     $count = wp_cache_get( 'count', '${tableName}' );
@@ -216,23 +226,23 @@ function ${functionPrefix}_${tableName}_count() {
  */
 const singleData = (tableName) => {
   let code = `/**
- * Fetch a single ${tableName} from the DB
+ * Fetch a single ${singularName} from the DB
  *
  * @param  int $id
  *
  * @return object
  */
-function ${functionPrefix}_get_single_${tableName}_item( $id ) {
+function ${functionPrefix}_get_${singularName}( $id ) {
     global $wpdb;
 
-    $item = wp_cache_get( '${tableName}-item-' . $id, '${tableName}' );
+    $item = wp_cache_get( '${singularName}-item-' . $id, '${tableName}' );
 
     if ( false === $item ) {
         $item = $wpdb->get_row(
             $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}${tableName} WHERE id = %d", $id )
         );
 
-        wp_cache_set( '${tableName}-item-' . $id, $item, '${tableName}' );
+        wp_cache_set( '${singularName}-item-' . $id, $item, '${tableName}' );
     }
 
     return $item;
@@ -249,16 +259,16 @@ function ${functionPrefix}_get_single_${tableName}_item( $id ) {
  */
 const deleteData = (tableName) => {
   let code = `/**
- * Delete an ${tableName} item
+ * Delete an ${singularName}
  *
  * @param  int $id
  *
  * @return int|boolean
  */
-function ${functionPrefix}_delete_${tableName}_item( $id ) {
+function ${functionPrefix}_delete_${singularName}( $id ) {
     global $wpdb;
 
-    wd_ac_address_purge_cache( $id );
+    ${functionPrefix}_${singularName}_purge_cache( $id );
 
     return $wpdb->delete(
         $wpdb->prefix . '${tableName}',
@@ -284,11 +294,11 @@ const purgeCacheData = (tableName) => {
  *
  * @return void
  */
-function ${functionPrefix}_${tableName}_purge_cache( $item_id = null ) {
+function ${functionPrefix}_${singularName}_purge_cache( $item_id = null ) {
     $group = '${tableName}';
 
     if ( $item_id ) {
-        wp_cache_delete( '${tableName}-item-' . $item_id, $group );
+        wp_cache_delete( '${singularName}-item-' . $item_id, $group );
     }
 
     wp_cache_delete( 'count', $group );

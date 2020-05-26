@@ -1,3 +1,7 @@
+/**
+ * validate general data
+ * @param {*} data
+ */
 export const validateFields = (data) => {
   let pluginData = {
     ...data,
@@ -26,4 +30,32 @@ export const validateFields = (data) => {
   };
 
   return pluginData;
+};
+
+/**
+ * validate table settings
+ * @param {*} data
+ */
+export const validateTableSetting = (data) => {
+  let settingData = {
+    ...data,
+    crudClassName: data.crudClassName !== "" ? data.crudClassName : "WPGEN",
+    menuTitle: data.menuTitle !== "" ? data.menuTitle : "wp2gen",
+    capability: data.capability !== "" ? data.capability : "manage_options",
+    fileNamePrefix: data.fileNamePrefix !== "" ? data.fileNamePrefix : "wp2gen",
+    nonceKey: data.nonceKey !== "" ? data.nonceKey : "wp2gen",
+    submitButtonText:
+      data.submitButtonText !== "" ? data.submitButtonText : "Submit",
+    updateButtonText:
+      data.updateButtonText !== "" ? data.updateButtonText : "Update",
+    submitName: data.submitName !== "" ? data.submitName : "submit-field",
+    singularName: data.singularName !== "" ? data.singularName : "item",
+    pluralName: data.pluralName !== "" ? data.pluralName : "items",
+    noItemFoundText:
+      data.noItemFoundText !== "" ? data.noItemFoundText : "Not found ant item",
+    perPage: data.perPage !== "" ? data.perPage : "20",
+    pageSlug: data.pageSlug !== "" ? data.pageSlug : "wp2gen",
+  };
+
+  return settingData;
 };

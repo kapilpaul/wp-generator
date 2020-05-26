@@ -1,0 +1,320 @@
+<template>
+  <div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <input
+            :id="'admin_panel_' + index"
+            type="checkbox"
+            :name="'admin_panel_' + index"
+            v-model="adminPanel"
+          />
+          <label :for="'admin_panel_' + index" class="checkbox"
+            >Admin Panel</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="row" v-if="adminPanel">
+      <div class="col-md-3">
+        <form-text-input
+          label="Class Name"
+          placeholder="AddressBook"
+          v-model="crudClassName"
+          :textvalue="crudClassName"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Menu Title"
+          placeholder="Address Book"
+          v-model="menuTitle"
+          :textvalue="menuTitle"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Capability"
+          placeholder="manage_options"
+          v-model="capability"
+          :textvalue="capability"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="File Name Prefix"
+          placeholder="addressbook"
+          v-model="fileNamePrefix"
+          :textvalue="fileNamePrefix"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Nonce Key"
+          v-model="nonceKey"
+          :textvalue="nonceKey"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Submit Button Text"
+          placeholder="Submit Address"
+          v-model="submitButtonText"
+          :textvalue="submitButtonText"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Update Button Text"
+          placeholder="Update Address"
+          v-model="updateButtonText"
+          :textvalue="updateButtonText"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Submit Name"
+          placeholder="submit_addressbook"
+          v-model="submitName"
+          :textvalue="submitName"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Singular Name"
+          placeholder="book"
+          v-model="singularName"
+          :textvalue="singularName"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Plural Name"
+          placeholder="books"
+          v-model="pluralName"
+          :textvalue="pluralName"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="No Items Text"
+          placeholder="No books found"
+          v-model="noItemFoundText"
+          :textvalue="noItemFoundText"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Items Per Page"
+          placeholder="20"
+          v-model="perPage"
+          :textvalue="perPage"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Page Slug"
+          placeholder="address-book"
+          v-model="pageSlug"
+          :textvalue="pageSlug"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import FormTextInput from "../../../Common/FormTextInput";
+import { mapGetters } from "vuex";
+import { slug, titleCase } from "@/utils/helpers";
+export default {
+  props: {
+    index: {
+      type: Number,
+      default: 0,
+    },
+  },
+  components: {
+    FormTextInput,
+  },
+  computed: {
+    ...mapGetters(["tables"]),
+    adminPanel: {
+      get() {
+        return this.getSettingsData("adminPanel");
+      },
+      set(val) {
+        if (val) {
+          //set views folder in admin folder
+          this.$store.dispatch("addNewFileInFileTree", {
+            id: "includes_admin_views",
+            type: "admin_dir",
+            directory: true,
+            name: "views",
+            parent_id: "includes_admin",
+            replace: true,
+          });
+        } else {
+          //delete views folder in admin folder
+          this.$store.dispatch("addNewFileInFileTree", {
+            id: "includes_admin_views",
+            replace: true,
+            replaceSubDir: true,
+          });
+
+          this.$store.dispatch("setTableData", {
+            index: this.index,
+            key: "settings",
+            value: {},
+          });
+        }
+
+        this.setSettingsData("adminPanel", val);
+      },
+    },
+    crudClassName: {
+      get() {
+        return this.getSettingsData("crudClassName");
+      },
+      set(val) {
+        val = titleCase(val, "_").trim();
+        this.setSettingsData("crudClassName", val);
+
+        this.$store.dispatch("addNewFileInFileTree", {
+          id: "includes_crud_admin_file_" + this.index,
+          type: "php",
+          file: true,
+          name: val + ".php",
+          parent_id: "includes_admin",
+          replace: true,
+        });
+      },
+    },
+    menuTitle: {
+      get() {
+        return this.getSettingsData("menuTitle");
+      },
+      set(val) {
+        this.setSettingsData("menuTitle", val);
+      },
+    },
+    capability: {
+      get() {
+        return this.getSettingsData("capability");
+      },
+      set(val) {
+        val = slug(val, "_");
+        this.setSettingsData("capability", val);
+      },
+    },
+    fileNamePrefix: {
+      get() {
+        return this.getSettingsData("fileNamePrefix");
+      },
+      set(val) {
+        val = slug(val, "-");
+        this.setSettingsData("fileNamePrefix", val);
+      },
+    },
+    nonceKey: {
+      get() {
+        return this.getSettingsData("nonceKey");
+      },
+      set(val) {
+        val = slug(val, "-");
+        this.setSettingsData("nonceKey", val);
+      },
+    },
+    submitButtonText: {
+      get() {
+        return this.getSettingsData("submitButtonText");
+      },
+      set(val) {
+        this.setSettingsData("submitButtonText", val);
+      },
+    },
+    updateButtonText: {
+      get() {
+        return this.getSettingsData("updateButtonText");
+      },
+      set(val) {
+        this.setSettingsData("updateButtonText", val);
+      },
+    },
+    submitName: {
+      get() {
+        return this.getSettingsData("submitName");
+      },
+      set(val) {
+        val = slug(val, "_");
+        this.setSettingsData("submitName", val);
+      },
+    },
+    singularName: {
+      get() {
+        return this.getSettingsData("singularName");
+      },
+      set(val) {
+        val = slug(val, "_");
+        this.setSettingsData("singularName", val);
+      },
+    },
+    pluralName: {
+      get() {
+        return this.getSettingsData("pluralName");
+      },
+      set(val) {
+        val = slug(val, "_");
+        this.setSettingsData("pluralName", val);
+      },
+    },
+    noItemFoundText: {
+      get() {
+        return this.getSettingsData("noItemFoundText");
+      },
+      set(val) {
+        this.setSettingsData("noItemFoundText", val);
+      },
+    },
+    perPage: {
+      get() {
+        return this.getSettingsData("perPage");
+      },
+      set(val) {
+        this.setSettingsData("perPage", val);
+      },
+    },
+    pageSlug: {
+      get() {
+        return this.getSettingsData("pageSlug");
+      },
+      set(val) {
+        val = slug(val, "-");
+        this.setSettingsData("pageSlug", val);
+      },
+    },
+  },
+  methods: {
+    getSettingsData(key) {
+      return this.tables[this.index].settings[key];
+    },
+    setSettingsData(key, value) {
+      if (typeof value === "string") {
+        value = value.trim();
+      }
+
+      this.$store.dispatch("setTableData", {
+        index: this.index,
+        key: "settings",
+        value: {
+          ...this.tables[this.index].settings,
+          [key]: value,
+        },
+      });
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>

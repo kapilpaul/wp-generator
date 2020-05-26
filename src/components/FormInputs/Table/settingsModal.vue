@@ -15,6 +15,34 @@
             <h5 class="modal-title" :id="'settings-modal-' + index + 'Label'">
               Table Name: {{ tableData }}
             </h5>
+
+            <ul class="nav mb-0" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  :id="'pills-settings-tab-' + settingsId"
+                  data-toggle="pill"
+                  :href="'#pills-settings-' + settingsId"
+                  role="tab"
+                  :aria-controls="'pills-settings-' + settingsId"
+                  aria-selected="true"
+                  >Settings</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  :id="'pills-fields-tab-' + fieldsId"
+                  data-toggle="pill"
+                  :href="'#pills-fields-' + fieldsId"
+                  role="tab"
+                  :aria-controls="'pills-fields-' + fieldsId"
+                  aria-selected="false"
+                  >Fields</a
+                >
+              </li>
+            </ul>
+
             <button
               type="button"
               class="close"
@@ -28,7 +56,25 @@
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-12">
-                  <table-fields :index="index" />
+                  <div class="tab-content" id="pills-tabContent">
+                    <div
+                      class="tab-pane fade show active"
+                      :id="'pills-settings-' + settingsId"
+                      role="tabpanel"
+                      :aria-labelledby="'pills-settings-tab-' + settingsId"
+                    >
+                      <table-settings :index="index" />
+                    </div>
+
+                    <div
+                      class="tab-pane fade"
+                      :id="'pills-fields-' + fieldsId"
+                      role="tabpanel"
+                      :aria-labelledby="'pills-fields-tab-' + fieldsId"
+                    >
+                      <table-fields :index="index" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -42,6 +88,7 @@
 <script>
 import { mapGetters } from "vuex";
 import TableFields from "./Fields";
+import TableSettings from "./Fields/settings";
 export default {
   props: {
     index: {
@@ -49,8 +96,15 @@ export default {
       default: 0,
     },
   },
+  data() {
+    return {
+      settingsId: this.$root.strRandom(),
+      fieldsId: this.$root.strRandom(),
+    };
+  },
   components: {
     TableFields,
+    TableSettings,
   },
   mounted() {},
   computed: {
@@ -79,5 +133,8 @@ export default {
   display: block;
   padding: 0.5rem 1rem;
   padding: 5px 15px;
+}
+.nav-link.active {
+  color: #000;
 }
 </style>

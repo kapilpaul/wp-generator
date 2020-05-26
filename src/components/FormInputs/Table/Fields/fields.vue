@@ -28,12 +28,7 @@
     <div class="col-md-1">
       <div class="form-group">
         <label>Nullable</label>
-        <input
-          :id="id"
-          type="checkbox"
-          v-model="nullable"
-          :textvalue="nullable"
-        />
+        <input :id="id" type="checkbox" v-model="nullable" />
         <label :for="id" class="checkbox"></label>
       </div>
     </div>
@@ -41,12 +36,7 @@
     <div class="col-md-1">
       <div class="form-group">
         <label>Primary Key</label>
-        <input
-          :id="primaryKeyId"
-          type="checkbox"
-          v-model="primary_key"
-          :textvalue="primary_key"
-        />
+        <input :id="primaryKeyId" type="checkbox" v-model="primary_key" />
         <label :for="primaryKeyId" class="checkbox"></label>
       </div>
     </div>
