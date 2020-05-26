@@ -232,6 +232,7 @@ const store = {
       domainPath: "",
       mainClassName: "",
       constantPrefix: "",
+      functionPrefix: "",
     },
     assets: {
       css: [],
@@ -357,11 +358,11 @@ const store = {
     },
     setGeneralData({ commit, dispatch }, payload) {
       commit("setGeneralData", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
     addNewAssets({ commit, dispatch }, payload) {
       commit("addNewAssets", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
     setAssetsData({ commit, dispatch }, payload) {
       commit("setAssetsData", payload);
@@ -378,27 +379,27 @@ const store = {
     },
     addNewTable({ commit, dispatch }, payload) {
       commit("addNewTable", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
     addNewTableField({ commit, dispatch }, payload) {
       commit("addNewTableField", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
     setTableData({ commit, dispatch }, payload) {
       commit("setTableData", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
     setTableFieldData({ commit, dispatch }, payload) {
       commit("setTableFieldData", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
     deleteTableField({ commit, dispatch }, payload) {
       commit("deleteTableField", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
     deleteTable({ commit, dispatch }, payload) {
       commit("deleteTable", payload);
-      dispatch("setFileArchitecture", true);
+      // dispatch("setFileArchitecture", true);
     },
   },
   modules: {},

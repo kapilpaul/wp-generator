@@ -28,12 +28,14 @@ export default {
   },
   methods: {
     itemClick(node) {
-      if (typeof node.model.file !== "undefined" && node.model.file) {
-        if (typeof node.model.value !== "undefined" && node.model.value) {
-          this.$store.dispatch("setActiveFileCodes", node.model.value);
+      this.$store.dispatch("setFileArchitecture", true).then((response) => {
+        if (typeof node.model.file !== "undefined" && node.model.file) {
+          if (typeof node.model.value !== "undefined" && node.model.value) {
+            this.$store.dispatch("setActiveFileCodes", node.model.value);
+          }
+          $("#exampleModal").modal("show");
         }
-        $("#exampleModal").modal("show");
-      }
+      });
     },
   },
 };

@@ -64,6 +64,7 @@ const buildCssScripts = (constantPrefix, cssFiles) => {
             '${item.handle}' => [
                 'src'       => $plugin_css_assets_path . '${item.style}',
                 'deps'      => [${deps}],
+                'version'   => filemtime( ${constantPrefix}_PATH . '/assets/css/${item.style}' ),
             ],`;
     });
 

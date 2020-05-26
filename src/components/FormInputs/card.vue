@@ -39,4 +39,7 @@ export default {
 .card {
   margin-bottom: 20px;
 }
+.card-header {
+  cursor: pointer;
+}
 </style>

@@ -23,7 +23,22 @@ export const buildTreeData = (items, id = null, link = "parent_id") =>
 
       if (typeof item.file !== "undefined" && item.file) {
         var fileExt = item.name.split(".").pop();
-        data.icon = fileExt === "php" ? "fab fa-php" : "far fa-file";
+
+        switch (fileExt) {
+          case "php":
+            data.icon = "fab fa-php";
+            break;
+          case "css":
+            data.icon = "fab fa-css3";
+            break;
+          case "js":
+            data.icon = "fab fa-js-square";
+            break;
+          default:
+            data.icon = "far fa-file";
+            break;
+        }
+
         data.file = item.file;
 
         if (typeof item.value !== "undefined") {
@@ -55,7 +70,7 @@ export const buildZipTree = (items, zip, id = null, link = "parent_id") =>
       }
 
       if (typeof item.file !== "undefined" && item.file) {
-        let code = "dsdsd";
+        let code = "";
         if (typeof item.value !== "undefined") {
           code = item.value();
         }

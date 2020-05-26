@@ -1,5 +1,6 @@
 var plugin_name = "";
 var textDomain = "";
+var functionPrefix = "";
 
 /**
  * make crud data from tables
@@ -76,7 +77,7 @@ const insertOrUpdateCode = (tableName, defaults, defaultValidation) => {
  *
  * @return int|WP_Error
  */
-function ${plugin_name}_insert_${tableName}_item( $args = [] ) {
+function ${functionPrefix}_insert_${tableName}_item( $args = [] ) {
     global $wpdb;
 
     $defaults = [
@@ -141,7 +142,7 @@ const fetchData = (tableName) => {
  *
  * @return array
  */
-function ${plugin_name}_get_${tableName}_items( $args = [] ) {
+function ${functionPrefix}_get_${tableName}_items( $args = [] ) {
     global $wpdb;
 
     $defaults = [
@@ -190,7 +191,7 @@ const countData = (tableName) => {
  *
  * @return int
  */
-function ${plugin_name}_${tableName}_count() {
+function ${functionPrefix}_${tableName}_count() {
     global $wpdb;
 
     $count = wp_cache_get( 'count', '${tableName}' );
@@ -221,7 +222,7 @@ const singleData = (tableName) => {
  *
  * @return object
  */
-function ${plugin_name}_get_single_${tableName}_item( $id ) {
+function ${functionPrefix}_get_single_${tableName}_item( $id ) {
     global $wpdb;
 
     $item = wp_cache_get( '${tableName}-item-' . $id, '${tableName}' );
@@ -254,7 +255,7 @@ const deleteData = (tableName) => {
  *
  * @return int|boolean
  */
-function ${plugin_name}_delete_${tableName}_item( $id ) {
+function ${functionPrefix}_delete_${tableName}_item( $id ) {
     global $wpdb;
 
     wd_ac_address_purge_cache( $id );
@@ -283,7 +284,7 @@ const purgeCacheData = (tableName) => {
  *
  * @return void
  */
-function ${plugin_name}_${tableName}_purge_cache( $item_id = null ) {
+function ${functionPrefix}_${tableName}_purge_cache( $item_id = null ) {
     $group = '${tableName}';
 
     if ( $item_id ) {
@@ -307,6 +308,7 @@ function ${plugin_name}_${tableName}_purge_cache( $item_id = null ) {
 export const wpCrudFunctions = (data, tables) => {
   plugin_name = data.pluginName.replace(/-/g, "_");
   textDomain = data.textDomain;
+  functionPrefix = data.functionPrefix;
 
   let code = `<?php\n`;
   let cruds;

@@ -2,7 +2,12 @@
   <div :class="`col-md-${col}`">
     <div class="form-group">
       <label for="name">{{ label }}</label>
-      <input type="text" v-model="inputData" autocomplete="off" />
+      <input
+        type="text"
+        v-model="inputData"
+        autocomplete="off"
+        :placeholder="placeholder"
+      />
     </div>
   </div>
 </template>
@@ -29,6 +34,10 @@ export default {
       default: "",
     },
     separator: {
+      type: String,
+      default: "",
+    },
+    placeholder: {
       type: String,
       default: "",
     },

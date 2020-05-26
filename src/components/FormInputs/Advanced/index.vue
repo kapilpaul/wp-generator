@@ -22,6 +22,15 @@
           objkey="constantPrefix"
           convert-case="uppercase"
         />
+
+        <!-- Constant Prefix -->
+        <text-input
+          label="Function Prefix"
+          objkey="functionPrefix"
+          convert-case="slug"
+          separator="_"
+          placeholder="wp_gen"
+        />
       </div>
     </card>
   </div>

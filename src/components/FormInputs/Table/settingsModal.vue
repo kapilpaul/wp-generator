@@ -75,4 +75,9 @@ export default {
   max-height: 90vh;
   overflow-x: scroll;
 }
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  padding: 5px 15px;
+}
 </style>
