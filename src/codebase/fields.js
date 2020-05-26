@@ -33,28 +33,49 @@ export const validateFields = (data) => {
 };
 
 /**
+ * check field undefined or blank
+ * @param {*} fieldName
+ */
+const validField = (fieldName) => {
+  if (typeof fieldName === "undefined" || fieldName === "") {
+    return false;
+  }
+
+  return true;
+};
+
+/**
  * validate table settings
  * @param {*} data
  */
 export const validateTableSetting = (data) => {
   let settingData = {
     ...data,
-    crudClassName: data.crudClassName !== "" ? data.crudClassName : "WPGEN",
-    menuTitle: data.menuTitle !== "" ? data.menuTitle : "wp2gen",
-    capability: data.capability !== "" ? data.capability : "manage_options",
-    fileNamePrefix: data.fileNamePrefix !== "" ? data.fileNamePrefix : "wp2gen",
-    nonceKey: data.nonceKey !== "" ? data.nonceKey : "wp2gen",
-    submitButtonText:
-      data.submitButtonText !== "" ? data.submitButtonText : "Submit",
-    updateButtonText:
-      data.updateButtonText !== "" ? data.updateButtonText : "Update",
-    submitName: data.submitName !== "" ? data.submitName : "submit-field",
-    singularName: data.singularName !== "" ? data.singularName : "item",
-    pluralName: data.pluralName !== "" ? data.pluralName : "items",
-    noItemFoundText:
-      data.noItemFoundText !== "" ? data.noItemFoundText : "Not found ant item",
-    perPage: data.perPage !== "" ? data.perPage : "20",
-    pageSlug: data.pageSlug !== "" ? data.pageSlug : "wp2gen",
+    crudClassName: validField(data.crudClassName)
+      ? data.crudClassName
+      : "WPGEN",
+    menuTitle: validField(data.menuTitle) ? data.menuTitle : "wp2gen",
+    capability: validField(data.capability)
+      ? data.capability
+      : "manage_options",
+    fileNamePrefix: validField(data.fileNamePrefix)
+      ? data.fileNamePrefix
+      : "wp2gen",
+    nonceKey: validField(data.nonceKey) ? data.nonceKey : "wp2gen",
+    submitButtonText: validField(data.submitButtonText)
+      ? data.submitButtonText
+      : "Submit",
+    updateButtonText: validField(data.updateButtonText)
+      ? data.updateButtonText
+      : "Update",
+    submitName: validField(data.submitName) ? data.submitName : "submit-field",
+    singularName: validField(data.singularName) ? data.singularName : "item",
+    pluralName: validField(data.pluralName) ? data.pluralName : "items",
+    noItemFoundText: validField(data.noItemFoundText)
+      ? data.noItemFoundText
+      : "Not found any item",
+    perPage: validField(data.perPage) ? data.perPage : "20",
+    pageSlug: validField(data.pageSlug) ? data.pageSlug : "wp2gen",
   };
 
   return settingData;

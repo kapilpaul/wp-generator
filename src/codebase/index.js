@@ -4,6 +4,7 @@ import { assetsCode } from "./assets";
 import { composerCode } from "./composer";
 import { installerCode } from "./installer";
 import { wpCrudFunctions } from "./curd-php-snippet";
+import { dynamicMenuPageHandler } from "./dynamic-menu-page-handler";
 
 export const CodeBase = {
   mainPluginCode: (data) => {
@@ -20,5 +21,8 @@ export const CodeBase = {
   },
   functionsCode: (data, tables) => {
     return wpCrudFunctions(validateFields(data), tables);
+  },
+  dynamicMenuPageHandler: (data, table) => {
+    return dynamicMenuPageHandler(validateFields(data), table);
   },
 };

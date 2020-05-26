@@ -128,6 +128,7 @@
 import FormTextInput from "../../../Common/FormTextInput";
 import { mapGetters } from "vuex";
 import { slug, titleCase } from "@/utils/helpers";
+import { CodeBase } from "@/codebase/index";
 export default {
   props: {
     index: {
@@ -160,7 +161,6 @@ export default {
           this.$store.dispatch("addNewFileInFileTree", {
             id: "includes_admin_views",
             replace: true,
-            replaceSubDir: true,
           });
 
           this.$store.dispatch("setTableData", {
@@ -188,6 +188,12 @@ export default {
           name: val + ".php",
           parent_id: "includes_admin",
           replace: true,
+          value: () => {
+            return CodeBase.dynamicMenuPageHandler(
+              this.$store.getters.general,
+              this.$store.getters.tables[this.index]
+            );
+          },
         });
       },
     },
