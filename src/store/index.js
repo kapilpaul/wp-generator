@@ -74,6 +74,13 @@ const store = {
         parent_id: "root_includes",
       },
       {
+        id: "includes_admin_views",
+        type: "admin_dir",
+        directory: true,
+        name: "views",
+        parent_id: "includes_admin",
+      },
+      {
         id: "includes_admin_file",
         type: "php",
         file: true,
@@ -114,6 +121,9 @@ const store = {
         file: true,
         name: "Admin.php",
         parent_id: "root_includes",
+        value: () => {
+          return CodeBase.adminCode(store.state.general);
+        },
       },
       {
         id: "includes_file",
@@ -353,13 +363,13 @@ const store = {
     },
     addNewFileInFileTree(state, payload) {
       if (typeof payload.replace !== undefined && payload.replace) {
-        state.filesTree.find((obj, index) => {
+        state.filesTree.map((obj, index) => {
           if (obj.parent_id === payload.id) {
             Vue.delete(state.filesTree, index);
           }
         });
 
-        state.filesTree.find((obj, index) => {
+        state.filesTree.map((obj, index) => {
           if (obj.id === payload.id) {
             Vue.delete(state.filesTree, index);
           }
@@ -419,11 +429,21 @@ const store = {
     },
     deleteTable({ commit, dispatch }, payload) {
       commit("deleteTable", payload);
-      // dispatch("setFileArchitecture", true);
+      dispatch("setFileArchitecture", true);
     },
     addNewFileInFileTree({ commit, dispatch }, payload) {
       commit("addNewFileInFileTree", payload);
       dispatch("setFileArchitecture", true);
+    },
+    deleteCrudViewFile({ commit, dispatch }, payload) {
+      let viewType = ["new", "edit", "view", "list"];
+
+      viewType.map((item) => {
+        dispatch("addNewFileInFileTree", {
+          id: `includes_crud_admin_view_file_${item}_${payload.index}`,
+          replace: true,
+        });
+      });
     },
   },
   modules: {},

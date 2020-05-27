@@ -64,9 +64,20 @@ export default {
   },
   methods: {
     delTable() {
-      this.$store.dispatch("deleteTable", {
-        index: this.index,
-      });
+      this.$store
+        .dispatch("addNewFileInFileTree", {
+          id: "includes_crud_admin_file_" + this.index,
+          replace: true,
+        })
+        .then((response) => {
+          this.$store.dispatch("deleteTable", {
+            index: this.index,
+          });
+
+          this.$store.dispatch("deleteCrudViewFile", {
+            index: this.index,
+          });
+        });
     },
   },
 };

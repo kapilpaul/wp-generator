@@ -29,6 +29,14 @@ class ${settings.crudClassName} {
     use Form_Error;
 
     /**
+     * Initialize the class
+     */
+    public function __construct() {
+        add_action( 'admin_init', [ $this, 'form_handler' ] );
+        add_action( 'admin_post_${data.actionPrefix}-delete-${settings.singularName}', [ $this, 'delete_${settings.singularName}' ] );
+    }
+
+    /**
      * Plugin page handler
      *
      * @return void
@@ -122,8 +130,8 @@ class ${settings.crudClassName} {
         exit;
     }
 
-    public function delete_address() {
-        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], '${data.functionPrefix}-delete-${settings.singularName}' ) ) {
+    public function delete_${settings.singularName}() {
+        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], '${data.actionPrefix}-delete-${settings.singularName}' ) ) {
             wp_die( 'Are you cheating?' );
         }
 

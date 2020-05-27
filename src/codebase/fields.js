@@ -27,6 +27,10 @@ export const validateFields = (data) => {
     mainClassName: data.mainClassName !== "" ? data.mainClassName : "WP2GEN",
     constantPrefix: data.constantPrefix !== "" ? data.constantPrefix : "WP2GEN",
     functionPrefix: data.functionPrefix !== "" ? data.functionPrefix : "wp_gen",
+    actionPrefix:
+      data.functionPrefix !== ""
+        ? data.functionPrefix.replace(/_/g, "-")
+        : "wp-gen",
   };
 
   return pluginData;

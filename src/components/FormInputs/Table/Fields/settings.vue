@@ -146,22 +146,17 @@ export default {
         return this.getSettingsData("adminPanel");
       },
       set(val) {
-        if (val) {
-          //set views folder in admin folder
-          this.$store.dispatch("addNewFileInFileTree", {
-            id: "includes_admin_views",
-            type: "admin_dir",
-            directory: true,
-            name: "views",
-            parent_id: "includes_admin",
-            replace: true,
-          });
-        } else {
-          //delete views folder in admin folder
-          this.$store.dispatch("addNewFileInFileTree", {
-            id: "includes_admin_views",
-            replace: true,
-          });
+        if (!val) {
+          this.$store
+            .dispatch("addNewFileInFileTree", {
+              id: "includes_crud_admin_file_" + this.index,
+              replace: true,
+            })
+            .then((res) => {
+              this.$store.dispatch("deleteCrudViewFile", {
+                index: this.index,
+              });
+            });
 
           this.$store.dispatch("setTableData", {
             index: this.index,
@@ -221,6 +216,11 @@ export default {
       set(val) {
         val = slug(val, "-");
         this.setSettingsData("fileNamePrefix", val);
+
+        this.addViewFile(val, "new");
+        this.addViewFile(val, "edit");
+        this.addViewFile(val, "view");
+        this.addViewFile(val, "list");
       },
     },
     nonceKey: {
@@ -316,6 +316,22 @@ export default {
         value: {
           ...this.tables[this.index].settings,
           [key]: value,
+        },
+      });
+    },
+    addViewFile(fileNamePrefix, viewType) {
+      this.$store.dispatch("addNewFileInFileTree", {
+        id: `includes_crud_admin_view_file_${viewType}_${this.index}`,
+        type: "php",
+        file: true,
+        name: `${fileNamePrefix}-${viewType}.php`,
+        parent_id: "includes_admin_views",
+        replace: true,
+        value: () => {
+          // return CodeBase.dynamicMenuPageHandler(
+          //   this.$store.getters.general,
+          //   this.$store.getters.tables[this.index]
+          // );
         },
       });
     },
