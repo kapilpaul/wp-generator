@@ -1,63 +1,123 @@
 <template>
-  <div class="row">
-    <div class="col-md-3">
-      <form-text-input label="Field Name" v-model="name" :textvalue="name" />
-    </div>
+  <div>
+    <div class="row">
+      <div class="col-md-2">
+        <form-text-input
+          label="Table Field Name"
+          v-model="name"
+          :textvalue="name"
+        />
+      </div>
 
-    <div class="col-md-2">
-      <div class="form-group">
-        <label for="country">Type</label>
-        <div class="select-wrapper">
-          <select id="type" name="type" v-model="type">
-            <option value="INT">INT</option>
-            <option value="FLOAT">FLOAT</option>
-            <option value="VARCHAR">VARCHAR</option>
-            <option value="TEXT">TEXT</option>
-            <option value="DATE">DATE</option>
-            <option value="DATETIME">DATETIME</option>
-            <option value="TIMESTAMP">TIMESTAMP</option>
-          </select>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="country">Type</label>
+          <div class="select-wrapper">
+            <select id="type" name="type" v-model="type">
+              <option value="INT">INT</option>
+              <option value="FLOAT">FLOAT</option>
+              <option value="VARCHAR">VARCHAR</option>
+              <option value="TEXT">TEXT</option>
+              <option value="DATE">DATE</option>
+              <option value="DATETIME">DATETIME</option>
+              <option value="TIMESTAMP">TIMESTAMP</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <form-text-input label="Length" v-model="length" :textvalue="length" />
+      </div>
+
+      <div class="col-md-1">
+        <div class="form-group">
+          <label>Nullable</label>
+          <input :id="id" type="checkbox" v-model="nullable" />
+          <label :for="id" class="checkbox"></label>
+        </div>
+      </div>
+
+      <div class="col-md-1">
+        <div class="form-group">
+          <label>Primary Key</label>
+          <input :id="primaryKeyId" type="checkbox" v-model="primary_key" />
+          <label :for="primaryKeyId" class="checkbox"></label>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <form-text-input
+          label="Default"
+          v-model="defaultValue"
+          :textvalue="defaultValue"
+        />
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group float-left mr-25">
+          <label>Show in CRUD Form</label>
+          <input
+            :id="`show-admin-panel-${fieldIndex}`"
+            class="switch"
+            type="checkbox"
+          />
+          <label :for="`show-admin-panel-${fieldIndex}`" class="switch"></label>
+        </div>
+
+        <div class="form-group">
+          <button
+            class="button btn-danger button-s del-btn"
+            role="button"
+            @click.prevent="delField"
+          >
+            <i class="fas fa-times"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="col-md-2">
-      <form-text-input label="Length" v-model="length" :textvalue="length" />
-    </div>
+    <div v-if="adminPanel">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="country">Input Type</label>
+            <div class="select-wrapper">
+              <select id="type" name="type">
+                <option value="text">Text</option>
+                <option value="number">Number</option>
+                <option value="textarea">Text Area</option>
+                <option value="dropdown">Dropdown</option>
+                <option value="checkbox">Checkbox</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
-    <div class="col-md-1">
-      <div class="form-group">
-        <label>Nullable</label>
-        <input :id="id" type="checkbox" v-model="nullable" />
-        <label :for="id" class="checkbox"></label>
-      </div>
-    </div>
+        <div class="col-md-3">
+          <form-text-input label="Input Label" />
+        </div>
+        <div class="col-md-2">
+          <form-text-input label="Placeholder" />
+        </div>
+        <div class="col-md-3">
+          <form-text-input
+            label="Values"
+            placeholder="key:value pair, comma separated"
+          />
+        </div>
 
-    <div class="col-md-1">
-      <div class="form-group">
-        <label>Primary Key</label>
-        <input :id="primaryKeyId" type="checkbox" v-model="primary_key" />
-        <label :for="primaryKeyId" class="checkbox"></label>
-      </div>
-    </div>
-
-    <div class="col-md-2">
-      <form-text-input
-        label="Default"
-        v-model="defaultValue"
-        :textvalue="defaultValue"
-      />
-    </div>
-
-    <div class="col-md-1">
-      <div class="form-group">
-        <button
-          class="button btn-danger button-s del-btn"
-          role="button"
-          @click.prevent="delField"
-        >
-          <i class="fas fa-times"></i>
-        </button>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>Required</label>
+            <input
+              :id="`field-required-${fieldIndex}`"
+              class="switch"
+              type="checkbox"
+            />
+            <label :for="`field-required-${fieldIndex}`" class="switch"></label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -89,6 +149,9 @@ export default {
   },
   computed: {
     ...mapGetters(["tables"]),
+    adminPanel() {
+      return this.tables[this.index].settings.adminPanel;
+    },
     name: {
       get() {
         return this.getData("name");

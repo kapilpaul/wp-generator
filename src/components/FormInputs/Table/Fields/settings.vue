@@ -153,6 +153,13 @@ export default {
               replace: true,
             })
             .then((res) => {
+              //delete list table php file
+              this.$store.dispatch("addNewFileInFileTree", {
+                id: "includes_crud_admin_list_file_" + this.index,
+                replace: true,
+              });
+            })
+            .then((res) => {
               this.$store.dispatch("deleteCrudViewFile", {
                 index: this.index,
               });
@@ -176,20 +183,39 @@ export default {
         val = titleCase(val, "_").trim();
         this.setSettingsData("crudClassName", val);
 
-        this.$store.dispatch("addNewFileInFileTree", {
-          id: "includes_crud_admin_file_" + this.index,
-          type: "php",
-          file: true,
-          name: val + ".php",
-          parent_id: "includes_admin",
-          replace: true,
-          value: () => {
-            return CodeBase.dynamicMenuPageHandler(
-              this.$store.getters.general,
-              this.$store.getters.tables[this.index]
-            );
-          },
-        });
+        //add crud php file for handle for input and plugin pgae
+        this.$store
+          .dispatch("addNewFileInFileTree", {
+            id: "includes_crud_admin_file_" + this.index,
+            type: "php",
+            file: true,
+            name: val + ".php",
+            parent_id: "includes_admin",
+            replace: true,
+            value: () => {
+              return CodeBase.dynamicMenuPageHandler(
+                this.$store.getters.general,
+                this.$store.getters.tables[this.index]
+              );
+            },
+          })
+          .then((response) => {
+            //add list table php file
+            this.$store.dispatch("addNewFileInFileTree", {
+              id: "includes_crud_admin_list_file_" + this.index,
+              type: "php",
+              file: true,
+              name: val + "_List.php",
+              parent_id: "includes_admin",
+              replace: true,
+              value: () => {
+                // return CodeBase.dynamicMenuPageHandler(
+                //   this.$store.getters.general,
+                //   this.$store.getters.tables[this.index]
+                // );
+              },
+            });
+          });
       },
     },
     menuTitle: {

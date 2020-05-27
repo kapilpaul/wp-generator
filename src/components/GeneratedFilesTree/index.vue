@@ -47,6 +47,11 @@ export default {
   background: #f1f1f1;
   border-radius: 3px;
 }
+.tree {
+  text-align: left;
+  max-height: 70vh;
+  overflow: scroll;
+}
 .tree-anchor {
   font-size: 13px !important;
 }
