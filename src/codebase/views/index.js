@@ -8,6 +8,8 @@ export const viewSnippet = (viewType, data, table) => {
   let settings;
   if (typeof table.settings !== "undefined" && table.settings.adminPanel) {
     settings = validateTableSetting(table.settings);
+  } else if (!table.settings.adminPanel) {
+    return;
   }
 
   switch (viewType) {

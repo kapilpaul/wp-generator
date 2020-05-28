@@ -70,11 +70,17 @@ export default {
           replace: true,
         })
         .then((response) => {
-          this.$store.dispatch("deleteTable", {
-            index: this.index,
+          //delete list table php file
+          this.$store.dispatch("addNewFileInFileTree", {
+            id: "includes_crud_admin_list_file_" + this.index,
+            replace: true,
           });
 
           this.$store.dispatch("deleteCrudViewFile", {
+            index: this.index,
+          });
+
+          this.$store.dispatch("deleteTable", {
             index: this.index,
           });
         });

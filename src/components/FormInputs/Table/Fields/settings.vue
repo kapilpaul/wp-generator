@@ -151,19 +151,22 @@ export default {
             .dispatch("addNewFileInFileTree", {
               id: "includes_crud_admin_file_" + this.index,
               replace: true,
+              setFileArchitecture: false,
             })
             .then((res) => {
               //delete list table php file
               this.$store.dispatch("addNewFileInFileTree", {
                 id: "includes_crud_admin_list_file_" + this.index,
                 replace: true,
+                setFileArchitecture: false,
               });
-            })
-            .then((res) => {
+
               this.$store.dispatch("deleteCrudViewFile", {
                 index: this.index,
               });
             });
+
+          this.$store.dispatch("setFileArchitecture", true);
 
           this.$store.dispatch("setTableData", {
             index: this.index,

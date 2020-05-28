@@ -434,7 +434,10 @@ const store = {
     },
     addNewFileInFileTree({ commit, dispatch }, payload) {
       commit("addNewFileInFileTree", payload);
-      dispatch("setFileArchitecture", true);
+
+      if (typeof payload.setFileArchitecture === "undefined") {
+        dispatch("setFileArchitecture", true);
+      }
     },
     deleteCrudViewFile({ commit, dispatch }, payload) {
       let viewType = ["new", "edit", "view", "list"];
