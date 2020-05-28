@@ -37,7 +37,8 @@ const makeCrudFromTables = (tablesData) => {
  */
 const crudSnippets = (tableName, tableFields) => {
   let defaults = ``;
-  let defaultValidation = ``;
+  let defaultFormat = ``;
+  let validation = ``;
 
   tableFields
     .filter((item) => {
@@ -46,24 +47,37 @@ const crudSnippets = (tableName, tableFields) => {
     .map((item) => {
       defaults += `'${item.name}' => '',\n        `;
 
+      if (item.showInCrudForm && item.formInputRequired) {
+        validation += `if ( empty( $args['${item.name}'] ) ) {
+        return new \\WP_Error( 'no-${item.name}', __( 'You must provide a ${item.name}.', '${textDomain}' ) );
+    }
+    
+    `;
+      }
+
       switch (item.type) {
         case "INT":
-          defaultValidation += `'%d',\n                `;
+          defaultFormat += `'%d',\n                `;
           break;
         case "FLOAT":
-          defaultValidation += `'%f',\n                `;
+          defaultFormat += `'%f',\n                `;
           break;
         case "DOUBLE":
-          defaultValidation += `'%g',\n                `;
+          defaultFormat += `'%g',\n                `;
           break;
         default:
-          defaultValidation += `'%s',\n                `;
+          defaultFormat += `'%s',\n                `;
           break;
       }
     });
 
   let code = ``;
-  code += insertOrUpdateCode(tableName, defaults, defaultValidation);
+  code += insertOrUpdateCode(
+    tableName,
+    defaults,
+    defaultFormat,
+    validation.trim()
+  );
   code += fetchData(tableName);
   code += countData(tableName);
   code += singleData(tableName);
@@ -79,7 +93,7 @@ const crudSnippets = (tableName, tableFields) => {
  * @param {*} defaults
  * @param {*} defaultValidation
  */
-const insertOrUpdateCode = (tableName, defaults, defaultValidation) => {
+const insertOrUpdateCode = (tableName, defaults, defaultFormat, validation) => {
   let code = `/**
  * Insert a new ${singularName}
  *
@@ -90,6 +104,8 @@ const insertOrUpdateCode = (tableName, defaults, defaultValidation) => {
 function ${functionPrefix}_insert_${singularName}( $args = [] ) {
     global $wpdb;
 
+    ${validation}
+    
     $defaults = [
         ${defaults.trim()}
     ];
@@ -106,7 +122,7 @@ function ${functionPrefix}_insert_${singularName}( $args = [] ) {
             $data,
             [ 'id' => $id ],
             [
-                ${defaultValidation.trim()}
+                ${defaultFormat.trim()}
             ],
             [ '%d' ]
         );
@@ -121,7 +137,7 @@ function ${functionPrefix}_insert_${singularName}( $args = [] ) {
             $wpdb->prefix . '${tableName}',
             $data,
             [
-                ${defaultValidation.trim()}
+                ${defaultFormat.trim()}
             ]
         );
 

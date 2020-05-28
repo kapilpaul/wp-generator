@@ -6,6 +6,8 @@ import { installerCode } from "./installer";
 import { wpCrudFunctions } from "./curd-php-snippet";
 import { dynamicMenuPageHandler } from "./dynamic-menu-page-handler";
 import { adminCode } from "./admin-snippet";
+import { listTableCode } from "./list-table";
+import { viewSnippet } from "./views/index";
 
 export const CodeBase = {
   mainPluginCode: (data) => {
@@ -28,5 +30,11 @@ export const CodeBase = {
   },
   adminCode: (data) => {
     return adminCode(validateFields(data));
+  },
+  listTableCode: (fileClassName, data, table) => {
+    return listTableCode(fileClassName, validateFields(data), table);
+  },
+  adminViewCode: (viewType, data, table) => {
+    return viewSnippet(viewType, validateFields(data), table);
   },
 };

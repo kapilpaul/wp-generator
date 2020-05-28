@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-2">
         <form-text-input
-          label="Table Field Name"
+          label="Table Field Key"
           v-model="name"
           :textvalue="name"
         />
@@ -27,7 +27,12 @@
       </div>
 
       <div class="col-md-2">
-        <form-text-input label="Length" v-model="length" :textvalue="length" />
+        <form-text-input
+          label="Length"
+          v-model="length"
+          :textvalue="length"
+          :disabled="type === 'TEXT' ? true : false"
+        />
       </div>
 
       <div class="col-md-1">
@@ -55,71 +60,41 @@
       </div>
 
       <div class="col-md-2">
-        <div class="form-group float-left mr-25">
-          <label>Show in CRUD Form</label>
-          <input
-            :id="`show-admin-panel-${fieldIndex}`"
-            class="switch"
-            type="checkbox"
-          />
-          <label :for="`show-admin-panel-${fieldIndex}`" class="switch"></label>
-        </div>
+        <div class="overflow-hidden">
+          <div class="row no-gutters">
+            <div class="col-md-9">
+              <div class="form-group mr-25" v-if="adminPanel">
+                <label>Show in CRUD Form</label>
+                <input
+                  :id="`show-admin-panel-${fieldIndex}`"
+                  class="switch"
+                  type="checkbox"
+                  v-model="showInCrudForm"
+                />
+                <label
+                  :for="`show-admin-panel-${fieldIndex}`"
+                  class="switch"
+                ></label>
+              </div>
+            </div>
 
-        <div class="form-group">
-          <button
-            class="button btn-danger button-s del-btn"
-            role="button"
-            @click.prevent="delField"
-          >
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="adminPanel">
-      <div class="row">
-        <div class="col-md-2">
-          <div class="form-group">
-            <label for="country">Input Type</label>
-            <div class="select-wrapper">
-              <select id="type" name="type">
-                <option value="text">Text</option>
-                <option value="number">Number</option>
-                <option value="textarea">Text Area</option>
-                <option value="dropdown">Dropdown</option>
-                <option value="checkbox">Checkbox</option>
-              </select>
+            <div class="col-md-3">
+              <div class="form-group">
+                <button
+                  class="button btn-danger button-s del-btn"
+                  role="button"
+                  @click.prevent="delField"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="col-md-3">
-          <form-text-input label="Input Label" />
-        </div>
-        <div class="col-md-2">
-          <form-text-input label="Placeholder" />
-        </div>
-        <div class="col-md-3">
-          <form-text-input
-            label="Values"
-            placeholder="key:value pair, comma separated"
-          />
-        </div>
-
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>Required</label>
-            <input
-              :id="`field-required-${fieldIndex}`"
-              class="switch"
-              type="checkbox"
-            />
-            <label :for="`field-required-${fieldIndex}`" class="switch"></label>
-          </div>
-        </div>
       </div>
     </div>
+
+    <admin-panel-form-settings :index="index" :field-index="fieldIndex" />
   </div>
 </template>
 
@@ -127,6 +102,7 @@
 import FormTextInput from "../../../Common/FormTextInput";
 import { mapGetters } from "vuex";
 import { slug } from "../../../../utils/helpers";
+import AdminPanelFormSettings from "./adminPanelFormSettings";
 export default {
   props: {
     index: {
@@ -146,6 +122,7 @@ export default {
   },
   components: {
     FormTextInput,
+    AdminPanelFormSettings,
   },
   computed: {
     ...mapGetters(["tables"]),
@@ -165,6 +142,10 @@ export default {
         return this.getData("type");
       },
       set(val) {
+        if (val === "TEXT") {
+          this.length = "";
+        }
+
         this.setData("type", val, false);
       },
     },
@@ -173,6 +154,10 @@ export default {
         return this.getData("length");
       },
       set(val) {
+        if (this.type === "TEXT") {
+          val = "";
+        }
+
         this.setData("length", val);
       },
     },
@@ -200,6 +185,14 @@ export default {
         this.setData("default", val);
       },
     },
+    showInCrudForm: {
+      get() {
+        return this.getData("showInCrudForm");
+      },
+      set(val) {
+        this.setData("showInCrudForm", val, false);
+      },
+    },
   },
   methods: {
     getData(key) {
@@ -225,18 +218,22 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .form-wpgen input[type="email"],
 .form-wpgen input[type="password"],
 .form-wpgen input[type="text"],
 .form-wpgen select,
 .form-wpgen .select-wrapper {
-  line-height: 14px;
+  line-height: 15px;
 }
-</style>
 
-<style>
+.form-wpgen .select-wrapper select {
+  cursor: pointer;
+  line-height: 15px;
+}
+
 .del-btn {
   margin-top: 30px;
+  border: 0;
 }
 </style>

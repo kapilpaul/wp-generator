@@ -1,5 +1,47 @@
 import { validateTableSetting } from "./fields";
 
+const validation = (tableFields, textDomain) => {
+  let validationCodes = ``;
+  let sanitizeFields = ``;
+
+  tableFields
+    .filter((item) => {
+      return item.name && item.type && !item.primary_key;
+    })
+    .map((item) => {
+      if (item.showInCrudForm && item.formInputRequired) {
+        validationCodes += `if ( empty( $${item.name} ) ) {
+            $this->errors['${item.name}'] = __( 'Please provide a ${item.name}', '${textDomain}' );
+        }
+
+        `;
+
+        let sanitizeType = "sanitize_text_field";
+        let defaultVal = `''`;
+
+        switch (item.formInputType) {
+          case "number":
+            sanitizeType = "intval";
+            defaultVal = 0;
+            break;
+          case "textarea":
+            sanitizeType = "sanitize_textarea_field";
+            break;
+          default:
+            sanitizeType = "sanitize_text_field";
+            break;
+        }
+
+        sanitizeFields += `$${item.name}    = isset( $_POST['${item.name}'] ) ? ${sanitizeType}( $_POST['${item.name}'] ) : ${defaultVal};\n        `;
+      }
+    });
+
+  return {
+    validate: validationCodes.trim(),
+    sanitizeFields: sanitizeFields.trim(),
+  };
+};
+
 /**
  *
  * @param {*} data
@@ -7,9 +49,11 @@ import { validateTableSetting } from "./fields";
  */
 export const dynamicMenuPageHandler = (data, table) => {
   let settings;
+  let validationCodes;
 
   if (typeof table.settings !== "undefined" && table.settings.adminPanel) {
     settings = validateTableSetting(table.settings);
+    validationCodes = validation(table.fields, data.textDomain);
   }
 
   let code = `<?php
@@ -88,17 +132,9 @@ class ${settings.crudClassName} {
         }
 
         $id      = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
-        $name    = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
-        $address = isset( $_POST['address'] ) ? sanitize_textarea_field( $_POST['address'] ) : '';
-        $phone   = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+        ${validationCodes.sanitizeFields}
 
-        if ( empty( $name ) ) {
-            $this->errors['name'] = __( 'Please provide a name', '${data.textDomain}' );
-        }
-
-        if ( empty( $phone ) ) {
-            $this->errors['phone'] = __( 'Please provide a phone number.', '${data.textDomain}' );
-        }
+        ${validationCodes.validate}
 
         if ( ! empty( $this->errors ) ) {
             return;

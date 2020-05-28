@@ -209,10 +209,11 @@ export default {
               parent_id: "includes_admin",
               replace: true,
               value: () => {
-                // return CodeBase.dynamicMenuPageHandler(
-                //   this.$store.getters.general,
-                //   this.$store.getters.tables[this.index]
-                // );
+                return CodeBase.listTableCode(
+                  val + "_List",
+                  this.$store.getters.general,
+                  this.$store.getters.tables[this.index]
+                );
               },
             });
           });
@@ -245,7 +246,7 @@ export default {
 
         this.addViewFile(val, "new");
         this.addViewFile(val, "edit");
-        this.addViewFile(val, "view");
+        // this.addViewFile(val, "view");
         this.addViewFile(val, "list");
       },
     },
@@ -354,10 +355,11 @@ export default {
         parent_id: "includes_admin_views",
         replace: true,
         value: () => {
-          // return CodeBase.dynamicMenuPageHandler(
-          //   this.$store.getters.general,
-          //   this.$store.getters.tables[this.index]
-          // );
+          return CodeBase.adminViewCode(
+            viewType,
+            this.$store.getters.general,
+            this.$store.getters.tables[this.index]
+          );
         },
       });
     },

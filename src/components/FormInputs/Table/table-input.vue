@@ -27,7 +27,7 @@
           <i class="fas fa-times"></i>
         </button>
 
-        <settings-modal :index="index" />
+        <settings-modal :index="index" v-if="name !== ''" />
       </div>
     </div>
   </div>

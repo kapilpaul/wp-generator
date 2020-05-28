@@ -343,6 +343,7 @@ const store = {
         nullable: false,
         primary_key: false,
         default: "",
+        showInCrudForm: false,
       });
     },
     setTableData(state, payload) {

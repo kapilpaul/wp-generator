@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-for="(item, i) in tableFields" :key="i" class="mb-20">
+    <div
+      v-for="(item, i) in tableFields"
+      :key="i"
+      class="pt-10 mb-10 field_area"
+    >
       <fields :index="index" :field-index="i" />
     </div>
 
@@ -42,4 +46,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.field_area {
+  border-top: 1px solid #ddd;
+}
+div.field_area:first-child {
+  padding-top: 0 !important;
+  border-top: 0px solid #ddd;
+}
+</style>
