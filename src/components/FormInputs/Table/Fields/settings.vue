@@ -16,6 +16,25 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-6">
+        <form-text-input
+          label="Singular Name"
+          placeholder="book"
+          v-model="singularName"
+          :textvalue="singularName"
+        />
+      </div>
+      <div class="col-md-6">
+        <form-text-input
+          label="Plural Name"
+          placeholder="books"
+          v-model="pluralName"
+          :textvalue="pluralName"
+        />
+      </div>
+    </div>
+
     <div class="row" v-if="adminPanel">
       <div class="col-md-3">
         <form-text-input
@@ -80,22 +99,7 @@
           :textvalue="submitName"
         />
       </div>
-      <div class="col-md-3">
-        <form-text-input
-          label="Singular Name"
-          placeholder="book"
-          v-model="singularName"
-          :textvalue="singularName"
-        />
-      </div>
-      <div class="col-md-3">
-        <form-text-input
-          label="Plural Name"
-          placeholder="books"
-          v-model="pluralName"
-          :textvalue="pluralName"
-        />
-      </div>
+
       <div class="col-md-3">
         <form-text-input
           label="No Items Text"

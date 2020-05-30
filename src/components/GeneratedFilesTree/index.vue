@@ -6,7 +6,7 @@
       v-if="$store.state.general.pluginName !== ''"
     ></v-jstree>
 
-    <code-modal />
+    <code-modal v-if="$store.state.general.pluginName !== ''" />
   </div>
 </template>
 
@@ -49,7 +49,6 @@ export default {
 }
 .tree {
   text-align: left;
-  max-height: 70vh;
   overflow: scroll;
 }
 .tree-anchor {

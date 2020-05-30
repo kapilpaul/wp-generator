@@ -1255,7 +1255,7 @@ p:last-child {
 
 @media only screen and (max-width: 767px) {
   .padding {
-    padding: 3rem 1rem;
+    padding: 5rem 1rem;
   }
 }
 
@@ -1449,6 +1449,7 @@ p:last-child {
   height: 2rem;
   line-height: 1.875rem;
   padding: 0 0.75rem;
+  margin-top: 15px;
 }
 
 .button.button-m {
@@ -1554,8 +1555,9 @@ p:last-child {
   }
 
   .button.button-s {
-    height: 2.5rem;
-    line-height: 2.375rem;
+    /* height: 2.5rem; */
+    /* line-height: 2.375rem; */
+    margin-top: 15px;
   }
 
   .button.button-m {
@@ -2006,7 +2008,7 @@ p:last-child {
   .form-wpgen input[type="text"],
   .form-wpgen select,
   .form-wpgen .select-wrapper {
-    height: 3rem;
+    height: 34px;
   }
 
   .form-wpgen .select-wrapper:before {

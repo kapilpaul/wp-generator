@@ -41,6 +41,18 @@
                   >Fields</a
                 >
               </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  :id="'pills-rest-tab-' + fieldsId"
+                  data-toggle="pill"
+                  :href="'#pills-rest-' + fieldsId"
+                  role="tab"
+                  :aria-controls="'pills-rest-' + fieldsId"
+                  aria-selected="false"
+                  >Rest API</a
+                >
+              </li>
             </ul>
 
             <button
@@ -74,6 +86,15 @@
                     >
                       <table-fields :index="index" />
                     </div>
+
+                    <div
+                      class="tab-pane fade"
+                      :id="'pills-rest-' + fieldsId"
+                      role="tabpanel"
+                      :aria-labelledby="'pills-rest-tab-' + fieldsId"
+                    >
+                      <table-rest-api :index="index" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -89,6 +110,7 @@
 import { mapGetters } from "vuex";
 import TableFields from "./Fields";
 import TableSettings from "./Fields/settings";
+import TableRestApi from "./Fields/restapi";
 export default {
   props: {
     index: {
@@ -105,6 +127,7 @@ export default {
   components: {
     TableFields,
     TableSettings,
+    TableRestApi,
   },
   mounted() {},
   computed: {

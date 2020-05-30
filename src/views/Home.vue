@@ -2,13 +2,13 @@
   <div class="home">
     <section class="center padding">
       <div class="margin-bottom max-width-m">
-        <h3>wp2gen</h3>
+        <h3>WP GENERATOR</h3>
         <p class="lead">
           Build awesome plugin starter with a structure.
         </p>
       </div>
 
-      <div class="container-fluid">
+      <div class="container-fluid p-0">
         <div class="row no-gutter">
           <div class="col-md-8">
             <div class="form-wpgen text-left">
@@ -18,7 +18,10 @@
           <div class="col-md-4">
             <generated-files-tree />
 
-            <button class="btn btn-primary mt-5" @click.prevent="ziptest">
+            <button
+              class="btn btn-primary btn-block mt-5"
+              @click.prevent="ziptest"
+            >
               Download
             </button>
           </div>

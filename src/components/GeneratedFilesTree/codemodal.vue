@@ -28,11 +28,13 @@
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-3">
-                  <v-jstree
-                    :data="$store.state.fileArchitecture"
-                    v-if="$store.state.general.pluginName !== ''"
-                    @item-click="itemClick"
-                  ></v-jstree>
+                  <div class="tree_area">
+                    <v-jstree
+                      :data="$store.state.fileArchitecture"
+                      v-if="$store.state.general.pluginName !== ''"
+                      @item-click="itemClick"
+                    ></v-jstree>
+                  </div>
                 </div>
 
                 <div class="col-md-9">
@@ -86,6 +88,9 @@ export default {
   .modal-xl {
     max-width: 1350px;
   }
+}
+.tree {
+  max-height: 70vh;
 }
 </style>
 

@@ -332,6 +332,10 @@ const store = {
       state.tables.push({
         name: "",
         settings: {},
+        restapi: {
+          enabled: false,
+          settings: [],
+        },
         fields: [],
       });
     },
@@ -380,6 +384,38 @@ const store = {
       if (typeof payload.name !== "undefined") {
         state.filesTree.push(payload);
       }
+    },
+    addNewRestApiField(state, payload) {
+      if (typeof payload.new !== "undefined") {
+        state.tables[payload.index].restapi.settings.push({
+          name: "",
+          type: "",
+          context: "view, edit",
+          format: "",
+          readonly: false,
+          required: false,
+          sanitize: false,
+        });
+      } else {
+        //insert object
+        state.tables[payload.index].restapi.settings.push(payload.value);
+      }
+    },
+    setRestApiFieldData(state, payload) {
+      if (typeof payload.reset !== "undefined" && payload.reset) {
+        Vue.set(state.tables[payload.index].restapi, "settings", payload.value);
+      } else {
+        Vue.set(
+          state.tables[payload.index].restapi.settings[payload.fieldIndex],
+          payload.key,
+          payload.value
+        );
+      }
+    },
+    deleteRestApiField(state, payload) {
+      Vue.delete(state.tables[payload.index].restapi.settings, [
+        payload.fieldIndex,
+      ]);
     },
   },
   actions: {
@@ -448,6 +484,15 @@ const store = {
           replace: true,
         });
       });
+    },
+    addNewRestApiField({ commit, dispatch }, payload) {
+      commit("addNewRestApiField", payload);
+    },
+    setRestApiFieldData({ commit, dispatch }, payload) {
+      commit("setRestApiFieldData", payload);
+    },
+    deleteRestApiField({ commit, dispatch }, payload) {
+      commit("deleteRestApiField", payload);
     },
   },
   modules: {},

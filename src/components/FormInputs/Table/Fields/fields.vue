@@ -94,7 +94,11 @@
       </div>
     </div>
 
-    <admin-panel-form-settings :index="index" :field-index="fieldIndex" />
+    <admin-panel-form-settings
+      v-if="showInCrudForm"
+      :index="index"
+      :field-index="fieldIndex"
+    />
   </div>
 </template>
 
