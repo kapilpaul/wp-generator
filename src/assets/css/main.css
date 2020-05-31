@@ -1449,6 +1449,9 @@ p:last-child {
   height: 2rem;
   line-height: 1.875rem;
   padding: 0 0.75rem;
+}
+
+.button.button-primary.button-s {
   margin-top: 15px;
 }
 

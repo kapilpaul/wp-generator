@@ -123,6 +123,7 @@ export default {
         return this.getData("propertyKey");
       },
       set(val) {
+        val = slug(val, "_");
         this.setData("propertyKey", val);
       },
     },
@@ -147,6 +148,7 @@ export default {
         return this.getData("format");
       },
       set(val) {
+        val = slug(val, "-");
         this.setData("format", val);
       },
     },

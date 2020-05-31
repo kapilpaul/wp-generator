@@ -10,7 +10,7 @@
       {{ sectionName }}
     </div>
 
-    <div class="card-body collapse" :id="divid">
+    <div class="card-body collapse show" :id="divid">
       <slot></slot>
     </div>
   </div>

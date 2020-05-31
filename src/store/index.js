@@ -94,13 +94,13 @@ const store = {
         name: "Api",
         parent_id: "root_includes",
       },
-      {
-        id: "api_file",
-        type: "php",
-        file: true,
-        name: "Example.php",
-        parent_id: "includes_api",
-      },
+      // {
+      //   id: "api_file",
+      //   type: "php",
+      //   file: true,
+      //   name: "Example.php",
+      //   parent_id: "includes_api",
+      // },
       {
         id: "includes_frontend",
         type: "frontend_dir",

@@ -16,6 +16,31 @@
 
     <div v-if="enabled">
       <div class="row">
+        <div class="col-md-4">
+          <form-text-input
+            label="Rest API Class Name"
+            placeholder="Addressbook"
+            v-model="className"
+            :textvalue="className"
+          />
+        </div>
+        <div class="col-md-4">
+          <form-text-input
+            label="Namespace"
+            placeholder="wpgenerator/v1"
+            v-model="namespace"
+            :textvalue="namespace"
+          />
+        </div>
+        <div class="col-md-4">
+          <form-text-input
+            label="Rest Base"
+            placeholder="contacts"
+            v-model="restbase"
+            :textvalue="restbase"
+          />
+        </div>
+
         <div class="col-md-6">
           <form-text-input
             label="Create Permission"
@@ -77,6 +102,7 @@ import { mapGetters } from "vuex";
 import { slug, titleCase } from "@/utils/helpers";
 import FormTextInput from "../../../Common/FormTextInput";
 import schemaFields from "./schemaFields";
+import { CodeBase } from "@/codebase/index";
 
 export default {
   props: {
@@ -109,11 +135,56 @@ export default {
         }
       },
     },
+    className: {
+      get() {
+        return this.getRestApiData("className");
+      },
+      set(val) {
+        val = titleCase(val, "_");
+        this.setRestApiData("className", val);
+
+        this.$store.dispatch("addNewFileInFileTree", {
+          id: "api_file_" + this.index,
+          type: "php",
+          file: true,
+          name: val + ".php",
+          parent_id: "includes_api",
+          replace: true,
+          value: () => {
+            return CodeBase.restapiCode(
+              this.$store.getters.general,
+              this.$store.getters.tables[this.index].restapi,
+              this.$store.getters.tables[this.index].settings,
+              this.$store.getters.tables[this.index].fields
+            );
+          },
+        });
+      },
+    },
+    namespace: {
+      get() {
+        return this.getRestApiData("namespace");
+      },
+      set(val) {
+        val = slug(val, "-");
+        this.setRestApiData("namespace", val);
+      },
+    },
+    restbase: {
+      get() {
+        return this.getRestApiData("restbase");
+      },
+      set(val) {
+        val = slug(val, "-");
+        this.setRestApiData("restbase", val);
+      },
+    },
     createPermission: {
       get() {
         return this.getRestApiData("createPermission");
       },
       set(val) {
+        val = slug(val, "_");
         this.setRestApiData("createPermission", val);
       },
     },
@@ -122,6 +193,7 @@ export default {
         return this.getRestApiData("readPermission");
       },
       set(val) {
+        val = slug(val, "_");
         this.setRestApiData("readPermission", val);
       },
     },
@@ -130,6 +202,7 @@ export default {
         return this.getRestApiData("updatePermission");
       },
       set(val) {
+        val = slug(val, "_");
         this.setRestApiData("updatePermission", val);
       },
     },
@@ -138,6 +211,7 @@ export default {
         return this.getRestApiData("deletePermission");
       },
       set(val) {
+        val = slug(val, "_");
         this.setRestApiData("deletePermission", val);
       },
     },

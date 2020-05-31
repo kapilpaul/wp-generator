@@ -1,6 +1,7 @@
 <template>
   <div class="form-group">
     <label for="name">{{ label }}</label>
+    <span class="form-help" v-if="helptext !== ''">{{ helptext }}</span>
     <input
       type="text"
       :name="name !== '' ? name : this.strRandom()"
@@ -42,6 +43,10 @@ export default {
       type: String,
       default: "form-control",
     },
+    helptext: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -56,4 +61,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.form-wpgen .form-help {
+  display: block;
+  margin-bottom: 10px;
+  margin-top: -4px;
+}
+</style>

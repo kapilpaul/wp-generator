@@ -1,4 +1,4 @@
-import { validateFields } from "./fields";
+import { validateFields, validateTableSetting } from "./fields";
 import { mainPluginCode } from "./main-plugin";
 import { assetsCode } from "./assets";
 import { composerCode } from "./composer";
@@ -8,6 +8,7 @@ import { dynamicMenuPageHandler } from "./dynamic-menu-page-handler";
 import { adminCode } from "./admin-snippet";
 import { listTableCode } from "./list-table";
 import { viewSnippet } from "./views/index";
+import { restapiSnippet } from "./restapi-snippet";
 
 export const CodeBase = {
   mainPluginCode: (data) => {
@@ -36,5 +37,13 @@ export const CodeBase = {
   },
   adminViewCode: (viewType, data, table) => {
     return viewSnippet(viewType, validateFields(data), table);
+  },
+  restapiCode: (data, restApiData, settings, tableFields) => {
+    return restapiSnippet(
+      validateFields(data),
+      restApiData,
+      validateTableSetting(settings),
+      tableFields
+    );
   },
 };

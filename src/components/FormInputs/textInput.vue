@@ -2,6 +2,8 @@
   <div :class="`col-md-${col}`">
     <div class="form-group">
       <label for="name">{{ label }}</label>
+      <span class="form-help" v-if="helptext !== ''">{{ helptext }}</span>
+
       <input
         type="text"
         v-model="inputData"
@@ -41,6 +43,10 @@ export default {
       type: String,
       default: "",
     },
+    helptext: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     inputData: {
@@ -72,4 +78,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.form-wpgen .form-help {
+  display: block;
+  margin-bottom: 10px;
+  margin-top: -4px;
+}
+</style>
