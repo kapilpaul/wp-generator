@@ -1,8 +1,8 @@
 const permissionCheck = (permissionType) => {
   let code = ``;
 
-  if (permissionType === "") {
-    code = `return true`;
+  if (typeof permissionType === "undefined" && permissionType === "") {
+    code = `return true;`;
   } else {
     code = `if ( current_user_can( '${permissionType}' ) ) {
             return true;
@@ -21,7 +21,7 @@ const permissionCheck = (permissionType) => {
 const editPermission = (permissionType, singularName) => {
   let code = ``;
 
-  if (permissionType !== "") {
+  if (typeof permissionType !== "undefined" && permissionType !== "") {
     code = `if ( ! current_user_can( '${permissionType}' ) ) {
             return false;
         }

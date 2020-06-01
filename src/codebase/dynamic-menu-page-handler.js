@@ -3,6 +3,7 @@ import { validateTableSetting } from "./fields";
 const validation = (tableFields, textDomain) => {
   let validationCodes = ``;
   let sanitizeFields = ``;
+  let args = ``;
 
   tableFields
     .filter((item) => {
@@ -32,13 +33,16 @@ const validation = (tableFields, textDomain) => {
             break;
         }
 
-        sanitizeFields += `$${item.name}    = isset( $_POST['${item.name}'] ) ? ${sanitizeType}( $_POST['${item.name}'] ) : ${defaultVal};\n        `;
+        sanitizeFields += `$${item.name} = isset( $_POST['${item.name}'] ) ? ${sanitizeType}( $_POST['${item.name}'] ) : ${defaultVal};\n        `;
+
+        args += `            '${item.name}' => $${item.name},\n`;
       }
     });
 
   return {
     validate: validationCodes.trim(),
     sanitizeFields: sanitizeFields.trim(),
+    args: args.trim(),
   };
 };
 
@@ -141,9 +145,7 @@ class ${settings.crudClassName} {
         }
 
         $args = [
-            'name'    => $name,
-            'address' => $address,
-            'phone'   => $phone
+            ${validationCodes.args}
         ];
 
         if ( $id ) {
@@ -166,6 +168,11 @@ class ${settings.crudClassName} {
         exit;
     }
 
+    /**
+     * Handle delete action
+     * 
+     * @return void
+     */
     public function delete_${settings.singularName}() {
         if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], '${data.actionPrefix}-delete-${settings.singularName}' ) ) {
             wp_die( 'Are you cheating?' );

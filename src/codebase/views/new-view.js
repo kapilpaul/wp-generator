@@ -64,9 +64,10 @@ const getInputCodeByType = (
       }" id="${
         item.name
       }" class="regular-text" placeholder="<?php echo esc_attr( '${
-        item.formInputPlaceholder
-      }', '${textDomain}' ); ?>" value="${value}"
-            ${item.formInputRequired ? 'required="required"' : ""} />\n`;
+        item.formInputPlaceholder ? item.formInputPlaceholder : ""
+      }', '${textDomain}' ); ?>" value="${value}" ${
+        item.formInputRequired ? 'required="required"' : ""
+      } />\n`;
 
       break;
 
@@ -74,7 +75,7 @@ const getInputCodeByType = (
       inputCode = `<textarea name="${item.name}" id="${
         item.name
       }" placeholder="<?php echo esc_attr( '${
-        item.formInputPlaceholder
+        item.formInputPlaceholder ? item.formInputPlaceholder : ""
       }', '${textDomain}' ); ?>" rows="5" cols="30" ${
         item.formInputRequired ? 'required="required"' : ""
       }>${value}</textarea>`;
