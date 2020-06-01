@@ -66,13 +66,13 @@
               <div class="form-group mr-25" v-if="adminPanel">
                 <label>Show in CRUD Form</label>
                 <input
-                  :id="`show-admin-panel-${fieldIndex}`"
+                  :id="`show-admin-panel${index}-${fieldIndex}`"
                   class="switch"
                   type="checkbox"
                   v-model="showInCrudForm"
                 />
                 <label
-                  :for="`show-admin-panel-${fieldIndex}`"
+                  :for="`show-admin-panel${index}-${fieldIndex}`"
                   class="switch"
                 ></label>
               </div>

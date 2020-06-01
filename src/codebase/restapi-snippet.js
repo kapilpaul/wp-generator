@@ -61,7 +61,12 @@ const prepare_item_for_database = (tableFields) => {
   return prepareFields;
 };
 
-const prepare_item_for_response = (schemaFields) => {
+/**
+ * prepare item for response
+ * @param {*} schemaFields
+ */
+const prepare_item_schema_and_response = (schemaFields) => {
+  let item_schema = ``;
   let prepare_response = ``;
 
   schemaFields
@@ -75,9 +80,59 @@ const prepare_item_for_response = (schemaFields) => {
         if ( in_array( '${item.propertyKey}', $fields, true ) ) {
             $data['${item.propertyKey}'] = ${type}$item->${item.propertyKey};
         }\n`;
+
+      item_schema += singleItemSchema(item);
     });
 
-  return prepare_response;
+  return { response: prepare_response, schema: item_schema.trim() };
+};
+
+/**
+ * single item schema generate
+ * @param {*} item
+ */
+const singleItemSchema = (item) => {
+  let item_schema = ``;
+  let readonly = ``;
+  let required = ``;
+  let sanitize = ``;
+  let format = ``;
+  let indent = `                    `;
+
+  let context =
+    " " +
+    `'${item.context
+      .split(",")
+      .map((i) => i.trim())
+      .join("', '")}'` +
+    " ";
+
+  if (item.readonly) {
+    readonly = `${indent}'readonly'    => true,\n`;
+  }
+
+  if (item.required) {
+    required = `${indent}'required'    => true,\n`;
+  }
+
+  if (item.sanitize) {
+    sanitize = `${indent}'arg_options' => [
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ],`;
+  }
+
+  if (item.format !== "") {
+    format = `${indent}'format'     => '${item.format}'\n`;
+  }
+
+  item_schema = `                '${item.propertyKey}' => [
+                    'description' => __( '${item.description}' ),
+                    'type'        => '${item.type}',
+                    'context'     => [ ${context} ],
+${format}${readonly}${required}${sanitize}
+                ],\n`;
+
+  return item_schema;
 };
 
 /**
@@ -112,6 +167,8 @@ export const restapiSnippet = (data, restApiData, settings, tableFields) => {
     restApiData.readPermission === restApiData.deletePermission
       ? `return $this->get_item_permissions_check( $request );`
       : permissionCheck(restApiData.deletePermission);
+
+  let prepareItems = prepare_item_schema_and_response(restApiData.settings);
 
   let code = `<?php
 
@@ -483,7 +540,7 @@ class ${restApiData.className} extends WP_REST_Controller {
     public function prepare_item_for_response( $item, $request ) {
         $data   = [];
         $fields = $this->get_fields_for_response( $request );
-        ${prepare_item_for_response(restApiData.settings)}
+        ${prepareItems.response}
         $context = ! empty( $request['context'] ) ? $request['context'] : 'view';
         $data    = $this->filter_response_by_context( $data, $context );
 
@@ -527,48 +584,10 @@ class ${restApiData.className} extends WP_REST_Controller {
 
         $schema = [
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'contact',
+            'title'      => '${settings.singularName}',
             'type'       => 'object',
             'properties' => [
-                'id' => [
-                    'description' => __( 'Unique identifier for the object.' ),
-                    'type'        => 'integer',
-                    'context'     => [ 'view', 'edit' ],
-                    'readonly'    => true,
-                ],
-                'name' => [
-                    'description' => __( 'Name of the contact.' ),
-                    'type'        => 'string',
-                    'context'     => [ 'view', 'edit' ],
-                    'required'    => true,
-                    'arg_options' => [
-                        'sanitize_callback' => 'sanitize_text_field',
-                    ],
-                ],
-                'address' => [
-                    'description' => __( 'Address of the contact.' ),
-                    'type'        => 'string',
-                    'context'     => [ 'view', 'edit' ],
-                    'arg_options' => [
-                        'sanitize_callback' => 'sanitize_textarea_field',
-                    ],
-                ],
-                'phone' => [
-                    'description' => __( 'Phone number of the contact.' ),
-                    'type'        => 'string',
-                    'required'    => true,
-                    'context'     => [ 'view', 'edit' ],
-                    'arg_options' => [
-                        'sanitize_callback' => 'sanitize_text_field',
-                    ],
-                ],
-                'date' => [
-                    'description' => __( "The date the object was published, in the site's timezone." ),
-                    'type'        => 'string',
-                    'format'      => 'date-time',
-                    'context'     => [ 'view' ],
-                    'readonly'    => true,
-                ],
+                ${prepareItems.schema}
             ]
         ];
 

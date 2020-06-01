@@ -87,3 +87,18 @@ export const validateTableSetting = (data) => {
 
   return settingData;
 };
+
+/**
+ * validate table settings
+ * @param {*} data
+ */
+export const validateRestApiSetting = (data) => {
+  let settingData = {
+    ...data,
+    className: validField(data.className) ? data.className : "Example",
+    namespace: validField(data.namespace) ? data.namespace : "wpgenerator/v1",
+    restbase: validField(data.restbase) ? data.restbase : "items",
+  };
+
+  return settingData;
+};

@@ -45,12 +45,15 @@
           <div class="form-group">
             <label>Required</label>
             <input
-              :id="`field-required-${fieldIndex}`"
+              :id="`field-required${index}-${fieldIndex}`"
               class="switch"
               type="checkbox"
               v-model="formInputRequired"
             />
-            <label :for="`field-required-${fieldIndex}`" class="switch"></label>
+            <label
+              :for="`field-required${index}-${fieldIndex}`"
+              class="switch"
+            ></label>
           </div>
         </div>
       </div>
@@ -60,13 +63,13 @@
           <div class="form-group">
             <label>Show In List Table</label>
             <input
-              :id="`show-field-list-table-${fieldIndex}`"
+              :id="`show-field-list-table${index}-${fieldIndex}`"
               class="switch"
               type="checkbox"
               v-model="showInListTable"
             />
             <label
-              :for="`show-field-list-table-${fieldIndex}`"
+              :for="`show-field-list-table${index}-${fieldIndex}`"
               class="switch"
             ></label>
           </div>
@@ -86,13 +89,13 @@
               <div class="form-group">
                 <label>Sortable Column</label>
                 <input
-                  :id="`sortable-field-list-table-${fieldIndex}`"
+                  :id="`sortable-field-list-table${index}-${fieldIndex}`"
                   class="switch"
                   type="checkbox"
                   v-model="sortableInListTable"
                 />
                 <label
-                  :for="`sortable-field-list-table-${fieldIndex}`"
+                  :for="`sortable-field-list-table${index}-${fieldIndex}`"
                   class="switch"
                 ></label>
               </div>
@@ -102,13 +105,13 @@
               <div class="form-group">
                 <label>Link Actions</label>
                 <input
-                  :id="`link-field-list-table-${fieldIndex}`"
+                  :id="`link-field-list-table${index}-${fieldIndex}`"
                   class="switch"
                   type="checkbox"
                   v-model="linkActionInListTable"
                 />
                 <label
-                  :for="`link-field-list-table-${fieldIndex}`"
+                  :for="`link-field-list-table${index}-${fieldIndex}`"
                   class="switch"
                 ></label>
               </div>

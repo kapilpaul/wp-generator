@@ -86,12 +86,15 @@ const store = {
         file: true,
         name: "Menu.php",
         parent_id: "includes_admin",
+        value: () => {
+          return CodeBase.menuCode(store.state.general, store.state.tables);
+        },
       },
       {
         id: "includes_api",
         type: "api_dir",
         directory: true,
-        name: "Api",
+        name: "API",
         parent_id: "root_includes",
       },
       // {
@@ -114,6 +117,26 @@ const store = {
         file: true,
         name: "Shortcode.php",
         parent_id: "includes_frontend",
+        value: () => {
+          return CodeBase.frontendShortcode(store.state.general);
+        },
+      },
+      {
+        id: "includes_traits",
+        type: "traits_dir",
+        directory: true,
+        name: "Traits",
+        parent_id: "root_includes",
+      },
+      {
+        id: "traits_file",
+        type: "php",
+        file: true,
+        name: "Form_Error.php",
+        parent_id: "includes_traits",
+        value: () => {
+          return CodeBase.formErrorCode(store.state.general);
+        },
       },
       {
         id: "includes_file",
@@ -131,6 +154,9 @@ const store = {
         file: true,
         name: "Api.php",
         parent_id: "root_includes",
+        value: () => {
+          return CodeBase.apiCode(store.state.general, store.state.tables);
+        },
       },
       {
         id: "includes_file",
@@ -148,6 +174,9 @@ const store = {
         file: true,
         name: "Frontend.php",
         parent_id: "root_includes",
+        value: () => {
+          return CodeBase.frontendCode(store.state.general);
+        },
       },
       {
         id: "includes_file",

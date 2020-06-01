@@ -1,4 +1,8 @@
-import { validateFields, validateTableSetting } from "./fields";
+import {
+  validateFields,
+  validateTableSetting,
+  validateRestApiSetting,
+} from "./fields";
 import { mainPluginCode } from "./main-plugin";
 import { assetsCode } from "./assets";
 import { composerCode } from "./composer";
@@ -9,6 +13,11 @@ import { adminCode } from "./admin-snippet";
 import { listTableCode } from "./list-table";
 import { viewSnippet } from "./views/index";
 import { restapiSnippet } from "./restapi-snippet";
+import { apiSnippetCode } from "./api-snippet";
+import { shortcodeSnippet } from "./shortcode-snippet";
+import { frontendSnippet } from "./frontend-snippet";
+import { menuSnippet } from "./menu-snippet";
+import { formErrorSnippet } from "./form-error";
 
 export const CodeBase = {
   mainPluginCode: (data) => {
@@ -41,9 +50,24 @@ export const CodeBase = {
   restapiCode: (data, restApiData, settings, tableFields) => {
     return restapiSnippet(
       validateFields(data),
-      restApiData,
+      validateRestApiSetting(restApiData),
       validateTableSetting(settings),
       tableFields
     );
+  },
+  apiCode: (data, tables) => {
+    return apiSnippetCode(validateFields(data), tables);
+  },
+  frontendShortcode: (data) => {
+    return shortcodeSnippet(validateFields(data));
+  },
+  frontendCode: (data) => {
+    return frontendSnippet(validateFields(data));
+  },
+  menuCode: (data, tables) => {
+    return menuSnippet(validateFields(data), tables);
+  },
+  formErrorCode: (data) => {
+    return formErrorSnippet(validateFields(data));
   },
 };

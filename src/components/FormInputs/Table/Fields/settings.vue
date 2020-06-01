@@ -44,22 +44,7 @@
           :textvalue="crudClassName"
         />
       </div>
-      <div class="col-md-3">
-        <form-text-input
-          label="Menu Title"
-          placeholder="Address Book"
-          v-model="menuTitle"
-          :textvalue="menuTitle"
-        />
-      </div>
-      <div class="col-md-3">
-        <form-text-input
-          label="Capability"
-          placeholder="manage_options"
-          v-model="capability"
-          :textvalue="capability"
-        />
-      </div>
+
       <div class="col-md-3">
         <form-text-input
           label="File Name Prefix"
@@ -114,6 +99,36 @@
           placeholder="20"
           v-model="perPage"
           :textvalue="perPage"
+        />
+      </div>
+    </div>
+
+    <div class="row" v-if="adminPanel">
+      <div class="col-md-12">
+        <p class="pt-20 pb-10"><b>Menu Setup</b></p>
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Menu Title"
+          placeholder="Address Book"
+          v-model="menuTitle"
+          :textvalue="menuTitle"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Page Title"
+          placeholder="Contact List"
+          v-model="pageTitle"
+          :textvalue="pageTitle"
+        />
+      </div>
+      <div class="col-md-3">
+        <form-text-input
+          label="Capability"
+          placeholder="manage_options"
+          v-model="capability"
+          :textvalue="capability"
         />
       </div>
       <div class="col-md-3">
@@ -232,6 +247,14 @@ export default {
       },
       set(val) {
         this.setSettingsData("menuTitle", val);
+      },
+    },
+    pageTitle: {
+      get() {
+        return this.getSettingsData("pageTitle");
+      },
+      set(val) {
+        this.setSettingsData("pageTitle", val);
       },
     },
     capability: {

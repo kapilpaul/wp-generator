@@ -41,13 +41,13 @@
         <div class="form-group mr-25">
           <label>Readonly</label>
           <input
-            :id="`rest-api-readonly-${fieldIndex}`"
+            :id="`rest-api-readonly${index}-${fieldIndex}`"
             class="switch"
             type="checkbox"
             v-model="readonly"
           />
           <label
-            :for="`rest-api-readonly-${fieldIndex}`"
+            :for="`rest-api-readonly${index}-${fieldIndex}`"
             class="switch"
           ></label>
         </div>
@@ -57,13 +57,13 @@
         <div class="form-group mr-25">
           <label>Required</label>
           <input
-            :id="`rest-api-required-${fieldIndex}`"
+            :id="`rest-api-required${index}-${fieldIndex}`"
             class="switch"
             type="checkbox"
             v-model="required"
           />
           <label
-            :for="`rest-api-required-${fieldIndex}`"
+            :for="`rest-api-required${index}-${fieldIndex}`"
             class="switch"
           ></label>
         </div>
@@ -73,13 +73,13 @@
         <div class="form-group mr-25">
           <label>Sanitize</label>
           <input
-            :id="`rest-api-sanitize-${fieldIndex}`"
+            :id="`rest-api-sanitize${index}-${fieldIndex}`"
             class="switch"
             type="checkbox"
             v-model="sanitize"
           />
           <label
-            :for="`rest-api-sanitize-${fieldIndex}`"
+            :for="`rest-api-sanitize${index}-${fieldIndex}`"
             class="switch"
           ></label>
         </div>
@@ -132,7 +132,7 @@ export default {
         return this.getData("description");
       },
       set(val) {
-        this.setData("description", val);
+        this.setData("description", val, false);
       },
     },
     context: {
@@ -157,7 +157,7 @@ export default {
         return this.getData("readonly");
       },
       set(val) {
-        this.setData("readonly", val);
+        this.setData("readonly", val, false);
       },
     },
     required: {
@@ -165,7 +165,7 @@ export default {
         return this.getData("required");
       },
       set(val) {
-        this.setData("required", val);
+        this.setData("required", val, false);
       },
     },
     sanitize: {
@@ -173,7 +173,7 @@ export default {
         return this.getData("sanitize");
       },
       set(val) {
-        this.setData("sanitize", val);
+        this.setData("sanitize", val, false);
       },
     },
   },
