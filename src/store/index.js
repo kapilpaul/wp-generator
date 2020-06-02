@@ -145,7 +145,7 @@ const store = {
         name: "Admin.php",
         parent_id: "root_includes",
         value: () => {
-          return CodeBase.adminCode(store.state.general);
+          return CodeBase.adminCode(store.state.general, store.state.tables);
         },
       },
       {

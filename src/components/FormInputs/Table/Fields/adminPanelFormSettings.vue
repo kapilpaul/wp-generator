@@ -152,6 +152,7 @@ export default {
     formInputType: {
       get() {
         if (typeof this.getData("formInputType") === "undefined") {
+          this.setData("formInputType", "text");
           return "text";
         }
 

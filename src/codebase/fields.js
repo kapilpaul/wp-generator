@@ -12,7 +12,7 @@ export const validateFields = (data) => {
       data.pluginURI !== "" ? data.pluginURI : "https://wp-generator.com",
     description:
       data.description !== ""
-        ? data.pluginURI
+        ? data.description
         : "Build awesome plugin starter with a structure.",
     version: data.version !== "" ? data.version : "0.1.0",
     author: data.author !== "" ? data.author : "Kapil Paul",

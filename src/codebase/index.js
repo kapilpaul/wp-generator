@@ -38,8 +38,8 @@ export const CodeBase = {
   dynamicMenuPageHandler: (data, table) => {
     return dynamicMenuPageHandler(validateFields(data), table);
   },
-  adminCode: (data) => {
-    return adminCode(validateFields(data));
+  adminCode: (data, tables) => {
+    return adminCode(validateFields(data), tables);
   },
   listTableCode: (fileClassName, data, table) => {
     return listTableCode(fileClassName, validateFields(data), table);

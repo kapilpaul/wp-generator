@@ -77,14 +77,6 @@ class ${settings.crudClassName} {
     use Form_Error;
 
     /**
-     * Initialize the class
-     */
-    public function __construct() {
-        add_action( 'admin_init', [ $this, 'form_handler' ] );
-        add_action( 'admin_post_${data.actionPrefix}-delete-${settings.singularName}', [ $this, 'delete_${settings.singularName}' ] );
-    }
-
-    /**
      * Plugin page handler
      *
      * @return void
