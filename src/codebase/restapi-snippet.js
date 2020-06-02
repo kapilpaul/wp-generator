@@ -1,7 +1,13 @@
 const permissionCheck = (permissionType) => {
   let code = ``;
 
-  if (typeof permissionType === "undefined" && permissionType === "") {
+  console.log(permissionType);
+
+  if (
+    typeof permissionType === "undefined" ||
+    permissionType === "undefined" ||
+    permissionType === ""
+  ) {
     code = `return true;`;
   } else {
     code = `if ( current_user_can( '${permissionType}' ) ) {

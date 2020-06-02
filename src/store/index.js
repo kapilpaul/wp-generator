@@ -291,13 +291,14 @@ const store = {
   },
   mutations: {
     setPluginName(state, payload) {
-      state.fileArchitecture[0].text = payload;
-      state.filesTree[0].name = payload;
+      let name = slug(payload);
+      state.fileArchitecture[0].text = name;
+      state.filesTree[0].name = name;
       state.general.pluginName = payload;
 
       state.filesTree.map((item) => {
         if (item.type === "main-plugin-php-file") {
-          item.name = `${payload}.php`;
+          item.name = `${name}.php`;
         }
       });
     },
@@ -449,7 +450,7 @@ const store = {
   },
   actions: {
     setPluginName({ commit, dispatch }, payload) {
-      commit("setPluginName", slug(payload));
+      commit("setPluginName", payload);
       dispatch("setFileArchitecture", true);
     },
     setGeneralData({ commit, dispatch }, payload) {

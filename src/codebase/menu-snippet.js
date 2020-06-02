@@ -15,7 +15,7 @@ const makeMenuData = (tables, textDomain) => {
       let settings = item.settings;
       let method_name = settings.pageSlug.replace(/-/g, "_") + "_page";
 
-      menu_data += `${indent}add_submenu_page( $parent_slug, __( '${settings.pageTitle}', '${textDomain}' ), __( '${settings.menuTitle}', '${textDomain}' ), $${settings.capability}, '${settings.pageSlug}', [ $this, '${method_name}' ] );\n`;
+      menu_data += `${indent}add_submenu_page( $parent_slug, __( '${settings.pageTitle}', '${textDomain}' ), __( '${settings.menuTitle}', '${textDomain}' ), '${settings.capability}', '${settings.pageSlug}', [ $this, '${method_name}' ] );\n`;
 
       plugin_page_methods += `    /**
      * Handles the ${settings.menuTitle} page
