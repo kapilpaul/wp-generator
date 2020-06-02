@@ -18,9 +18,13 @@
     </main>
 
     <footer class="footer-main bg-light">
-      <p class="copyright pt-50">
-        <span>Made with ❤️ by </span
-        ><a href="https://kapilpaul.me/" target="_blank">Kapil Paul</a>
+      <p class="copyright copyright1 pt-50 mb-2">
+        <span>Plugin structures by </span>
+        <a href="https://tareq.co/" target="_blank">Tareq Hasan</a>
+      </p>
+      <p class="copyright">
+        <span>Made with ❤️ by </span>
+        <a href="https://kapilpaul.me/" target="_blank">Kapil Paul</a>
       </p>
     </footer>
   </div>
@@ -30,4 +34,8 @@
 export default {};
 </script>
 
-<style></style>
+<style scoped>
+.footer-main .copyright1 {
+  padding: 0;
+}
+</style>
