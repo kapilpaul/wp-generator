@@ -27,17 +27,7 @@
           <div class="modal-body text-left">
             <div class="container-fluid">
               <div class="row">
-                <div class="col-md-3">
-                  <div class="tree_area">
-                    <v-jstree
-                      :data="$store.state.fileArchitecture"
-                      v-if="$store.state.general.pluginName !== ''"
-                      @item-click="itemClick"
-                    ></v-jstree>
-                  </div>
-                </div>
-
-                <div class="col-md-9">
+                <div class="col-md-12">
                   <button
                     class="btn btn-outline-primary float-right mb-2 btn-sm"
                   >
@@ -57,11 +47,9 @@
 
 <script>
 import "../prism";
-import VJstree from "vue-jstree";
 import CodeHighlight from "vue-code-highlight/src/CodeHighlight";
 export default {
   components: {
-    VJstree,
     CodeHighlight,
   },
   mounted() {},
@@ -70,15 +58,7 @@ export default {
       return this.$store.getters.activeFileCodes;
     },
   },
-  methods: {
-    itemClick(node) {
-      if (typeof node.model.file !== "undefined" && node.model.file) {
-        if (typeof node.model.value !== "undefined" && node.model.value) {
-          this.$store.dispatch("setActiveFileCodes", node.model.value);
-        }
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 

@@ -1,8 +1,6 @@
 const permissionCheck = (permissionType) => {
   let code = ``;
 
-  console.log(permissionType);
-
   if (
     typeof permissionType === "undefined" ||
     permissionType === "undefined" ||
@@ -50,17 +48,17 @@ const editPermission = (permissionType, singularName) => {
  * prepare item for database snippet
  * @param {*} tableFields
  */
-const prepare_item_for_database = (tableFields) => {
+const prepare_item_for_database = (schemaFields) => {
   let prepareFields = ``;
 
-  tableFields
+  schemaFields
     .filter((item) => {
-      return item.name && item.type && !item.primary_key;
+      return item.propertyKey && item.type && !item.readonly;
     })
     .map((item) => {
       prepareFields += `
-        if (isset($request["${item.name}"])) {
-            $prepared["${item.name}"] = $request["${item.name}"];
+        if (isset($request["${item.propertyKey}"])) {
+            $prepared["${item.propertyKey}"] = $request["${item.propertyKey}"];
         }\n`;
     });
 
@@ -147,7 +145,7 @@ ${format}${readonly}${required}${sanitize}
  * @param {*} restApiData
  * @param {*} settings
  */
-export const restapiSnippet = (data, restApiData, settings, tableFields) => {
+export const restapiSnippet = (data, restApiData, settings, singleRestApi) => {
   let createPermissionCheck;
   let updatePermissionCheck;
   let deletePermissionCheck;
@@ -174,11 +172,14 @@ export const restapiSnippet = (data, restApiData, settings, tableFields) => {
       ? `return $this->get_item_permissions_check( $request );`
       : permissionCheck(restApiData.deletePermission);
 
-  let prepareItems = prepare_item_schema_and_response(restApiData.settings);
+  let prepareItems = prepare_item_schema_and_response(restApiData.schemaFields);
+  let namespace = singleRestApi
+    ? data.baseNamespace
+    : `${data.baseNamespace}\\API`;
 
   let code = `<?php
 
-namespace ${data.baseNamespace}\\API;
+namespace ${namespace};
 
 use WP_REST_Controller;
 use WP_REST_Server;
@@ -531,7 +532,7 @@ class ${restApiData.className} extends WP_REST_Controller {
      */
     protected function prepare_item_for_database( $request ) {
         $prepared = [];
-        ${prepare_item_for_database(tableFields)}
+        ${prepare_item_for_database(restApiData.schemaFields)}
         return $prepared;
     }
 

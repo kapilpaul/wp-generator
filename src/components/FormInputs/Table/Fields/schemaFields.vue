@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-2">
         <form-text-input
           label="Property Key"
           placeholder="id"
@@ -10,7 +10,16 @@
         />
       </div>
 
-      <div class="col-md-2">
+      <div class="col">
+        <form-text-input
+          label="Type"
+          placeholder="string"
+          v-model="type"
+          :textvalue="type"
+        />
+      </div>
+
+      <div class="col-2">
         <form-text-input
           label="Description"
           placeholder="Name of the contact"
@@ -19,7 +28,7 @@
         />
       </div>
 
-      <div class="col-md-2">
+      <div class="col">
         <form-text-input
           label="Context"
           placeholder="view, edit"
@@ -28,7 +37,7 @@
         />
       </div>
 
-      <div class="col-md-2">
+      <div class="col">
         <form-text-input
           label="Format (Optional)"
           placeholder="date-time"
@@ -37,7 +46,7 @@
         />
       </div>
 
-      <div class="col-md-1">
+      <div class="col-1">
         <div class="form-group mr-25">
           <label>Readonly</label>
           <input
@@ -53,7 +62,7 @@
         </div>
       </div>
 
-      <div class="col-md-1">
+      <div class="col-1">
         <div class="form-group mr-25">
           <label>Required</label>
           <input
@@ -69,7 +78,7 @@
         </div>
       </div>
 
-      <div class="col-md-1">
+      <div class="col-1">
         <div class="form-group mr-25">
           <label>Sanitize</label>
           <input
@@ -85,7 +94,7 @@
         </div>
       </div>
 
-      <div class="col-md-1">
+      <div class="col-1">
         <div class="form-group">
           <button
             class="button btn-danger button-s del-btn"
@@ -115,9 +124,13 @@ export default {
       type: Number,
       default: 0,
     },
+    apiType: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
-    ...mapGetters(["tables"]),
+    ...mapGetters(["tables", "singleRestapi"]),
     propertyKey: {
       get() {
         return this.getData("propertyKey");
@@ -125,6 +138,15 @@ export default {
       set(val) {
         val = slug(val, "_");
         this.setData("propertyKey", val);
+      },
+    },
+    type: {
+      get() {
+        return this.getData("type");
+      },
+      set(val) {
+        val = slug(val, "_");
+        this.setData("type", val);
       },
     },
     description: {
@@ -182,23 +204,41 @@ export default {
   },
   methods: {
     getData(key) {
-      return this.tables[this.index].restapi.settings[this.fieldIndex][key];
+      if (this.apiType === "single") {
+        return this.singleRestapi.schemaFields[this.index][key];
+      }
+
+      return this.tables[this.index].restapi.schemaFields[this.fieldIndex][key];
     },
     setData(key, value, slugCase = true) {
       value = slugCase ? slug(value, "_") : value;
 
-      this.$store.dispatch("setRestApiFieldData", {
-        index: this.index,
-        fieldIndex: this.fieldIndex,
-        key: key,
-        value: value,
-      });
+      if (this.apiType === "single") {
+        this.$store.dispatch("setSingleRestApiFieldData", {
+          index: this.index,
+          key: key,
+          value: value,
+        });
+      } else {
+        this.$store.dispatch("setRestApiFieldData", {
+          index: this.index,
+          fieldIndex: this.fieldIndex,
+          key: key,
+          value: value,
+        });
+      }
     },
     delField() {
-      this.$store.dispatch("deleteRestApiField", {
-        index: this.index,
-        fieldIndex: this.fieldIndex,
-      });
+      if (this.apiType === "single") {
+        this.$store.dispatch("deleteSingleRestApiField", {
+          index: this.index,
+        });
+      } else {
+        this.$store.dispatch("deleteRestApiField", {
+          index: this.index,
+          fieldIndex: this.fieldIndex,
+        });
+      }
     },
   },
 };

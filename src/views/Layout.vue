@@ -9,6 +9,7 @@
 
         <ul class="inline">
           <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/restapi">Rest API</router-link></li>
         </ul>
       </nav>
     </header>

@@ -154,8 +154,7 @@ export default {
             return CodeBase.restapiCode(
               this.$store.getters.general,
               this.$store.getters.tables[this.index].restapi,
-              this.$store.getters.tables[this.index].settings,
-              this.$store.getters.tables[this.index].fields
+              this.$store.getters.tables[this.index].settings
             );
           },
         });
@@ -216,7 +215,7 @@ export default {
       },
     },
     schemaFields() {
-      return this.getRestApiData("settings");
+      return this.getRestApiData("schemaFields");
     },
   },
   methods: {

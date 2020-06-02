@@ -47,12 +47,14 @@ export const CodeBase = {
   adminViewCode: (viewType, data, table) => {
     return viewSnippet(viewType, validateFields(data), table);
   },
-  restapiCode: (data, restApiData, settings, tableFields) => {
+  restapiCode: (data, restApiData, settings, singleRestApi = false) => {
+    settings = singleRestApi ? settings : validateTableSetting(settings);
+
     return restapiSnippet(
       validateFields(data),
       validateRestApiSetting(restApiData),
-      validateTableSetting(settings),
-      tableFields
+      settings,
+      singleRestApi
     );
   },
   apiCode: (data, tables) => {

@@ -279,6 +279,17 @@ const store = {
     },
     activeFileCodes: "",
     tables: [],
+    singleRestapi: {
+      enabled: true,
+      className: "",
+      namespace: "",
+      restbase: "",
+      createPermission: "",
+      readPermission: "",
+      updatePermission: "",
+      deletePermission: "",
+      schemaFields: [],
+    },
   },
   getters: {
     filesTree: (state) => state.filesTree,
@@ -288,6 +299,7 @@ const store = {
     activeFileCodes: (state) => state.activeFileCodes,
     assets: (state) => state.assets,
     tables: (state) => state.tables,
+    singleRestapi: (state) => state.singleRestapi,
   },
   mutations: {
     setPluginName(state, payload) {
@@ -364,7 +376,7 @@ const store = {
         settings: {},
         restapi: {
           enabled: false,
-          settings: [],
+          schemaFields: [],
         },
         fields: [],
       });
@@ -417,8 +429,8 @@ const store = {
     },
     addNewRestApiField(state, payload) {
       if (typeof payload.new !== "undefined") {
-        state.tables[payload.index].restapi.settings.push({
-          name: "",
+        state.tables[payload.index].restapi.schemaFields.push({
+          propertyKey: "",
           type: "",
           context: "view, edit",
           format: "",
@@ -428,24 +440,54 @@ const store = {
         });
       } else {
         //insert object
-        state.tables[payload.index].restapi.settings.push(payload.value);
+        state.tables[payload.index].restapi.schemaFields.push(payload.value);
       }
     },
     setRestApiFieldData(state, payload) {
       if (typeof payload.reset !== "undefined" && payload.reset) {
-        Vue.set(state.tables[payload.index].restapi, "settings", payload.value);
+        Vue.set(
+          state.tables[payload.index].restapi,
+          "schemaFields",
+          payload.value
+        );
       } else {
         Vue.set(
-          state.tables[payload.index].restapi.settings[payload.fieldIndex],
+          state.tables[payload.index].restapi.schemaFields[payload.fieldIndex],
           payload.key,
           payload.value
         );
       }
     },
     deleteRestApiField(state, payload) {
-      Vue.delete(state.tables[payload.index].restapi.settings, [
-        payload.fieldIndex,
-      ]);
+      Vue.delete(
+        state.tables[payload.index].restapi.schemaFields,
+        payload.fieldIndex
+      );
+    },
+    setSingleRestApiData(state, payload) {
+      Vue.set(state.singleRestapi, payload.key, payload.value);
+    },
+    addSingleRestApiSchemaField(state, payload) {
+      state.singleRestapi.schemaFields.push({
+        propertyKey: "",
+        type: "",
+        context: "view, edit",
+        format: "",
+        readonly: false,
+        required: false,
+        sanitize: false,
+        description: "",
+      });
+    },
+    setSingleRestApiFieldData(state, payload) {
+      Vue.set(
+        state.singleRestapi.schemaFields[payload.index],
+        payload.key,
+        payload.value
+      );
+    },
+    deleteSingleRestApiField(state, payload) {
+      Vue.delete(state.singleRestapi.schemaFields, payload.index);
     },
   },
   actions: {
@@ -523,6 +565,18 @@ const store = {
     },
     deleteRestApiField({ commit, dispatch }, payload) {
       commit("deleteRestApiField", payload);
+    },
+    setSingleRestApiData({ commit }, payload) {
+      commit("setSingleRestApiData", payload);
+    },
+    addSingleRestApiSchemaField({ commit }, payload) {
+      commit("addSingleRestApiSchemaField", payload);
+    },
+    setSingleRestApiFieldData({ commit }, payload) {
+      commit("setSingleRestApiFieldData", payload);
+    },
+    deleteSingleRestApiField({ commit }, payload) {
+      commit("deleteSingleRestApiField", payload);
     },
   },
   modules: {},

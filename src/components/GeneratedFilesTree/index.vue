@@ -33,7 +33,7 @@ export default {
           if (typeof node.model.value !== "undefined" && node.model.value) {
             this.$store.dispatch("setActiveFileCodes", node.model.value);
           }
-          $("#exampleModal").modal("show");
+          $("#codeModal").modal("show");
         }
       });
     },
