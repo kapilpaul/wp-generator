@@ -83,6 +83,10 @@ export default {
           this.$store.dispatch("deleteTable", {
             index: this.index,
           });
+
+          this.$store.dispatch("deleteRestApi", {
+            index: this.index,
+          });
         });
     },
   },

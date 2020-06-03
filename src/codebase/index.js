@@ -57,8 +57,8 @@ export const CodeBase = {
       singleRestApi
     );
   },
-  apiCode: (data, tables) => {
-    return apiSnippetCode(validateFields(data), tables);
+  apiCode: (data, restapis) => {
+    return apiSnippetCode(validateFields(data), restapis);
   },
   frontendShortcode: (data) => {
     return shortcodeSnippet(validateFields(data));

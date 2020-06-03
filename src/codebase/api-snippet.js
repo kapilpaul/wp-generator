@@ -1,20 +1,24 @@
-const register_api = (tables) => {
+const register_api = (restapis) => {
   let codeData = ``;
-  tables
+  restapis
     .filter((item) => {
-      return item.restapi.enabled && item.restapi.className !== "";
+      return (
+        item.enabled &&
+        typeof item.className !== "undefined" &&
+        item.className !== ""
+      );
     })
     .map((item) => {
-      let className = item.restapi.className.toLowerCase();
-      codeData += `        $${className} = new API\\${item.restapi.className}();
+      let className = item.className.toLowerCase();
+      codeData += `        $${className} = new API\\${item.className}();
         $${className}->register_routes();\n\n`;
     });
 
   return codeData.trim();
 };
 
-export const apiSnippetCode = (data, tables) => {
-  let register_api_data = register_api(tables);
+export const apiSnippetCode = (data, restapis) => {
+  let register_api_data = register_api(restapis);
 
   let code = `<?php
 

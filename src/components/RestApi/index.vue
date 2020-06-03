@@ -37,75 +37,13 @@
         />
       </div>
 
-      <div class="col-md-4">
-        <form-text-input
-          label="Rest API Class Name"
-          placeholder="Addressbook"
-          v-model="className"
-          :textvalue="className"
-        />
-      </div>
-      <div class="col-md-4">
-        <form-text-input
-          label="Namespace"
-          placeholder="wpgenerator/v1"
-          v-model="namespace"
-          :textvalue="namespace"
-        />
-      </div>
-      <div class="col-md-4">
-        <form-text-input
-          label="Rest Base"
-          placeholder="contacts"
-          v-model="restbase"
-          :textvalue="restbase"
-        />
-      </div>
-
-      <div class="col-md-6">
-        <form-text-input
-          label="Create Permission"
-          placeholder="manage_options (left blank for publicly accessible)"
-          v-model="createPermission"
-          :textvalue="createPermission"
-        />
-      </div>
-      <div class="col-md-6">
-        <form-text-input
-          label="Read Permission"
-          placeholder="manage_options (left blank for publicly accessible)"
-          v-model="readPermission"
-          :textvalue="readPermission"
-        />
-      </div>
-      <div class="col-md-6">
-        <form-text-input
-          label="Update Permission"
-          placeholder="manage_options (left blank for publicly accessible)"
-          v-model="updatePermission"
-          :textvalue="updatePermission"
-        />
-      </div>
-      <div class="col-md-6">
-        <form-text-input
-          label="Delete Permission"
-          placeholder="manage_options (left blank for publicly accessible)"
-          v-model="deletePermission"
-          :textvalue="deletePermission"
-        />
+      <div class="col-md-12">
+        <rest-api-contents :show-enable-checkbox="false" type="single" />
       </div>
     </div>
 
     <!-- schema fields -->
     <div class="row mt-20">
-      <div class="col-md-12">
-        <p>Schema Fields</p>
-      </div>
-
-      <div class="col-md-12" v-for="(item, index) in schemaFields" :key="index">
-        <schema-fields :index="index" api-type="single" />
-      </div>
-
       <div class="col-md-12">
         <button
           class="button button-primary button-s"
@@ -134,7 +72,7 @@ import { mapGetters } from "vuex";
 import { slug, titleCase } from "@/utils/helpers";
 import FormTextInput from "@/components/Common/FormTextInput";
 import GeneralTextInput from "@/components/FormInputs/textInput";
-import SchemaFields from "@/components/FormInputs/Table/Fields/schemaFields";
+import RestApiContents from "./settings";
 import preview from "./preview";
 import { CodeBase } from "@/codebase/index";
 import $ from "jquery";
@@ -146,103 +84,34 @@ export default {
       pluralName: "",
     };
   },
+  beforeCreate() {
+    this.$store.dispatch("setRestApiData", {
+      index: 0,
+      type: "reset",
+      value: {
+        enabled: true,
+        schemaFields: [],
+      },
+    });
+  },
   components: {
     FormTextInput,
     GeneralTextInput,
-    SchemaFields,
+    RestApiContents,
     preview,
   },
-  computed: {
-    ...mapGetters(["singleRestapi"]),
-    className: {
-      get() {
-        return this.getRestApiData("className");
-      },
-      set(val) {
-        val = titleCase(val, "_");
-        this.setRestApiData("className", val);
-      },
-    },
-    namespace: {
-      get() {
-        return this.getRestApiData("namespace");
-      },
-      set(val) {
-        val = slug(val, "-");
-        this.setRestApiData("namespace", val);
-      },
-    },
-    restbase: {
-      get() {
-        return this.getRestApiData("restbase");
-      },
-      set(val) {
-        val = slug(val, "-");
-        this.setRestApiData("restbase", val);
-      },
-    },
-    createPermission: {
-      get() {
-        return this.getRestApiData("createPermission");
-      },
-      set(val) {
-        val = slug(val, "_");
-        this.setRestApiData("createPermission", val);
-      },
-    },
-    readPermission: {
-      get() {
-        return this.getRestApiData("readPermission");
-      },
-      set(val) {
-        val = slug(val, "_");
-        this.setRestApiData("readPermission", val);
-      },
-    },
-    updatePermission: {
-      get() {
-        return this.getRestApiData("updatePermission");
-      },
-      set(val) {
-        val = slug(val, "_");
-        this.setRestApiData("updatePermission", val);
-      },
-    },
-    deletePermission: {
-      get() {
-        return this.getRestApiData("deletePermission");
-      },
-      set(val) {
-        val = slug(val, "_");
-        this.setRestApiData("deletePermission", val);
-      },
-    },
-    schemaFields() {
-      return this.getRestApiData("schemaFields");
-    },
-  },
+  computed: {},
   methods: {
-    getRestApiData(key) {
-      return this.singleRestapi[key];
-    },
-    setRestApiData(key, value) {
-      if (typeof value === "string") {
-        value = value.trim();
-      }
-
-      this.$store.dispatch("setSingleRestApiData", {
-        index: this.index,
-        key: key,
-        value: value,
-      });
-    },
     addnew() {
-      this.$store.dispatch("addSingleRestApiSchemaField", true);
+      this.$store.dispatch("addNewRestApiSchemaField", {
+        index: 0,
+        new: true,
+      });
     },
     previewModal() {
       let code = CodeBase.restapiCode(
         this.$store.getters.general,
-        this.$store.getters.singleRestapi,
+        this.$store.getters.restapi[0],
         {
           singularName: this.singularName,
           pluralName: this.pluralName,
@@ -250,6 +119,10 @@ export default {
         true
       );
 
+      this.$store.dispatch(
+        "setActiveFileName",
+        `${this.$store.getters.restapi[0].className}.php`
+      );
       this.$store.dispatch("setActiveFileCodes", code);
 
       $("#codeModal").modal("show");

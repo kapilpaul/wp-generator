@@ -112,7 +112,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { slug, titleCase } from "@/utils/helpers";
-import FormTextInput from "../../../Common/FormTextInput";
+import FormTextInput from "@/components/Common/FormTextInput";
 
 export default {
   props: {
@@ -130,7 +130,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["tables", "singleRestapi"]),
+    ...mapGetters(["tables", "restapi"]),
     propertyKey: {
       get() {
         return this.getData("propertyKey");
@@ -204,41 +204,23 @@ export default {
   },
   methods: {
     getData(key) {
-      if (this.apiType === "single") {
-        return this.singleRestapi.schemaFields[this.index][key];
-      }
-
-      return this.tables[this.index].restapi.schemaFields[this.fieldIndex][key];
+      return this.restapi[this.index].schemaFields[this.fieldIndex][key];
     },
     setData(key, value, slugCase = true) {
       value = slugCase ? slug(value, "_") : value;
 
-      if (this.apiType === "single") {
-        this.$store.dispatch("setSingleRestApiFieldData", {
-          index: this.index,
-          key: key,
-          value: value,
-        });
-      } else {
-        this.$store.dispatch("setRestApiFieldData", {
-          index: this.index,
-          fieldIndex: this.fieldIndex,
-          key: key,
-          value: value,
-        });
-      }
+      this.$store.dispatch("setRestApiSchemaFieldData", {
+        index: this.index,
+        fieldIndex: this.fieldIndex,
+        key: key,
+        value: value,
+      });
     },
     delField() {
-      if (this.apiType === "single") {
-        this.$store.dispatch("deleteSingleRestApiField", {
-          index: this.index,
-        });
-      } else {
-        this.$store.dispatch("deleteRestApiField", {
-          index: this.index,
-          fieldIndex: this.fieldIndex,
-        });
-      }
+      this.$store.dispatch("deleteRestApiSchemaField", {
+        index: this.index,
+        fieldIndex: this.fieldIndex,
+      });
     },
   },
 };

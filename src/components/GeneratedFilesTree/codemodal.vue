@@ -38,12 +38,7 @@
                 </div>
 
                 <div class="col-md-9">
-                  <button
-                    class="btn btn-outline-primary float-right mb-2 btn-sm"
-                  >
-                    Copy to clipboard
-                  </button>
-
+                  <copy-button />
                   <code-highlight>{{ activeCode }}</code-highlight>
                 </div>
               </div>
@@ -59,10 +54,13 @@
 import "../prism";
 import VJstree from "vue-jstree";
 import CodeHighlight from "vue-code-highlight/src/CodeHighlight";
+import CopyButton from "@/components/Common/CopyButton";
+
 export default {
   components: {
     VJstree,
     CodeHighlight,
+    CopyButton,
   },
   mounted() {},
   computed: {

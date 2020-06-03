@@ -20,7 +20,7 @@
 
             <button
               class="btn btn-primary btn-block mt-5"
-              @click.prevent="ziptest"
+              @click.prevent="makeZip"
             >
               Download
             </button>
@@ -58,7 +58,7 @@ export default {
       console.log(value);
       this.codeData = value;
     },
-    async ziptest() {
+    async makeZip() {
       var zip = new JSZip();
       let zipname = this.$store.getters.pluginName;
       let tree = this.$store.getters.filesTree;

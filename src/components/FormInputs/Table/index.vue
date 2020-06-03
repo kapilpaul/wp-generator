@@ -34,6 +34,7 @@ export default {
   methods: {
     addnew() {
       this.$store.dispatch("addNewTable", true);
+      this.$store.dispatch("addNewRestApi", true);
     },
   },
 };

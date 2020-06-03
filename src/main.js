@@ -3,6 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { slug } from "./utils/helpers";
+import VueClipboards from "vue-clipboards";
+Vue.use(VueClipboards);
 
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";

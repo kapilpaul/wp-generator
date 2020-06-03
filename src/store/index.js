@@ -155,7 +155,7 @@ const store = {
         name: "Api.php",
         parent_id: "root_includes",
         value: () => {
-          return CodeBase.apiCode(store.state.general, store.state.tables);
+          return CodeBase.apiCode(store.state.general, store.state.restapi);
         },
       },
       {
@@ -278,28 +278,20 @@ const store = {
       js: [],
     },
     activeFileCodes: "",
+    activeFileName: "",
     tables: [],
-    singleRestapi: {
-      enabled: true,
-      className: "",
-      namespace: "",
-      restbase: "",
-      createPermission: "",
-      readPermission: "",
-      updatePermission: "",
-      deletePermission: "",
-      schemaFields: [],
-    },
+    restapi: [],
   },
   getters: {
     filesTree: (state) => state.filesTree,
     general: (state) => state.general,
     pluginName: (state) => state.general.pluginName,
     baseNamespace: (state) => state.general.baseNamespace,
+    activeFileName: (state) => state.activeFileName,
     activeFileCodes: (state) => state.activeFileCodes,
     assets: (state) => state.assets,
     tables: (state) => state.tables,
-    singleRestapi: (state) => state.singleRestapi,
+    restapi: (state) => state.restapi,
   },
   mutations: {
     setPluginName(state, payload) {
@@ -322,6 +314,9 @@ const store = {
     },
     setFileArchitecture(state, payload) {
       state.fileArchitecture = payload;
+    },
+    setActiveFileName(state, payload) {
+      state.activeFileName = payload;
     },
     setActiveFileCodes(state, payload) {
       state.activeFileCodes = payload;
@@ -374,10 +369,6 @@ const store = {
       state.tables.push({
         name: "",
         settings: {},
-        restapi: {
-          enabled: false,
-          schemaFields: [],
-        },
         fields: [],
       });
     },
@@ -427,9 +418,15 @@ const store = {
         state.filesTree.push(payload);
       }
     },
-    addNewRestApiField(state, payload) {
+    addNewRestApi(state, payload) {
+      state.restapi.push({
+        enabled: payload,
+        schemaFields: [],
+      });
+    },
+    addNewRestApiSchemaField(state, payload) {
       if (typeof payload.new !== "undefined") {
-        state.tables[payload.index].restapi.schemaFields.push({
+        state.restapi[payload.index].schemaFields.push({
           propertyKey: "",
           type: "",
           context: "view, edit",
@@ -440,54 +437,32 @@ const store = {
         });
       } else {
         //insert object
-        state.tables[payload.index].restapi.schemaFields.push(payload.value);
+        state.restapi[payload.index].schemaFields.push(payload.value);
       }
     },
-    setRestApiFieldData(state, payload) {
+    setRestApiData(state, payload) {
+      if (payload.type !== null && payload.type === "reset") {
+        Vue.set(state.restapi, payload.index, payload.value);
+      } else {
+        Vue.set(state.restapi[payload.index], payload.key, payload.value);
+      }
+    },
+    setRestApiSchemaFieldData(state, payload) {
       if (typeof payload.reset !== "undefined" && payload.reset) {
-        Vue.set(
-          state.tables[payload.index].restapi,
-          "schemaFields",
-          payload.value
-        );
+        Vue.set(state.restapi[payload.index], "schemaFields", payload.value);
       } else {
         Vue.set(
-          state.tables[payload.index].restapi.schemaFields[payload.fieldIndex],
+          state.restapi[payload.index].schemaFields[payload.fieldIndex],
           payload.key,
           payload.value
         );
       }
     },
-    deleteRestApiField(state, payload) {
-      Vue.delete(
-        state.tables[payload.index].restapi.schemaFields,
-        payload.fieldIndex
-      );
+    deleteRestApi(state, payload) {
+      Vue.delete(state.restapi, payload.index);
     },
-    setSingleRestApiData(state, payload) {
-      Vue.set(state.singleRestapi, payload.key, payload.value);
-    },
-    addSingleRestApiSchemaField(state, payload) {
-      state.singleRestapi.schemaFields.push({
-        propertyKey: "",
-        type: "",
-        context: "view, edit",
-        format: "",
-        readonly: false,
-        required: false,
-        sanitize: false,
-        description: "",
-      });
-    },
-    setSingleRestApiFieldData(state, payload) {
-      Vue.set(
-        state.singleRestapi.schemaFields[payload.index],
-        payload.key,
-        payload.value
-      );
-    },
-    deleteSingleRestApiField(state, payload) {
-      Vue.delete(state.singleRestapi.schemaFields, payload.index);
+    deleteRestApiSchemaField(state, payload) {
+      Vue.delete(state.restapi[payload.index].schemaFields, payload.fieldIndex);
     },
   },
   actions: {
@@ -506,6 +481,9 @@ const store = {
     setAssetsData({ commit, dispatch }, payload) {
       commit("setAssetsData", payload);
       dispatch("setFileArchitecture", true);
+    },
+    setActiveFileName({ commit }, payload) {
+      commit("setActiveFileName", payload);
     },
     setActiveFileCodes({ commit }, payload) {
       commit("setActiveFileCodes", payload);
@@ -557,26 +535,23 @@ const store = {
         });
       });
     },
-    addNewRestApiField({ commit, dispatch }, payload) {
-      commit("addNewRestApiField", payload);
+    addNewRestApi({ commit, dispatch }, payload) {
+      commit("addNewRestApi", payload);
     },
-    setRestApiFieldData({ commit, dispatch }, payload) {
-      commit("setRestApiFieldData", payload);
+    addNewRestApiSchemaField({ commit, dispatch }, payload) {
+      commit("addNewRestApiSchemaField", payload);
     },
-    deleteRestApiField({ commit, dispatch }, payload) {
-      commit("deleteRestApiField", payload);
+    setRestApiSchemaFieldData({ commit, dispatch }, payload) {
+      commit("setRestApiSchemaFieldData", payload);
     },
-    setSingleRestApiData({ commit }, payload) {
-      commit("setSingleRestApiData", payload);
+    deleteRestApi({ commit, dispatch }, payload) {
+      commit("deleteRestApi", payload);
     },
-    addSingleRestApiSchemaField({ commit }, payload) {
-      commit("addSingleRestApiSchemaField", payload);
+    deleteRestApiSchemaField({ commit, dispatch }, payload) {
+      commit("deleteRestApiSchemaField", payload);
     },
-    setSingleRestApiFieldData({ commit }, payload) {
-      commit("setSingleRestApiFieldData", payload);
-    },
-    deleteSingleRestApiField({ commit }, payload) {
-      commit("deleteSingleRestApiField", payload);
+    setRestApiData({ commit }, payload) {
+      commit("setRestApiData", payload);
     },
   },
   modules: {},

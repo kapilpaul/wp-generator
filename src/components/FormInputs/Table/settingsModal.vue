@@ -93,7 +93,7 @@
                       role="tabpanel"
                       :aria-labelledby="'pills-rest-tab-' + fieldsId"
                     >
-                      <table-rest-api :index="index" />
+                      <rest-api-contents :index="index" />
                     </div>
                   </div>
                 </div>
@@ -110,7 +110,7 @@
 import { mapGetters } from "vuex";
 import TableFields from "./Fields";
 import TableSettings from "./Fields/settings";
-import TableRestApi from "./Fields/restapi";
+import RestApiContents from "@/components/RestApi/settings";
 export default {
   props: {
     index: {
@@ -127,7 +127,7 @@ export default {
   components: {
     TableFields,
     TableSettings,
-    TableRestApi,
+    RestApiContents,
   },
   mounted() {},
   computed: {

@@ -13,7 +13,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="codeModalLabel">
-              {{ $store.getters.pluginName }}
+              REST API
             </h5>
             <button
               type="button"
@@ -28,11 +28,7 @@
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-12">
-                  <button
-                    class="btn btn-outline-primary float-right mb-2 btn-sm"
-                  >
-                    Copy to clipboard
-                  </button>
+                  <copy-button />
 
                   <code-highlight>{{ activeCode }}</code-highlight>
                 </div>
@@ -48,9 +44,12 @@
 <script>
 import "../prism";
 import CodeHighlight from "vue-code-highlight/src/CodeHighlight";
+import CopyButton from "@/components/Common/CopyButton";
+
 export default {
   components: {
     CodeHighlight,
+    CopyButton,
   },
   mounted() {},
   computed: {

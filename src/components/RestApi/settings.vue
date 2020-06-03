@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row" v-if="showEnableCheckbox">
       <div class="col-md-3">
         <div class="form-group">
           <input
@@ -100,7 +100,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { slug, titleCase } from "@/utils/helpers";
-import FormTextInput from "../../../Common/FormTextInput";
+import FormTextInput from "@/components/Common/FormTextInput";
 import schemaFields from "./schemaFields";
 import { CodeBase } from "@/codebase/index";
 
@@ -110,13 +110,21 @@ export default {
       type: Number,
       default: 0,
     },
+    showEnableCheckbox: {
+      type: Boolean,
+      default: true,
+    },
+    type: {
+      type: String,
+      default: "",
+    },
   },
   components: {
     FormTextInput,
     schemaFields,
   },
   computed: {
-    ...mapGetters(["tables"]),
+    ...mapGetters(["tables", "restapi"]),
     enabled: {
       get() {
         return this.getRestApiData("enabled");
@@ -127,7 +135,7 @@ export default {
         if (val) {
           this.setTableFieldsDataInRestApi();
         } else {
-          this.$store.dispatch("setRestApiFieldData", {
+          this.$store.dispatch("setRestApiData", {
             index: this.index,
             reset: true,
             value: [],
@@ -143,21 +151,23 @@ export default {
         val = titleCase(val, "_");
         this.setRestApiData("className", val);
 
-        this.$store.dispatch("addNewFileInFileTree", {
-          id: "api_file_" + this.index,
-          type: "php",
-          file: true,
-          name: val + ".php",
-          parent_id: "includes_api",
-          replace: true,
-          value: () => {
-            return CodeBase.restapiCode(
-              this.$store.getters.general,
-              this.$store.getters.tables[this.index].restapi,
-              this.$store.getters.tables[this.index].settings
-            );
-          },
-        });
+        if (this.type !== "single") {
+          this.$store.dispatch("addNewFileInFileTree", {
+            id: "api_file_" + this.index,
+            type: "php",
+            file: true,
+            name: val + ".php",
+            parent_id: "includes_api",
+            replace: true,
+            value: () => {
+              return CodeBase.restapiCode(
+                this.$store.getters.general,
+                this.$store.getters.restapi[this.index],
+                this.$store.getters.tables[this.index].settings
+              );
+            },
+          });
+        }
       },
     },
     namespace: {
@@ -220,20 +230,17 @@ export default {
   },
   methods: {
     getRestApiData(key) {
-      return this.tables[this.index].restapi[key];
+      return this.restapi[this.index][key];
     },
     setRestApiData(key, value) {
       if (typeof value === "string") {
         value = value.trim();
       }
 
-      this.$store.dispatch("setTableData", {
+      this.$store.dispatch("setRestApiData", {
         index: this.index,
-        key: "restapi",
-        value: {
-          ...this.tables[this.index].restapi,
-          [key]: value,
-        },
+        key: key,
+        value: value,
       });
     },
     setTableFieldsDataInRestApi() {
@@ -246,7 +253,7 @@ export default {
         .map((item) => {
           let type = item.type === "INT" ? "integer" : "string";
 
-          this.$store.dispatch("addNewRestApiField", {
+          this.$store.dispatch("addNewRestApiSchemaField", {
             index: this.index,
             value: {
               propertyKey: item.name,

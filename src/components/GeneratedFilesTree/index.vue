@@ -31,6 +31,7 @@ export default {
       this.$store.dispatch("setFileArchitecture", true).then((response) => {
         if (typeof node.model.file !== "undefined" && node.model.file) {
           if (typeof node.model.value !== "undefined" && node.model.value) {
+            this.$store.dispatch("setActiveFileName", node.model.text);
             this.$store.dispatch("setActiveFileCodes", node.model.value);
           }
           $("#codeModal").modal("show");
