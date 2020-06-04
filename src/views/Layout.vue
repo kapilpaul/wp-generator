@@ -2,7 +2,7 @@
   <div>
     <header class="header-main">
       <nav>
-        <a href="index.html" class="logo" rel="home"
+        <a href="https://wp-generator.com" class="logo" rel="home"
           ><span>wp generator</span></a
         >
         <div class="nav-toggle"></div>
@@ -32,7 +32,32 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    //mobile menu toggle
+    this.mobileMenuToggle();
+  },
+  methods: {
+    mobileMenuToggle() {
+      Array.from(document.getElementsByClassName("nav-toggle")).forEach(
+        function(el) {
+          el.addEventListener("click", function() {
+            Array.from(document.getElementsByTagName("body")).forEach(function(
+              el
+            ) {
+              el.classList.toggle("no-scroll");
+            });
+            Array.from(document.getElementsByClassName("header-main")).forEach(
+              function(el) {
+                el.classList.toggle("active");
+              }
+            );
+          });
+        }
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -39,9 +39,7 @@ export default {
         this.copy = false;
       }, 1000);
     },
-    handleError(e) {
-      console.log(e);
-    },
+    handleError(e) {},
     downloadFile() {
       var element = document.createElement("a");
       element.setAttribute(

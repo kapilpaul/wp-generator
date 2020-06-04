@@ -21,6 +21,7 @@
             <button
               class="btn btn-primary btn-block mt-5"
               @click.prevent="makeZip"
+              v-if="$store.state.general.pluginName !== ''"
             >
               Download
             </button>

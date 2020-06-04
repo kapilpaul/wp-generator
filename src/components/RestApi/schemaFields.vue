@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div
+    class="schema_field_area"
+    :class="{ schema_field_area_first_child: fieldIndex === 0 }"
+  >
     <div class="row">
-      <div class="col-2">
+      <div class="col">
         <form-text-input
           label="Property Key"
           placeholder="id"
@@ -11,15 +14,23 @@
       </div>
 
       <div class="col">
-        <form-text-input
-          label="Type"
-          placeholder="string"
-          v-model="type"
-          :textvalue="type"
-        />
+        <div class="form-group">
+          <label for="type">Type</label>
+          <div class="select-wrapper">
+            <select id="type" name="type" v-model="type">
+              <option value="string">string</option>
+              <option value="integer">integer</option>
+              <option value="array">array</option>
+              <option value="boolean">boolean</option>
+              <option value="null">null</option>
+              <option value="number">number</option>
+              <option value="object">object</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div class="col-2">
+      <div class="col">
         <form-text-input
           label="Description"
           placeholder="Name of the contact"
@@ -27,23 +38,34 @@
           :textvalue="description"
         />
       </div>
+    </div>
 
+    <div class="row">
       <div class="col">
-        <form-text-input
-          label="Context"
-          placeholder="view, edit"
-          v-model="context"
-          :textvalue="context"
-        />
+        <div class="form-group">
+          <label for="context">Context</label>
+          <div class="select-wrapper">
+            <select id="context" name="context" multiple v-model="context">
+              <option value="view">View</option>
+              <option value="edit">Edit</option>
+              <option value="embed">Embed</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div class="col">
-        <form-text-input
-          label="Format (Optional)"
-          placeholder="date-time"
-          v-model="format"
-          :textvalue="format"
-        />
+      <div class="col-3">
+        <div class="form-group">
+          <label for="format">Format (Optional)</label>
+          <div class="select-wrapper">
+            <select id="format" name="format" v-model="format">
+              <option value=""></option>
+              <option value="date-time">date-time</option>
+              <option value="uri">uri</option>
+              <option value="email">email</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div class="col-1">
@@ -142,6 +164,10 @@ export default {
     },
     type: {
       get() {
+        if (this.getData("type") === "") {
+          this.setData("type", "string");
+        }
+
         return this.getData("type");
       },
       set(val) {
@@ -159,10 +185,11 @@ export default {
     },
     context: {
       get() {
-        return this.getData("context");
+        let context = this.getData("context");
+        return context.split(",");
       },
       set(val) {
-        this.setData("context", val);
+        this.setData("context", val.join());
       },
     },
     format: {
@@ -226,4 +253,18 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+.schema_field_area {
+  border-top: 1px solid #f1f1f1;
+  padding-top: 15px;
+  margin-top: 20px;
+}
+</style>
+
+<style scoped>
+.schema_field_area_first_child {
+  border-top: 0px solid #f1f1f1;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+</style>

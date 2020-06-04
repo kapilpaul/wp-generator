@@ -257,7 +257,7 @@ const store = {
       },
     ],
     general: {
-      pluginName: "wpgen",
+      pluginName: "",
       baseNamespace: "",
       pluginURI: "",
       description: "",

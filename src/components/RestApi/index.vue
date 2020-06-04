@@ -57,11 +57,12 @@
           class="ml-10 button button-primary button-s"
           role="button"
           @click.prevent="previewModal"
+          v-if="className"
         >
           Preview
         </button>
 
-        <preview />
+        <preview v-if="className" />
       </div>
     </div>
   </div>
@@ -100,7 +101,18 @@ export default {
     RestApiContents,
     preview,
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["restapi"]),
+    className() {
+      let name = this.restapi[0]["className"];
+
+      if (typeof name !== "undefined" && name !== "") {
+        return name;
+      }
+
+      return false;
+    },
+  },
   methods: {
     addnew() {
       this.$store.dispatch("addNewRestApiSchemaField", {
