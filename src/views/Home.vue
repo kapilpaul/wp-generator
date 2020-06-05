@@ -34,34 +34,27 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import FormInputs from "@/components/FormInputs";
 import GeneratedFilesTree from "@/components/GeneratedFilesTree";
 import { buildZipTree } from "../utils/buildtree";
+import { slug } from "../utils/helpers";
 export default {
   name: "Home",
   data() {
     return {
       check: "",
-      codeData: "",
     };
   },
-  mounted() {},
   components: {
-    HelloWorld,
     FormInputs,
     GeneratedFilesTree,
   },
   methods: {
-    setCodeData(value) {
-      console.log(value);
-      this.codeData = value;
-    },
     async makeZip() {
       var zip = new JSZip();
-      let zipname = this.$store.getters.pluginName;
+      let zipname = slug(this.$store.getters.pluginName);
       let tree = this.$store.getters.filesTree;
       await buildZipTree(tree, zip);
 
@@ -70,9 +63,7 @@ export default {
           // 1) generate the zip file
           saveAs(blob, `${zipname}.zip`); // 2) trigger the download
         },
-        function(err) {
-          console.log(err);
-        }
+        function(err) {}
       );
     },
   },

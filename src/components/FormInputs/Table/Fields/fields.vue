@@ -31,7 +31,7 @@
           label="Length"
           v-model="length"
           :textvalue="length"
-          :disabled="type === 'TEXT' ? true : false"
+          :disabled="disable"
         />
       </div>
 
@@ -122,6 +122,7 @@ export default {
     return {
       id: this.$root.strRandom(),
       primaryKeyId: this.$root.strRandom(),
+      disable: false,
     };
   },
   components: {
@@ -146,10 +147,7 @@ export default {
         return this.getData("type");
       },
       set(val) {
-        if (val === "TEXT") {
-          this.length = "";
-        }
-
+        this.makeDisable();
         this.setData("type", val, false);
       },
     },
@@ -217,6 +215,17 @@ export default {
         index: this.index,
         fieldIndex: this.fieldIndex,
       });
+    },
+    makeDisable() {
+      if (
+        this.type === "TEXT" ||
+        this.type === "DATE" ||
+        this.type === "DATETIME" ||
+        this.type === "TIMESTAMP"
+      ) {
+        this.length = "";
+        this.disable = true;
+      }
     },
   },
 };

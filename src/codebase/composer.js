@@ -1,8 +1,9 @@
+import { slug } from "../utils/helpers";
 export const composerCode = (data) => {
   let baseNamespace = data.baseNamespace.replace(/\\/g, "\\\\");
 
   let code = `{
-    "name": "${data.author.replace(/\s/g, "-")}/${data.pluginName}",
+    "name": "${data.author.replace(/\s/g, "-")}/${slug(data.pluginName)}",
     "description": "${data.description}",
     "type": "wordpress-plugin",
     "license": "${data.license}",

@@ -96,7 +96,7 @@ class Menu {
      * @return void
      */
     public function plugin_page() {
-        echo 'WP Generator is a plugin generator tool for developers.';
+        echo '<div class="wrap">WP Generator is a plugin generator tool for developers.</div>';
     }
 
     ${add_menu_data.plugin_page_methods}

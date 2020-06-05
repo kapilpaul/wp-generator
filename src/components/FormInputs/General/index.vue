@@ -59,7 +59,9 @@ export default {
   name: "General",
   computed: {
     pluginName: {
-      get() {},
+      get() {
+        return this.$store.getters.pluginName;
+      },
       set(val) {
         this.$store.dispatch("setPluginName", val);
       },

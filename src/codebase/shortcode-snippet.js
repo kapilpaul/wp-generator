@@ -1,4 +1,7 @@
+import { slug } from "../utils/helpers";
 export const shortcodeSnippet = (data) => {
+  let pluginName = slug(data.pluginName, "_");
+
   let code = `<?php
 
 namespace ${data.baseNamespace}\\Frontend;
@@ -10,7 +13,7 @@ namespace ${data.baseNamespace}\\Frontend;
 class Shortcode {
 
     public function __construct() {
-        add_shortcode( '${data.pluginName}', [ $this, 'render_frontend' ] );
+        add_shortcode( '${pluginName}', [ $this, 'render_frontend' ] );
     }
 
     /**

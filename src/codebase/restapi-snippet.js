@@ -126,7 +126,7 @@ const singleItemSchema = (item) => {
   }
 
   if (item.format !== "") {
-    format = `${indent}'format'     => '${item.format}'\n`;
+    format = `${indent}'format'     => '${item.format}',\n`;
   }
 
   item_schema = `                '${item.propertyKey}' => [

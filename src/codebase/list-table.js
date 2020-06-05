@@ -151,8 +151,6 @@ class ${fileClassName} extends \\WP_List_Table {
     protected function column_default( $item, $column_name ) {
 
         switch ( $column_name ) {
-            case 'value':
-                break;
             default:
                 return isset( $item->$column_name ) ? $item->$column_name : '';
         }

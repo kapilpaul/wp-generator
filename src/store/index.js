@@ -358,7 +358,7 @@ const store = {
             name: payload.value,
             parent_id: "assets_" + payload.type,
             value: () => {
-              return `/* wp2gen */\n/* write or paste your code here */
+              return `/* wp-generator */\n/* write or paste your code here */
               `;
             },
           });
@@ -464,6 +464,9 @@ const store = {
     deleteRestApiSchemaField(state, payload) {
       Vue.delete(state.restapi[payload.index].schemaFields, payload.fieldIndex);
     },
+    setStateData(state, payload) {
+      Vue.set(state, payload.key, payload.value);
+    },
   },
   actions: {
     setPluginName({ commit, dispatch }, payload) {
@@ -472,6 +475,7 @@ const store = {
     },
     setGeneralData({ commit, dispatch }, payload) {
       commit("setGeneralData", payload);
+      saveInLocalStorage();
       // dispatch("setFileArchitecture", true);
     },
     addNewAssets({ commit, dispatch }, payload) {
@@ -492,6 +496,8 @@ const store = {
       if (payload) {
         let tree = buildTreeData(state.filesTree);
         commit("setFileArchitecture", tree);
+
+        saveInLocalStorage();
       }
     },
     addNewTable({ commit, dispatch }, payload) {
@@ -553,8 +559,23 @@ const store = {
     setRestApiData({ commit }, payload) {
       commit("setRestApiData", payload);
     },
+    setStateData({ commit, dispatch }, payload) {
+      commit("setStateData", payload);
+      dispatch("setFileArchitecture", true);
+    },
   },
   modules: {},
+};
+
+const saveInLocalStorage = async () => {
+  let storeData = {
+    general: store.state.general,
+    assets: store.state.assets,
+    tables: store.state.tables,
+    restapi: store.state.restapi,
+  };
+
+  localStorage.setItem("wpgen", JSON.stringify(storeData));
 };
 
 export default new Vuex.Store(store);
