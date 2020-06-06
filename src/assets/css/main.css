@@ -1034,42 +1034,42 @@ p:last-child {
 
 /* Images */
 .bg-image-01:after {
-  background: url(../media/bg/image-01@2x.jpg);
+  /* background: url(../media/bg/image-01@2x.jpg); */
 }
 
 @media only screen and (max-width: 479px) {
   .bg-image-01:after {
-    background: url(../media/bg/image-01.jpg);
+    /* background: url(../media/bg/image-01.jpg); */
   }
 }
 
 .bg-image-02:after {
-  background: url(../media/bg/image-02@2x.jpg);
+  /* background: url(../media/bg/image-02@2x.jpg); */
 }
 
 @media only screen and (max-width: 479px) {
   .bg-image-02:after {
-    background: url(../media/bg/image-02.jpg);
+    /* background: url(../media/bg/image-02.jpg); */
   }
 }
 
 .bg-image-03:after {
-  background: url(../media/bg/image-03@2x.jpg);
+  /* background: url(../media/bg/image-03@2x.jpg); */
 }
 
 @media only screen and (max-width: 479px) {
   .bg-image-03:after {
-    background: url(../media/bg/image-03.jpg);
+    /* background: url(../media/bg/image-03.jpg); */
   }
 }
 
 .bg-image-04:after {
-  background: url(../media/bg/image-04@2x.jpg);
+  /* background: url(../media/bg/image-04@2x.jpg); */
 }
 
 @media only screen and (max-width: 479px) {
   .bg-image-04:after {
-    background: url(../media/bg/image-04.jpg);
+    /* background: url(../media/bg/image-04.jpg); */
   }
 }
 

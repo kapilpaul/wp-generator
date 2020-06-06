@@ -18,6 +18,16 @@
           <div class="col-md-4">
             <generated-files-tree />
 
+            <!-- wpgenerator -->
+            <ins
+              class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-6299884348615822"
+              data-ad-slot="5051296028"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            ></ins>
+
             <button
               class="btn btn-primary btn-block mt-5"
               @click.prevent="makeZip"
@@ -40,12 +50,18 @@ import FormInputs from "@/components/FormInputs";
 import GeneratedFilesTree from "@/components/GeneratedFilesTree";
 import { buildZipTree } from "../utils/buildtree";
 import { slug } from "../utils/helpers";
+
 export default {
   name: "Home",
   data() {
     return {
       check: "",
     };
+  },
+  mounted() {
+    let adinit = document.createElement("script");
+    adinit.innerHTML = "(adsbygoogle = window.adsbygoogle || []).push({});";
+    document.head.appendChild(adinit);
   },
   components: {
     FormInputs,
@@ -70,9 +86,4 @@ export default {
 };
 </script>
 
-<style>
-/* Images */
-.bg-image-01:after {
-  background: url("../assets/media/bg/image-01@2x.jpg");
-}
-</style>
+<style></style>

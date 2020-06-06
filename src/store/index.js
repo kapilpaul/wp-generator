@@ -577,7 +577,7 @@ const saveInLocalStorage = async () => {
       restapi: store.state.restapi,
     };
 
-    localStorage.setItem("wpgen", JSON.stringify(storeData));
+    // localStorage.setItem("wpgen", JSON.stringify(storeData));
   }
 };
 
