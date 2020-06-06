@@ -6,7 +6,7 @@
       v-if="$store.state.general.pluginName !== ''"
     ></v-jstree>
 
-    <p v-else><i>No Preview available</i></p>
+    <p v-else><i>No Preview Available</i></p>
 
     <code-modal v-if="$store.state.general.pluginName !== ''" />
   </div>

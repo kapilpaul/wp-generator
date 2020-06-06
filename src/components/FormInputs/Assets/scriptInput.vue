@@ -37,6 +37,7 @@
 
 <script>
 import { slug, titleCase } from "../../../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -54,10 +55,10 @@ export default {
     },
   },
   computed: {
+    ...mapState(["assets"]),
     handle: {
       get() {
-        let assets = this.$store.getters.assets;
-        return assets[this.type][this.index].handle;
+        return this.assets[this.type][this.index].handle;
       },
       set(val) {
         if (val !== "") {
@@ -72,27 +73,21 @@ export default {
     },
     filename: {
       get() {
-        let assets = this.$store.getters.assets;
         let key = this.type === "css" ? "style" : "script";
-        return assets[this.type][this.index][key];
+        let filename = this.assets[this.type][this.index][key];
+
+        return filename;
       },
       set(val) {
         if (val !== "") {
-          let key = this.type === "css" ? "style" : "script";
-          this.$store.dispatch("setAssetsData", {
-            type: this.type,
-            index: this.index,
-            key: key,
-            value: slug(val),
-          });
+          this.addFile(val);
         }
       },
     },
     dependency: {
       get() {
-        let assets = this.$store.getters.assets;
         let key = "dependency";
-        return assets[this.type][this.index][key];
+        return this.assets[this.type][this.index][key];
       },
       set(val) {
         this.$store.dispatch("setAssetsData", {
@@ -105,9 +100,8 @@ export default {
     },
     in_footer: {
       get() {
-        let assets = this.$store.getters.assets;
         let key = "in_footer";
-        return assets[this.type][this.index][key];
+        return this.assets[this.type][this.index][key];
       },
       set(val) {
         this.$store.dispatch("setAssetsData", {
@@ -117,6 +111,18 @@ export default {
           value: val,
         });
       },
+    },
+  },
+  methods: {
+    addFile(val) {
+      let key = this.type === "css" ? "style" : "script";
+
+      this.$store.dispatch("setAssetsData", {
+        type: this.type,
+        index: this.index,
+        key: key,
+        value: slug(val),
+      });
     },
   },
 };

@@ -351,10 +351,11 @@ const store = {
         let fileExt = payload.value.split(".").pop();
 
         if (fileExt === payload.type) {
-          state.filesTree.push({
-            id: `assets_${payload.type}_file`,
+          store.mutations.addNewFileInFileTree(store.state, {
+            id: `assets_${payload.type}_file_${payload.index}`,
             type: payload.type,
             file: true,
+            replace: true,
             name: payload.value,
             parent_id: "assets_" + payload.type,
             value: () => {
@@ -568,14 +569,16 @@ const store = {
 };
 
 const saveInLocalStorage = async () => {
-  let storeData = {
-    general: store.state.general,
-    assets: store.state.assets,
-    tables: store.state.tables,
-    restapi: store.state.restapi,
-  };
+  if (store.state.general.pluginName !== "") {
+    let storeData = {
+      general: store.state.general,
+      assets: store.state.assets,
+      tables: store.state.tables,
+      restapi: store.state.restapi,
+    };
 
-  localStorage.setItem("wpgen", JSON.stringify(storeData));
+    localStorage.setItem("wpgen", JSON.stringify(storeData));
+  }
 };
 
 export default new Vuex.Store(store);
