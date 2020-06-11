@@ -11,10 +11,22 @@ const routes = [
     component: Home,
   },
   {
+    path: "/about",
+    name: "About",
+    component: () =>
+      import(/* webpackChunkName: "restapi" */ "../views/About.vue"),
+  },
+  {
     path: "/restapi",
     name: "RestApi",
     component: () =>
       import(/* webpackChunkName: "restapi" */ "../views/RestApi.vue"),
+  },
+  {
+    path: "/privacy-policy",
+    name: "Privacy",
+    component: () =>
+      import(/* webpackChunkName: "restapi" */ "../views/Privacy.vue"),
   },
 ];
 

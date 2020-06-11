@@ -18,6 +18,9 @@ import { shortcodeSnippet } from "./shortcode-snippet";
 import { frontendSnippet } from "./frontend-snippet";
 import { menuSnippet } from "./menu-snippet";
 import { formErrorSnippet } from "./form-error";
+import { gitIgnoreCode } from "./gitignore-snippet";
+import { editorconfigCode } from "./editorconfig-snippet";
+import { readmeCode } from "./readme-snippet";
 
 export const CodeBase = {
   mainPluginCode: (data) => {
@@ -71,5 +74,14 @@ export const CodeBase = {
   },
   formErrorCode: (data) => {
     return formErrorSnippet(validateFields(data));
+  },
+  gitIgnoreCode: () => {
+    return gitIgnoreCode();
+  },
+  editorconfigCode: () => {
+    return editorconfigCode();
+  },
+  readmeCode: (data) => {
+    return readmeCode(validateFields(data));
   },
 };

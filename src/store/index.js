@@ -212,6 +212,26 @@ const store = {
         parent_id: "root",
       },
       {
+        id: "root_gitignore",
+        type: "gitignore",
+        file: true,
+        name: ".gitignore",
+        parent_id: "root",
+        value: () => {
+          return CodeBase.gitIgnoreCode();
+        },
+      },
+      {
+        id: "root_editorconfig",
+        type: "editorconfig",
+        file: true,
+        name: ".editorconfig",
+        parent_id: "root",
+        value: () => {
+          return CodeBase.editorconfigCode();
+        },
+      },
+      {
         id: "root_composer",
         type: "composer",
         file: true,
@@ -247,6 +267,9 @@ const store = {
         file: true,
         name: "README.md",
         parent_id: "root",
+        value: () => {
+          return CodeBase.readmeCode(store.state.general);
+        },
       },
       {
         id: "root_readme_txt",
@@ -254,6 +277,9 @@ const store = {
         file: true,
         name: "readme.txt",
         parent_id: "root",
+        value: () => {
+          return CodeBase.readmeCode(store.state.general);
+        },
       },
     ],
     general: {
