@@ -19,14 +19,14 @@
             <generated-files-tree />
 
             <!-- wpgenerator -->
-            <ins
+            <!-- <ins
               class="adsbygoogle"
               style="display:block"
               data-ad-client="ca-pub-6299884348615822"
               data-ad-slot="5051296028"
               data-ad-format="auto"
               data-full-width-responsive="true"
-            ></ins>
+            ></ins> -->
 
             <button
               class="btn btn-primary btn-block mt-5"
@@ -59,9 +59,9 @@ export default {
     };
   },
   mounted() {
-    let adinit = document.createElement("script");
-    adinit.innerHTML = "(adsbygoogle = window.adsbygoogle || []).push({});";
-    document.head.appendChild(adinit);
+    // let adinit = document.createElement("script");
+    // adinit.innerHTML = "(adsbygoogle = window.adsbygoogle || []).push({});";
+    // document.head.appendChild(adinit);
   },
   components: {
     FormInputs,

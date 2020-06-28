@@ -11,6 +11,11 @@
           <li><router-link to="/">Home</router-link></li>
           <li><router-link to="/about">About</router-link></li>
           <li><router-link to="/restapi">Rest API</router-link></li>
+          <li>
+            <a href="https://github.com/kapilpaul/wp-generator" class=""
+              >GitHub</a
+            >
+          </li>
         </ul>
       </nav>
     </header>

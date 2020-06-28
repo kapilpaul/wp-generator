@@ -1,4 +1,8 @@
-# wp-generate
+# WP Generator
+
+## Demo Link
+
+[Website](http://wp-generator.com/)
 
 ## Project setup
 
@@ -22,4 +26,4 @@ npm run build
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-# wp-generate
+# wp-generator
