@@ -4,6 +4,8 @@
 
     <advanced />
 
+    <main-menu />
+
     <assets />
 
     <tables />
@@ -13,12 +15,14 @@
 <script>
 import General from "./General";
 import Advanced from "./Advanced";
+import MainMenu from "./MainMenu";
 import Assets from "./Assets";
 import Tables from "./Table";
 export default {
   components: {
     General,
     Advanced,
+    MainMenu,
     Assets,
     Tables,
   },

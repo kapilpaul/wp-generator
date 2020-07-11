@@ -69,8 +69,8 @@ export const CodeBase = {
   frontendCode: (data) => {
     return frontendSnippet(validateFields(data));
   },
-  menuCode: (data, tables) => {
-    return menuSnippet(validateFields(data), tables);
+  menuCode: (data, tables, mainMenu) => {
+    return menuSnippet(validateFields(data), tables, mainMenu);
   },
   formErrorCode: (data) => {
     return formErrorSnippet(validateFields(data));

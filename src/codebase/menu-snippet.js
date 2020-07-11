@@ -1,3 +1,8 @@
+/**
+ * make menu data and methods
+ * @param {*} tables
+ * @param {*} textDomain
+ */
 const makeMenuData = (tables, textDomain) => {
   let menu_data = ``;
   let indent = `        `;
@@ -8,7 +13,8 @@ const makeMenuData = (tables, textDomain) => {
       return (
         item.settings.adminPanel &&
         item.settings.pageSlug &&
-        item.settings.crudClassName
+        item.settings.crudClassName &&
+        item.settings.capability
       );
     })
     .map((item) => {
@@ -17,14 +23,16 @@ const makeMenuData = (tables, textDomain) => {
 
       menu_data += `${indent}add_submenu_page( $parent_slug, __( '${settings.pageTitle}', '${textDomain}' ), __( '${settings.menuTitle}', '${textDomain}' ), '${settings.capability}', '${settings.pageSlug}', [ $this, '${method_name}' ] );\n`;
 
+      let curdclassnameInLowerCase = settings.crudClassName.toLowerCase();
+
       plugin_page_methods += `    /**
      * Handles the ${settings.menuTitle} page
      *
      * @return void
      */
     public function ${method_name}() {
-        $${settings.crudClassName} = new ${settings.crudClassName}();
-        $${settings.crudClassName}->plugin_page();
+        $${curdclassnameInLowerCase} = new ${settings.crudClassName}();
+        $${curdclassnameInLowerCase}->plugin_page();
     }\n\n`;
     });
 
@@ -34,8 +42,24 @@ const makeMenuData = (tables, textDomain) => {
   };
 };
 
-export const menuSnippet = (data, tables) => {
+export const menuSnippet = (data, tables, mainMenu) => {
   let add_menu_data = makeMenuData(tables, data.textDomain);
+  let menus = ``;
+
+  if (
+    mainMenu.pageTitle &&
+    mainMenu.menuTitle &&
+    mainMenu.capability &&
+    mainMenu.pageSlug
+  ) {
+    menus = `$parent_slug = '${mainMenu.pageSlug}';
+        $capability = '${mainMenu.capability}';
+
+        $hook = add_menu_page( __( '${mainMenu.pageTitle}', '${data.textDomain}' ), __( '${mainMenu.menuTitle}', '${data.textDomain}' ), $capability, $parent_slug, [ $this, 'plugin_page' ], 'dashicons-admin-tools' );
+        ${add_menu_data.menu_data}
+
+        add_action( 'load-' . $hook, [ $this, 'init_hooks' ] );`;
+  }
 
   let code = `<?php
 
@@ -61,14 +85,7 @@ class Menu {
      * @return void
      */
     public function admin_menu() {
-        $parent_slug = '${data.pluginName}';
-        $capability = 'manage_options';
-
-        $hook = add_menu_page( __( 'WP Generator', '${data.textDomain}' ), __( '${data.pluginName}', '${data.textDomain}' ), $capability, $parent_slug, [ $this, 'plugin_page' ], 'dashicons-admin-tools' );
-
-        ${add_menu_data.menu_data}
-
-        add_action( 'load-' . $hook, [ $this, 'init_hooks' ] );
+        ${menus}
     }
 
     /**

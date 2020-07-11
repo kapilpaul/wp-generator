@@ -87,7 +87,11 @@ const store = {
         name: "Menu.php",
         parent_id: "includes_admin",
         value: () => {
-          return CodeBase.menuCode(store.state.general, store.state.tables);
+          return CodeBase.menuCode(
+            store.state.general,
+            store.state.tables,
+            store.state.mainMenu
+          );
         },
       },
       {
@@ -299,6 +303,12 @@ const store = {
       constantPrefix: "",
       functionPrefix: "",
     },
+    mainMenu: {
+      menuTitle: "",
+      pageTitle: "",
+      capability: "",
+      pageSlug: "",
+    },
     assets: {
       css: [],
       js: [],
@@ -318,6 +328,7 @@ const store = {
     assets: (state) => state.assets,
     tables: (state) => state.tables,
     restapi: (state) => state.restapi,
+    mainMenu: (state) => state.mainMenu,
   },
   mutations: {
     setPluginName(state, payload) {
@@ -494,6 +505,9 @@ const store = {
     setStateData(state, payload) {
       Vue.set(state, payload.key, payload.value);
     },
+    setMainMenuData(state, payload) {
+      Vue.set(state.mainMenu, payload.key, payload.value);
+    },
   },
   actions: {
     setPluginName({ commit, dispatch }, payload) {
@@ -588,6 +602,10 @@ const store = {
     },
     setStateData({ commit, dispatch }, payload) {
       commit("setStateData", payload);
+      dispatch("setFileArchitecture", true);
+    },
+    setMainMenuData({ commit, dispatch }, payload) {
+      commit("setMainMenuData", payload);
       dispatch("setFileArchitecture", true);
     },
   },
