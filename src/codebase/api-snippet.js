@@ -21,6 +21,11 @@ export const apiSnippetCode = (data, restapis) => {
   let register_api_data = register_api(restapis);
 
   let code = `<?php
+/**
+ * API Class
+ * 
+ * @package ${data.baseNamespace}\\API
+ */
 
 namespace ${data.baseNamespace};
 
@@ -30,14 +35,20 @@ namespace ${data.baseNamespace};
 class API {
 
     /**
-     * Initialize the class
+     * Initialize the class.
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
-    function __construct() {
+    public function __construct() {
         add_action( 'rest_api_init', [ $this, 'register_api' ] );
     }
 
     /**
-     * Register the API
+     * Register the API.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */

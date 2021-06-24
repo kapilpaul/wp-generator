@@ -81,6 +81,11 @@ export const assetsCode = (data, assets) => {
   let registerScripts = buildJsScripts(data.constantPrefix, assets.js);
 
   let code = `<?php
+/**
+ * Scripts and Styles Class.
+ * 
+ * @package ${data.baseNamespace}\\Assets
+ */
 
 namespace ${data.baseNamespace};
 
@@ -88,10 +93,15 @@ namespace ${data.baseNamespace};
  * Scripts and Styles Class
  */
 class Assets {
+
     /**
      * Assets constructor.
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
-    function __construct() {
+    public function __construct() {
         if ( is_admin() ) {
             add_action( 'admin_enqueue_scripts', [ $this, 'register' ], 5 );
         } else {
@@ -101,6 +111,8 @@ class Assets {
 
     /**
      * Register our app scripts and styles
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -113,6 +125,8 @@ class Assets {
      * Register scripts
      *
      * @param array $scripts
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -130,6 +144,8 @@ class Assets {
      * Register styles
      *
      * @param array $styles
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -143,6 +159,8 @@ class Assets {
 
     /**
      * Get all registered scripts
+     * 
+     * @since ${data.version}
      *
      * @return array
      */
@@ -158,6 +176,8 @@ class Assets {
 
     /**
      * Get registered styles
+     * 
+     * @since ${data.version}
      *
      * @return array
      */

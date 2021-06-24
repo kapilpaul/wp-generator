@@ -178,6 +178,11 @@ export const restapiSnippet = (data, restApiData, settings, singleRestApi) => {
     : `${data.baseNamespace}\\API`;
 
   let code = `<?php
+/**
+ * ${restApiData.className} Class
+ * 
+ * @package ${namespace}\\${restApiData.className}
+ */
 
 namespace ${namespace};
 
@@ -192,14 +197,18 @@ class ${restApiData.className} extends WP_REST_Controller {
 
     /**
      * Initialize the class
+     * 
+     * @since ${data.version}
      */
-    function __construct() {
+    public function __construct() {
         $this->namespace = '${restApiData.namespace}';
         $this->rest_base = '${restApiData.restbase}';
     }
 
     /**
      * Registers the routes for the objects of the controller.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -262,6 +271,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Checks if a given request has access to read ${settings.pluralName}.
      *
      * @param  \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return boolean
      */
@@ -273,6 +284,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Retrieves a list of ${settings.singularName} items.
      *
      * @param  \\WP_Rest_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Rest_Response|WP_Error
      */
@@ -321,6 +334,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Get the ${settings.singularName}, if the ID is valid.
      *
      * @param int $id Supplied ID.
+     * 
+     * @since ${data.version}
      *
      * @return Object|\\WP_Error
      */
@@ -344,6 +359,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Checks if a given request has access to get a specific item.
      *
      * @param \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|bool
      */
@@ -355,6 +372,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Retrieves one item from the collection.
      *
      * @param \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|\\WP_REST_Response
      */
@@ -375,6 +394,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Checks if a given request has access to create items.
      *
      * @param WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return WP_Error|bool
      */
@@ -386,6 +407,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Creates one item from the collection.
      *
      * @param \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|WP_REST_Response
      */
@@ -427,6 +450,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Checks if a given request has access to update a specific item.
      *
      * @param \\WP_REST_Request $request Full data about the request.
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|bool
      */
@@ -438,6 +463,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Updates one item from the collection.
      *
      * @param \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|\\WP_REST_Response
      */
@@ -477,6 +504,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Checks if a given request has access to delete a specific item.
      *
      * @param \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|bool
      */
@@ -488,6 +517,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Deletes one item from the collection.
      *
      * @param \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|WP_REST_Response
      */
@@ -527,6 +558,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Prepares one item for create or update operation.
      *
      * @param \\WP_REST_Request $request
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|object
      */
@@ -541,6 +574,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      *
      * @param mixed           $item    WordPress representation of the item.
      * @param \\WP_REST_Request $request Request object.
+     * 
+     * @since ${data.version}
      *
      * @return \\WP_Error|WP_REST_Response
      */
@@ -561,6 +596,8 @@ class ${restApiData.className} extends WP_REST_Controller {
      * Prepares links for the request.
      *
      * @param \\WP_Post $post Post object.
+     * 
+     * @since ${data.version}
      *
      * @return array Links for the given post.
      */
@@ -581,6 +618,8 @@ class ${restApiData.className} extends WP_REST_Controller {
 
     /**
      * Retrieves the ${settings.singularName} schema, conforming to JSON Schema.
+     * 
+     * @since ${data.version}
      *
      * @return array
      */
@@ -605,6 +644,8 @@ class ${restApiData.className} extends WP_REST_Controller {
 
     /**
      * Retrieves the query params for collections.
+     * 
+     * @since ${data.version}
      *
      * @return array
      */

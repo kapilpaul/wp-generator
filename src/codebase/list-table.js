@@ -1,5 +1,8 @@
 import { validateTableSetting } from "./fields";
 
+// plugin version.
+var version = '';
+
 /**
  * filter column by table fields
  * @param {*} tableFields
@@ -44,6 +47,8 @@ const linkActionCode = (name) => {
      * Render the "${name}" column
      *
      * @param  object $item
+     * 
+     * @since ${version}
      *
      * @return string
      */
@@ -65,6 +70,7 @@ const linkActionCode = (name) => {
 export const listTableCode = (fileClassName, data, table) => {
   let settings;
   let filterColumnData;
+  version = data.version;
 
   if (typeof table.settings !== "undefined" && table.settings.adminPanel) {
     settings = validateTableSetting(table.settings);
@@ -72,6 +78,11 @@ export const listTableCode = (fileClassName, data, table) => {
   }
 
   let code = `<?php
+/**
+ * List Table Class
+ * 
+ * @package ${data.baseNamespace}\\Admin\\${fileClassName}
+ */
 
 namespace ${data.baseNamespace}\\Admin;
 
@@ -86,6 +97,10 @@ class ${fileClassName} extends \\WP_List_Table {
 
     /**
      * ${fileClassName} constructor
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
     public function __construct() {
         parent::__construct( [
@@ -97,6 +112,8 @@ class ${fileClassName} extends \\WP_List_Table {
 
     /**
      * Message to show if no designation found
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -106,6 +123,8 @@ class ${fileClassName} extends \\WP_List_Table {
 
     /**
      * Get the column names
+     * 
+     * @since ${data.version}
      *
      * @return array
      */
@@ -118,6 +137,8 @@ class ${fileClassName} extends \\WP_List_Table {
 
     /**
      * Get sortable columns
+     * 
+     * @since ${data.version}
      *
      * @return array
      */
@@ -129,6 +150,8 @@ class ${fileClassName} extends \\WP_List_Table {
 
     /**
      * Set the bulk actions
+     * 
+     * @since ${data.version}
      *
      * @return array
      */
@@ -145,6 +168,8 @@ class ${fileClassName} extends \\WP_List_Table {
      *
      * @param  object $item
      * @param  string $column_name
+     * 
+     * @since ${data.version}
      *
      * @return string
      */
@@ -163,6 +188,8 @@ class ${fileClassName} extends \\WP_List_Table {
      * 
      * @param object $item
      * 
+     * @since ${data.version}
+     * 
      * @return string 
      */
     public function get_column_actions( $item, $column_name ) {
@@ -180,6 +207,8 @@ class ${fileClassName} extends \\WP_List_Table {
      * Render the "cb" column
      *
      * @param  object $item
+     * 
+     * @since ${data.version}
      *
      * @return string
      */
@@ -191,6 +220,8 @@ class ${fileClassName} extends \\WP_List_Table {
 
     /**
      * Prepare the ${settings.singularName} items
+     * 
+     * @since ${data.version}
      *
      * @return void
      */

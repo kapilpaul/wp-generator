@@ -20,6 +20,10 @@ import { menuSnippet } from "./menu-snippet";
 import { formErrorSnippet } from "./form-error";
 import { gitIgnoreCode } from "./gitignore-snippet";
 import { editorconfigCode } from "./editorconfig-snippet";
+import { phpcsCode } from "./phpcs-snippet";
+import { eslintignoreCode } from "./eslintignore-snippet";
+import { eslintrcCode } from "./eslintrc-snippet";
+import { prettierrcCode } from "./prettierrc-snippet";
 import { readmeCode } from "./readme-snippet";
 
 export const CodeBase = {
@@ -80,6 +84,18 @@ export const CodeBase = {
   },
   editorconfigCode: () => {
     return editorconfigCode();
+  },
+  phpcsCode: () => {
+    return phpcsCode();
+  },
+  eslintignoreCode: () => {
+    return eslintignoreCode();
+  },
+  eslintrcCode: () => {
+    return eslintrcCode();
+  },
+  prettierrcCode: () => {
+    return prettierrcCode();
   },
   readmeCode: (data) => {
     return readmeCode(validateFields(data));

@@ -2,7 +2,7 @@
   <div>
     <header class="header-main">
       <nav>
-        <a href="https://wp-generator.com" class="logo" rel="home"
+        <a href="https://wp-generator.kapilpaul.me" class="logo" rel="home"
           ><span>wp generator</span></a
         >
         <div class="nav-toggle"></div>
@@ -25,10 +25,6 @@
     </main>
 
     <footer class="footer-main bg-light">
-      <p class="copyright copyright1 pt-50 mb-2">
-        <span>Plugin structures by </span>
-        <a href="https://tareq.co/" target="_blank">Tareq Hasan</a>
-      </p>
       <p class="copyright">
         <span>Made with ❤️ by </span>
         <a href="https://kapilpaul.me/" target="_blank">Kapil Paul</a>

@@ -80,11 +80,17 @@ const makeTableQuery = (name, fields) => {
  * @param {*} tables
  */
 export const installerCode = (data, tables) => {
-  let plugin_name = data.pluginName.replace(/-/g, "_");
+  let plugin_name = data.pluginName.replace(/\s|-/g, "_").toLowerCase();
 
   let processed_tables = makeTables(tables);
 
   let code = `<?php
+/**
+ * The Installer class.
+ * Install all dependency from here while activating the plugin.
+ *
+ * @package ${data.baseNamespace}\\Installer
+ */
 
 namespace ${data.baseNamespace};
 
@@ -93,8 +99,11 @@ namespace ${data.baseNamespace};
  * @package ${data.baseNamespace}
  */
 class Installer {
+
     /**
-     * Run the installer
+     * Run the installer.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -104,7 +113,11 @@ class Installer {
     }
 
     /**
-     * Add time and version on DB
+     * Add time and version on DB.
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
     public function add_version() {
         $installed = get_option( '${plugin_name}_installed' );
@@ -114,11 +127,12 @@ class Installer {
         }
 
         update_option( '${plugin_name}_version', ${data.constantPrefix}_VERSION );
-
     }
 
     /**
-     * Create necessary database tables
+     * Create necessary database tables.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */

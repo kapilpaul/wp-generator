@@ -61,10 +61,15 @@ export const dynamicMenuPageHandler = (data, table) => {
   }
 
   let code = `<?php
+/**
+ * ${settings.crudClassName} Handler class
+ * 
+ * @package ${data.baseNamespace}\\Admin\\${settings.crudClassName}
+ */
 
 `;
 
-  if (table.fields.length) {
+  if ( table.fields.length ) {
     code += `namespace ${data.baseNamespace}\\Admin;
 
 use ${data.baseNamespace}\\Traits\\Form_Error;
@@ -78,6 +83,8 @@ class ${settings.crudClassName} {
 
     /**
      * Plugin page handler
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -110,7 +117,9 @@ class ${settings.crudClassName} {
     }
 
     /**
-     * Handle the form
+     * Handle the form.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -156,12 +165,14 @@ class ${settings.crudClassName} {
             $redirected_to = admin_url( 'admin.php?page=${settings.pageSlug}&inserted=true' );
         }
 
-        wp_redirect( $redirected_to );
+        wp_safe_redirect( $redirected_to );
         exit;
     }
 
     /**
      * Handle delete action
+     * 
+     * @since ${data.version}
      * 
      * @return void
      */
@@ -182,7 +193,7 @@ class ${settings.crudClassName} {
             $redirected_to = admin_url( 'admin.php?page=${settings.pageSlug}&${settings.singularName}-deleted=false' );
         }
 
-        wp_redirect( $redirected_to );
+        wp_safe_redirect( $redirected_to );
         exit;
     }
 }

@@ -1,36 +1,41 @@
 export const editorconfigCode = () => {
-  let code = `# top-most EditorConfig file
+  let code = `# This file is for unifying the coding style for different editors and IDEs
+# editorconfig.org
+#
+# Indent Brace Style:
+# https://en.wikipedia.org/wiki/Indent_style#Placement_of_braces
+
 root = true
 
-# Unix-style newlines with a newline ending every file
 [*]
 end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-# Matches multiple files with brace expansion notation
-# Set default charset
-[*.{js,py}]
 charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
 
-# 4 space indentation
-[*.php]
+[**.js]
 indent_style = space
+indent_size = 2
+spaces_around_brackets = both
+indent_brace_style = K&R
+
+[**.css]
+indent_style = tab
 indent_size = 4
 
-# Tab indentation (no size specified)
-[Makefile]
+[**.scss]
 indent_style = tab
+indent_size = 4
 
-# Indentation override for all JS under lib directory
-[lib/**.js]
-indent_style = space
-indent_size = 2
+[**.php]
+indent_style = tab
+indent_size = 4
+spaces_around_brackets = both
+indent_brace_style = K&R
 
-# Matches the exact files either package.json or .travis.yml
-[{package.json,.travis.yml}]
-indent_style = space
-indent_size = 2
+[**.html]
+indent_style = tab
+indent_size = 4
 `;
 
   return code;

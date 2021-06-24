@@ -216,6 +216,23 @@ const store = {
         parent_id: "root",
       },
       {
+        id: "root_template",
+        type: "template-dir",
+        directory: true,
+        name: "templates",
+        parent_id: "root",
+      },
+      {
+        id: "root_template",
+        type: "php",
+        file: true,
+        name: "example.php",
+        parent_id: "root_template",
+        value: () => {
+          return '<?php\n';
+        },
+      },
+      {
         id: "root_gitignore",
         type: "gitignore",
         file: true,
@@ -233,6 +250,46 @@ const store = {
         parent_id: "root",
         value: () => {
           return CodeBase.editorconfigCode();
+        },
+      },
+      {
+        id: "root_phpcs",
+        type: "phpcs",
+        file: true,
+        name: "phpcs.xml",
+        parent_id: "root",
+        value: () => {
+          return CodeBase.phpcsCode();
+        },
+      },
+      {
+        id: "root_eslintignore",
+        type: "eslintignore",
+        file: true,
+        name: ".eslintignore",
+        parent_id: "root",
+        value: () => {
+          return CodeBase.eslintignoreCode();
+        },
+      },
+      {
+        id: "root_eslintrc_json",
+        type: "eslintrc.json",
+        file: true,
+        name: ".eslintrc.json",
+        parent_id: "root",
+        value: () => {
+          return CodeBase.eslintrcCode();
+        },
+      },
+      {
+        id: "root_prettierrc",
+        type: "prettierrc",
+        file: true,
+        name: ".prettierrc",
+        parent_id: "root",
+        value: () => {
+          return CodeBase.prettierrcCode();
         },
       },
       {

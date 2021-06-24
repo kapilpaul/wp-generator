@@ -1,3 +1,5 @@
+import { slug } from '../utils/helpers';
+
 /**
  * validate general data
  * @param {*} data
@@ -18,7 +20,7 @@ export const validateFields = (data) => {
     author: data.author !== "" ? data.author : "Kapil Paul",
     authorURI: data.authorURI !== "" ? data.authorURI : "https://kapilpaul.me",
     authorEmail:
-      data.authorEmail !== "" ? data.authorEmail : "kapil@wp-generator.com",
+      data.authorEmail !== "" ? data.authorEmail : "info@kapilpaul.me",
     license: data.license !== "" ? data.license : "GPLv2",
     licenseURI:
       data.licenseURI !== ""
@@ -34,6 +36,7 @@ export const validateFields = (data) => {
       data.functionPrefix !== ""
         ? data.functionPrefix.replace(/_/g, "-")
         : "wp-gen",
+    pluginFileName: data.pluginName !== "" ? slug( data.pluginName ) : "wp-generator",
   };
 
   return pluginData;

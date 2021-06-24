@@ -62,18 +62,24 @@ export const menuSnippet = (data, tables, mainMenu) => {
   }
 
   let code = `<?php
-
+/**
+ * Admin Pages Handler
+ * Class Menu
+ * 
+ * @package ${data.baseNamespace}\\Admin
+ */
 namespace ${data.baseNamespace}\\Admin;
 
 /**
- * Admin Pages Handler
- *
  * Class Menu
- * @package ${data.baseNamespace}\\Admin
  */
 class Menu {
     /**
      * Menu constructor.
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
     public function __construct() {
         add_action( 'admin_menu', [ $this, 'admin_menu' ] );
@@ -81,6 +87,8 @@ class Menu {
 
     /**
      * Register our menu page
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -90,6 +98,8 @@ class Menu {
 
     /**
      * Initialize our hooks for the admin page
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -99,6 +109,8 @@ class Menu {
 
     /**
      * Load scripts and styles for the app
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -109,6 +121,8 @@ class Menu {
 
     /**
      * Handles the main page
+     * 
+     * @since ${data.version}
      *
      * @return void
      */

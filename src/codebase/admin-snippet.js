@@ -24,6 +24,11 @@ const makeDispatchActions = (data, tables) => {
 
 export const adminCode = (data, tables) => {
   let code = `<?php
+/**
+ * The admin class
+ * 
+ * @package ${data.baseNamespace}\\Admin
+ */
 
 namespace ${data.baseNamespace};
 
@@ -33,7 +38,11 @@ namespace ${data.baseNamespace};
 class Admin {
 
     /**
-     * Initialize the class
+     * Initialize the class.
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
     public function __construct() {
         $this->dispatch_actions();
@@ -41,7 +50,9 @@ class Admin {
     }
 
     /**
-     * Dispatch and bind actions
+     * Dispatch and bind actions.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */

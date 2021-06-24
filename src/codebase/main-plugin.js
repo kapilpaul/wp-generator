@@ -1,17 +1,19 @@
 export const mainPluginCode = (data) => {
   let code = `<?php
-/*
-Plugin Name: ${data.pluginName}
-Plugin URI: ${data.pluginURI}
-Description: ${data.description}
-Version: ${data.version}
-Author: ${data.author}
-Author URI: ${data.authorURI}
-License: ${data.license}
-License URI: ${data.licenseURI}
-Text Domain: ${data.textDomain}
-Domain Path: ${data.domainPath}
-*/
+/**
+ * Plugin Name: ${data.pluginName}
+ * Plugin URI: ${data.pluginURI}
+ * Description: ${data.description}
+ * Version: ${data.version}
+ * Author: ${data.author}
+ * Author URI: ${data.authorURI}
+ * License: ${data.license}
+ * License URI: ${data.licenseURI}
+ * Text Domain: ${data.textDomain}
+ * Domain Path: ${data.domainPath}
+ * 
+ * @package ${data.pluginName}
+ */
 
 /**
  * Copyright (c) ${new Date().getFullYear()} ${data.author} (email: ${
@@ -60,21 +62,27 @@ final class ${data.mainClassName} {
      * Plugin version
      *
      * @var string
+     * 
+     * @since ${data.version}
      */
-    const version = '${data.version}';
+    const VERSION = '${data.version}';
 
     /**
-     * Holds various class instances
+     * Holds various class instances.
      *
      * @var array
+     * 
+     * @since ${data.version}
      */
     private $container = [];
 
     /**
-     * Constructor for the ${data.mainClassName} class
+     * Constructor for the ${data.mainClassName} class.
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
+     * 
+     * @since ${data.version}
      */
     private function __construct() {
         $this->define_constants();
@@ -86,10 +94,12 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Initializes the ${data.mainClassName}() class
+     * Initializes the ${data.mainClassName}() class.
      *
      * Checks for an existing ${data.mainClassName}() instance
      * and if it doesn't find one, creates it.
+     * 
+     * @since ${data.version}
      *
      * @return ${data.mainClassName}|bool
      */
@@ -107,6 +117,8 @@ final class ${data.mainClassName} {
      * Magic getter to bypass referencing plugin.
      *
      * @param $prop
+     * 
+     * @since ${data.version}
      *
      * @return mixed
      */
@@ -122,6 +134,8 @@ final class ${data.mainClassName} {
      * Magic isset to bypass referencing plugin.
      *
      * @param $prop
+     * 
+     * @since ${data.version}
      *
      * @return mixed
      */
@@ -130,12 +144,14 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Define the constants
+     * Define the constants.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
     public function define_constants() {
-        define( '${data.constantPrefix}_VERSION', self::version );
+        define( '${data.constantPrefix}_VERSION', self::VERSION );
         define( '${data.constantPrefix}_FILE', __FILE__ );
         define( '${data.constantPrefix}_PATH', dirname( ${
     data.constantPrefix
@@ -152,7 +168,9 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Load the plugin after all plugis are loaded
+     * Load the plugin after all plugis are loaded.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -162,9 +180,13 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Placeholder for activation function
+     * Placeholder for activation function.
      *
      * Nothing being called here yet.
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
     public function activate() {
         $installer = new ${data.baseNamespace}\\Installer();
@@ -172,16 +194,20 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Placeholder for deactivation function
+     * Placeholder for deactivation function.
      *
      * Nothing being called here yet.
+     * 
+     * @since ${data.version}
      */
     public function deactivate() {
 
     }
 
     /**
-     * Include the required files
+     * Include the required files.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -202,7 +228,9 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Initialize the hooks
+     * Initialize the hooks.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -214,7 +242,9 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Instantiate the required classes
+     * Instantiate the required classes.
+     * 
+     * @since ${data.version}
      *
      * @return void
      */
@@ -228,9 +258,13 @@ final class ${data.mainClassName} {
     }
 
     /**
-     * Initialize plugin for localization
+     * Initialize plugin for localization.
      *
      * @uses load_plugin_textdomain()
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
      */
     public function localization_setup() {
         load_plugin_textdomain( '${
@@ -242,6 +276,8 @@ final class ${data.mainClassName} {
      * What type of request is this?
      *
      * @param string $type admin, ajax, cron or frontend.
+     * 
+     * @since ${data.version}
      *
      * @return bool
      */
@@ -267,7 +303,9 @@ final class ${data.mainClassName} {
 } // ${data.mainClassName}
 
 /**
- * Initialize the main plugin
+ * Initialize the main plugin.
+ * 
+ * @since ${data.version}
  *
  * @return \\${data.mainClassName}|bool
  */
@@ -276,7 +314,9 @@ function ${data.mainClassName.toLowerCase()}() {
 }
 
 /**
- *  kick-off the plugin
+ * Kick-off the plugin.
+ * 
+ * @since ${data.version}
  */
 ${data.mainClassName.toLowerCase()}();
 `;

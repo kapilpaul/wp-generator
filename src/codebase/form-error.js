@@ -1,5 +1,10 @@
 export const formErrorSnippet = (data) => {
   let codes = `<?php
+/**
+ * Error handler trait
+ * 
+ * @package ${data.baseNamespace}\\Traits\\Form_Error
+ */
 
 namespace ${data.baseNamespace}\\Traits;
 
@@ -12,6 +17,8 @@ trait Form_Error {
      * Holds the errors
      *
      * @var array
+     * 
+     * @since ${data.version}
      */
     public $errors = [];
 
@@ -19,6 +26,8 @@ trait Form_Error {
      * Check if the form has error
      *
      * @param  string  $key
+     * 
+     * @since ${data.version}
      *
      * @return boolean
      */
@@ -30,6 +39,8 @@ trait Form_Error {
      * Get the error by key
      *
      * @param  key $key
+     * 
+     * @since ${data.version}
      *
      * @return string | false
      */

@@ -3,15 +3,26 @@ export const shortcodeSnippet = (data) => {
   let pluginName = slug(data.pluginName, "_");
 
   let code = `<?php
+/**
+ * Class Shortcode
+ * 
+ * @package ${data.baseNamespace}\\Frontend\\Shortcode
+ */
 
 namespace ${data.baseNamespace}\\Frontend;
 
 /**
  * Class Shortcode
- * @package ${data.baseNamespace}\\Frontend
  */
 class Shortcode {
 
+    /**
+     * Constructor class
+     * 
+     * @since ${data.version}
+     * 
+     * @return void
+     * /
     public function __construct() {
         add_shortcode( '${pluginName}', [ $this, 'render_frontend' ] );
     }
@@ -21,6 +32,8 @@ class Shortcode {
      *
      * @param array $atts
      * @param string $content
+     * 
+     * @since ${data.version}
      *
      * @return string
      */
