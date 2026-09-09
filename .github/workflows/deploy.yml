@@ -3,7 +3,7 @@ name: Deploy wp-generator.kapilpaul.me
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
